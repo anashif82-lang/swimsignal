@@ -1,10 +1,12 @@
+"use client";
+
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "outline" | "ghost" | "destructive" | "link";
+  variant?: "default" | "signal" | "outline" | "ghost" | "destructive" | "link";
   size?: "sm" | "md" | "lg" | "icon";
   asChild?: boolean;
   loading?: boolean;
@@ -28,22 +30,32 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         className={cn(
-          "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 disabled:pointer-events-none disabled:opacity-50",
+          "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-950 disabled:pointer-events-none disabled:opacity-50 select-none",
           {
-            "bg-violet-600 text-white hover:bg-violet-700 shadow-sm":
+            // Default – navy filled
+            "bg-navy-700 text-white hover:bg-navy-600 border border-navy-600 hover:border-navy-500 shadow-sm":
               variant === "default",
-            "border border-gray-200 bg-white text-gray-800 hover:bg-gray-50":
+            // Signal – cyan accent
+            "bg-signal-400 text-navy-950 hover:bg-signal-300 shadow-sm font-semibold":
+              variant === "signal",
+            // Outline
+            "border border-surface-border bg-transparent text-navy-200 hover:bg-surface-raised hover:text-white":
               variant === "outline",
-            "text-gray-700 hover:bg-gray-100": variant === "ghost",
-            "bg-red-600 text-white hover:bg-red-700": variant === "destructive",
-            "text-violet-600 underline-offset-4 hover:underline p-0":
+            // Ghost
+            "bg-transparent text-navy-200 hover:bg-surface-raised hover:text-white":
+              variant === "ghost",
+            // Destructive
+            "bg-danger-500 text-white hover:bg-danger-400":
+              variant === "destructive",
+            // Link
+            "text-signal-400 underline-offset-4 hover:underline p-0 h-auto":
               variant === "link",
           },
           {
-            "h-8 px-3 text-sm": size === "sm",
-            "h-10 px-4 text-sm": size === "md",
-            "h-11 px-6 text-base": size === "lg",
-            "h-10 w-10": size === "icon",
+            "h-8 px-3 text-xs gap-1.5": size === "sm",
+            "h-10 px-4 text-sm":        size === "md",
+            "h-11 px-6 text-base":      size === "lg",
+            "h-10 w-10 p-0":            size === "icon",
           },
           className
         )}
@@ -53,24 +65,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {loading && (
           <svg
-            className="animate-spin h-4 w-4"
+            className="animate-spin h-4 w-4 shrink-0"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-            />
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
           </svg>
         )}
         {children}

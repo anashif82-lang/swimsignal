@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { Sidebar } from "@/components/layout/sidebar";
+import { SwimmerSidebar } from "@/components/layout/swimmer-sidebar";
 
 export default async function DashboardLayout({
   children,
@@ -8,18 +8,24 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/auth/login");
 
-  if (!user) {
-    redirect("/auth/login");
-  }
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile) redirect("/auth/login");
+  if (!profile.onboarding_done) redirect("/onboarding");
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
-      <Sidebar />
-      <main className="flex-1 overflow-y-auto">{children}</main>
+    <div className="flex h-dvh overflow-hidden">
+      <SwimmerSidebar profile={profile} />
+      <main className="flex-1 overflow-y-auto bg-navy-950">
+        {children}
+      </main>
     </div>
   );
 }

@@ -1,14 +1,38 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "ScopeProp – AI-Powered Proposal Generator",
+  title: {
+    default: "SwimSignal – Signal Your Next Level Swimming",
+    template: "%s | SwimSignal",
+  },
   description:
-    "Generate smart, high-converting proposals, scopes of work, and pricing for freelancers and agencies in minutes.",
-  keywords: ["proposal generator", "freelance proposals", "scope of work", "AI proposals"],
+    "Premium performance platform for competitive swimmers and coaches. Track training, analyze results, identify trends, and improve with data.",
+  keywords: [
+    "swimming analytics",
+    "swim training",
+    "competitive swimming",
+    "swim coach platform",
+    "swimming performance",
+  ],
+  openGraph: {
+    title: "SwimSignal",
+    description: "Signal your next level swimming.",
+    type: "website",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#030d1a",
 };
 
 export default function RootLayout({
@@ -17,10 +41,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-gray-50 text-gray-900">
-        {children}
-      </body>
+    <html lang="he" dir="rtl" className={inter.variable}>
+      <body>{children}</body>
     </html>
   );
 }

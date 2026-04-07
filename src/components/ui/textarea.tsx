@@ -1,8 +1,9 @@
+"use client";
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   error?: string;
   hint?: string;
@@ -14,10 +15,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <div className="flex flex-col gap-1.5">
         {label && (
-          <label
-            htmlFor={inputId}
-            className="text-sm font-medium text-gray-700"
-          >
+          <label htmlFor={inputId} className="text-sm font-medium text-navy-100">
             {label}
           </label>
         )}
@@ -25,18 +23,19 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={inputId}
           ref={ref}
           className={cn(
-            "w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent disabled:opacity-50 resize-none",
-            error && "border-red-400 focus:ring-red-400",
+            "input-dark min-h-[100px] resize-y py-2",
+            error && "border-danger-500 focus:border-danger-500",
             className
           )}
+          aria-invalid={!!error}
           {...props}
         />
-        {error && <p className="text-xs text-red-500">{error}</p>}
-        {hint && !error && <p className="text-xs text-gray-500">{hint}</p>}
+        {error && <p className="text-xs text-danger-400">{error}</p>}
+        {hint && !error && <p className="text-xs text-navy-400">{hint}</p>}
       </div>
     );
   }
 );
-
 Textarea.displayName = "Textarea";
+
 export { Textarea };

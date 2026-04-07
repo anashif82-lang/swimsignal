@@ -31,21 +31,60 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  // Protect dashboard and proposal routes
-  if (
-    !user &&
-    (pathname.startsWith("/dashboard") || pathname.startsWith("/proposals"))
-  ) {
+  // ── Unauthenticated guards ─────────────────────────────────────────────────
+  const protectedPaths = ["/dashboard", "/coach", "/onboarding"];
+  const isProtected = protectedPaths.some((p) => pathname.startsWith(p));
+
+  if (!user && isProtected) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
+    url.searchParams.set("next", pathname);
     return NextResponse.redirect(url);
   }
 
-  // Redirect logged-in users away from auth pages
-  if (user && (pathname === "/auth/login" || pathname === "/auth/signup")) {
+  // ── Authenticated guards ───────────────────────────────────────────────────
+  const authPaths = ["/auth/login", "/auth/signup"];
+  if (user && authPaths.includes(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
     return NextResponse.redirect(url);
+  }
+
+  // ── Onboarding enforcement ─────────────────────────────────────────────────
+  // If user is authenticated but hasn't completed onboarding, redirect to /onboarding
+  // Skip this check when already on /onboarding or auth callback
+  if (
+    user &&
+    !pathname.startsWith("/onboarding") &&
+    !pathname.startsWith("/auth/callback") &&
+    !pathname.startsWith("/api/") &&
+    isProtected
+  ) {
+    // Check onboarding status
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("onboarding_done, role")
+      .eq("id", user.id)
+      .single();
+
+    if (profile && !profile.onboarding_done) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/onboarding";
+      return NextResponse.redirect(url);
+    }
+
+    // Role-based route guard: coaches shouldn't access /dashboard swimmer-only routes
+    // and swimmers shouldn't access /coach routes
+    if (profile?.role === "swimmer" && pathname.startsWith("/coach")) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/dashboard";
+      return NextResponse.redirect(url);
+    }
+
+    if (profile?.role === "coach" && pathname.startsWith("/dashboard")) {
+      // Coaches can view swimmer dashboards if needed, but default to /coach
+      // Allow for now – we can restrict specific sub-routes later
+    }
   }
 
   return supabaseResponse;
@@ -53,6 +92,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|p/|api/).*)",
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
