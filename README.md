@@ -1,24 +1,26 @@
-# ScopeProp
+# SwimSignal
 
-AI-powered proposal generation SaaS for freelancers and agencies. Generate a full scope of work, pricing breakdown, timeline, and client-ready proposal in under 2 minutes.
+Premium performance platform for competitive swimmers and coaches. Track training, analyze results, identify trends, and reach the next level.
 
-## Stack
+## Tech Stack
 
-- **Framework**: Next.js 15 (App Router) + TypeScript
-- **Styling**: Tailwind CSS
-- **Auth + DB**: Supabase (PostgreSQL + Row Level Security)
-- **AI**: OpenAI `gpt-4o` with offline stub fallback
-- **Validation**: Zod + React Hook Form
-- **Payments**: Stripe (stubbed)
-- **Email**: Resend (stubbed)
-- **Deployment**: Vercel
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16.2.2 (App Router) |
+| Language | TypeScript 5 (strict) |
+| Styling | Tailwind CSS 4 (CSS-first config) |
+| Auth & DB | Supabase (Auth + PostgreSQL + RLS) |
+| Forms | React Hook Form + Zod v4 |
+| UI Primitives | Radix UI |
+| Icons | Lucide React |
+| Deployment | Vercel |
 
 ## Quick Start
 
 ```bash
 npm install
-cp .env.example .env.local
-# fill in .env.local (see below)
+cp .env.local.example .env.local
+# fill in .env.local with your Supabase credentials
 npm run dev
 ```
 
@@ -26,21 +28,16 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Environment Variables
 
-| Variable | Required | Description |
-|---|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Supabase anon key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Yes | Supabase service role key |
-| `OPENAI_API_KEY` | Optional | GPT-4o (stub provider used if absent) |
-| `NEXT_PUBLIC_APP_URL` | Yes | Full app URL, no trailing slash |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Optional | Stripe Phase 2 |
-| `STRIPE_SECRET_KEY` | Optional | Stripe Phase 2 |
-| `RESEND_API_KEY` | Optional | Email Phase 2 |
+| Variable | Description |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key |
+| `NEXT_PUBLIC_APP_URL` | App URL, no trailing slash |
 
 ## Database Setup
 
 1. Create a project at [supabase.com](https://supabase.com)
-2. In SQL Editor, run `supabase/migrations/001_initial_schema.sql`
+2. In SQL Editor, run `supabase/migrations/001_swimsignal_schema.sql`
 3. In Authentication → URL Configuration, set:
    - Site URL: `http://localhost:3000`
    - Redirect URL: `http://localhost:3000/auth/callback`
@@ -50,68 +47,100 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ```
 src/
-  app/                         Next.js pages + API routes
-    page.tsx                   Landing page
-    auth/{login,signup}/       Auth pages
-    auth/callback/route.ts     OAuth callback
-    dashboard/                 Protected dashboard + proposal editor
-    proposals/                 Proposal list + wizard
-    p/[slug]/                  Public shareable proposal page
-    api/proposals/             Generate, section update, status update
-  components/ui/               Button, Input, Textarea, Select, Badge, Card, Toast
-  components/layout/           Navbar, Sidebar
-  features/proposals/          Wizard steps, editor, table row
-  lib/ai/provider.ts           AI provider abstraction (OpenAI + Stub)
-  lib/db/                      proposals.ts, clients.ts, organizations.ts
-  lib/supabase/                client.ts, server.ts
-  lib/validations/             Zod schemas
-  types/index.ts               All TypeScript types
-supabase/migrations/           SQL schema
+  app/                          Next.js App Router pages + API routes
+    page.tsx                    Landing page
+    layout.tsx                  Root layout (RTL, Inter font, metadata)
+    globals.css                 Tailwind v4 design system
+    auth/                       Login, signup, forgot-password, callback
+    onboarding/                 Swimmer + coach onboarding wizards
+    dashboard/                  Swimmer dashboard + sub-pages
+      page.tsx                  Main dashboard (stats, sessions, PBs)
+      layout.tsx                Sidebar layout
+      training/                 Training log (list, new, detail, edit)
+      competitions/             Competitions + Personal Bests
+      analytics/                Analytics (Phase 3)
+      calendar/                 Calendar (Phase 3)
+      profile/                  Profile settings
+    coach/                      Coach dashboard + sub-pages
+      page.tsx                  Coach overview (pending requests, swimmers)
+      layout.tsx                Coach sidebar layout
+      swimmers/                 Swimmer management
+      groups/                   Swimmer groups (Phase 3)
+      analytics/                Analytics (Phase 3)
+    api/
+      onboarding/swimmer/       POST: complete swimmer onboarding
+      onboarding/coach/         POST: complete coach onboarding
+      training/                 POST: create session
+      training/[id]/            PATCH, DELETE: update/delete session
+      competitions/             POST: log competition + results
+      competitions/[id]/        DELETE: remove competition
+      coach/connections/[id]/   PATCH: approve/reject connection request
+
+  components/
+    ui/                         Button, Input, Card, Badge, Select,
+                                Dialog, Tabs, Progress, Toast, Textarea, Label
+    layout/                     SwimmerSidebar, CoachSidebar
+
+  features/
+    auth/                       LoginForm, SignupForm
+    onboarding/                 SwimmerOnboarding (4-step), CoachOnboarding
+    dashboard/                  StatsCard, RecentSessions
+    training/                   SessionList, SessionForm
+    competitions/               CompetitionsView, CompetitionsList,
+                                PbGrid, LogCompetitionDialog
+    coach/                      PendingRequests, SwimmersList
+
+  lib/
+    supabase/                   client.ts (browser), server.ts (SSR)
+    db/                         profiles.ts, training.ts, competitions.ts
+    validations/                auth.ts, onboarding.ts, training.ts, competition.ts
+    utils.ts                    formatSwimTime, formatDistance, etc.
+
+  middleware.ts                  Auth + onboarding enforcement, role guards
+  types/index.ts                 All TypeScript types
+
+supabase/
+  migrations/
+    001_swimsignal_schema.sql    Full DB schema with RLS, triggers, RPCs
 ```
 
-## How Auth Works
+## Routes
 
-- Email/password via Supabase Auth
-- Google OAuth (enable in Supabase dashboard)
-- `middleware.ts` protects `/dashboard` and `/proposals` routes
-- On first dashboard load, an `organizations` row is auto-created per user
-- Public proposal pages (`/p/[slug]`) require no authentication
+| Route | Auth | Description |
+|---|---|---|
+| `/` | Public | Landing page |
+| `/auth/login` | Public | Login |
+| `/auth/signup` | Public | Signup (swimmer or coach) |
+| `/auth/forgot-password` | Public | Password reset |
+| `/onboarding` | Authed | Role-based onboarding wizard |
+| `/dashboard` | Swimmer | Main stats dashboard |
+| `/dashboard/training` | Swimmer | Training log list |
+| `/dashboard/training/new` | Swimmer | Log new session |
+| `/dashboard/training/[id]` | Swimmer | Session detail |
+| `/dashboard/training/[id]/edit` | Swimmer | Edit session |
+| `/dashboard/competitions` | Swimmer | Competitions & PBs |
+| `/coach` | Coach | Coach overview |
+| `/coach/swimmers` | Coach | Swimmer management |
 
-## How Proposal Generation Works
+## Design System
 
-1. User fills 6-step wizard: client → project → scope → pricing → tone → review
-2. Wizard POSTs structured input to `/api/proposals/generate`
-3. Zod validates input; `clients` row is upserted; `proposals` row is created
-4. `createAIProvider()` selects OpenAI if `OPENAI_API_KEY` is set, otherwise uses the offline stub
-5. 9 sections are generated and saved to `proposal_sections`
-6. User lands on the proposal editor at `/dashboard/proposals/[id]`
-7. Each section is individually editable; changes PATCH `/api/proposals/[id]/section`
-8. A shareable link `/p/[slug]` is available immediately
+- **Colors**: Navy 50–950 scale + Signal (cyan) 50–600 scale
+- **Layout**: RTL-first (`dir="rtl" lang="he"`), logical CSS properties
+- **Typography**: Inter font
+- **Dark theme**: Navy-950 background, surface tokens for cards
+- **Components**: `.card-surface`, `.card-raised`, `.card-signal`, `.badge-*`, `.input-dark`, `.gradient-text`
 
 ## Feature Status
 
-| Feature | Status |
-|---|---|
-| Auth (email + Google OAuth) | Complete |
-| Dashboard with stats | Complete |
-| 6-step proposal wizard | Complete |
-| AI generation (OpenAI gpt-4o) | Complete |
-| Offline stub AI provider | Complete |
-| Inline proposal editor | Complete |
-| Public shareable proposal page | Complete |
-| Proposal event tracking | Complete |
-| Supabase schema + RLS | Complete |
-| Stripe billing | Stubbed |
-| Resend email | Stubbed |
-| PDF export | Phase 2 |
-| E-signature | Phase 2 |
-| Multi-user team seats | Schema ready, UI Phase 2 |
-| White-label | Phase 2 |
-
-## Deploy to Vercel
-
-```bash
-vercel deploy
-```
-
-Set all env vars in the Vercel project dashboard. Update `NEXT_PUBLIC_APP_URL` to your production domain.
+| Feature | Phase | Status |
+|---|---|---|
+| Auth (email + Google OAuth) | 1 | Complete |
+| Role-based onboarding (swimmer + coach) | 1 | Complete |
+| Swimmer dashboard | 1 | Complete |
+| Coach dashboard (basic) | 1 | Complete |
+| Landing page | 1 | Complete |
+| Training log CRUD | 2 | In progress |
+| Competitions + PBs | 2 | In progress |
+| Analytics & charts | 3 | Planned |
+| Coach workout builder | 3 | Planned |
+| AI coach (ISA integration) | 5 | Planned |
