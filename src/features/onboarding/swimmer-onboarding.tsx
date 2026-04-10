@@ -264,9 +264,9 @@ export function SwimmerOnboarding({ userId }: { userId: string }) {
                 {...register("goals")}
               />
 
-              {serverError && (
+              {(serverError || Object.keys(errors).length > 0) && (
                 <div className="rounded-lg bg-danger-500/10 border border-danger-500/20 px-3 py-2 text-sm text-danger-400">
-                  {serverError}
+                  {serverError ?? "יש שגיאה בפרטים. חזור לשלבים הקודמים ותקן."}
                 </div>
               )}
             </div>

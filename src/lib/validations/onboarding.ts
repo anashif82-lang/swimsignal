@@ -19,7 +19,14 @@ export const swimmerOnboardingSchema = z.object({
     .string()
     .min(2, "Club name must be at least 2 characters")
     .max(100, "Club name is too long"),
-  coach_id: z.string().uuid().optional().nullable(),
+  coach_id: z.preprocess(
+    (v) => {
+      if (!v || v === "") return undefined;
+      const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      return uuidRe.test(String(v)) ? v : undefined;
+    },
+    z.string().uuid().optional()
+  ),
   strokes: z
     .array(z.enum(["freestyle", "backstroke", "breaststroke", "butterfly", "individual_medley"]))
     .min(1, "Select at least one stroke"),
