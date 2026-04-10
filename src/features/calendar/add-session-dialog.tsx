@@ -1,39 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import { X, Waves, Dumbbell, RotateCcw } from "lucide-react";
+import { X, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { TimeWheelPicker } from "@/components/ui/time-wheel-picker";
 import { cn } from "@/lib/utils";
 
 const TYPES = [
-  { value: "water",   label: "מים",      icon: Waves    },
-  { value: "dryland", label: "יבשה",     icon: Dumbbell },
-  { value: "gym",     label: "חדר כושר", icon: Dumbbell },
-  { value: "other",   label: "אחר",      icon: Dumbbell },
+  { value: "water",   label: "מים"      },
+  { value: "dryland", label: "יבשה"     },
+  { value: "gym",     label: "חדר כושר" },
+  { value: "other",   label: "אחר"      },
 ] as const;
 
 interface AddSessionDialogProps {
-  initialDate: string;   // "YYYY-MM-DD"
-  initialHour: number;   // 6-22
-  onClose:   () => void;
-  onSaved:   () => void;
+  initialDate: string;  // "YYYY-MM-DD"
+  initialHour: number;  // 5-23
+  onClose: () => void;
+  onSaved: () => void;
 }
 
 export function AddSessionDialog({ initialDate, initialHour, onClose, onSaved }: AddSessionDialogProps) {
-  const pad = (n: number) => String(n).padStart(2, "0");
-
-  const [title,        setTitle]        = useState("");
-  const [type,         setType]         = useState<"water" | "dryland" | "gym" | "other">("water");
-  const [date,         setDate]         = useState(initialDate);
-  const [startHour,    setStartHour]    = useState(pad(initialHour));
-  const [startMin,     setStartMin]     = useState("00");
-  const [endHour,      setEndHour]      = useState(pad(Math.min(initialHour + 2, 22)));
-  const [endMin,       setEndMin]       = useState("00");
-  const [recurring,    setRecurring]    = useState(false);
-  const [notes,        setNotes]        = useState("");
-  const [loading,      setLoading]      = useState(false);
-  const [error,        setError]        = useState<string | null>(null);
+  const [title,     setTitle]     = useState("");
+  const [type,      setType]      = useState<"water" | "dryland" | "gym" | "other">("water");
+  const [date,      setDate]      = useState(initialDate);
+  const [startH,    setStartH]    = useState(Math.max(5, Math.min(23, initialHour)));
+  const [startM,    setStartM]    = useState(0);
+  const [endH,      setEndH]      = useState(Math.max(5, Math.min(23, initialHour + 2)));
+  const [endM,      setEndM]      = useState(0);
+  const [recurring, setRecurring] = useState(false);
+  const [loading,   setLoading]   = useState(false);
+  const [error,     setError]     = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -41,8 +39,9 @@ export function AddSessionDialog({ initialDate, initialHour, onClose, onSaved }:
 
     if (!title.trim()) { setError("נא להזין כותרת"); return; }
 
-    const startISO = `${date}T${startHour}:${startMin}:00+03:00`;
-    const endISO   = `${date}T${endHour}:${endMin}:00+03:00`;
+    const pad = (n: number) => String(n).padStart(2, "0");
+    const startISO = `${date}T${pad(startH)}:${pad(startM)}:00+03:00`;
+    const endISO   = `${date}T${pad(endH)}:${pad(endM)}:00+03:00`;
 
     if (endISO <= startISO) { setError("שעת הסיום חייבת להיות אחרי שעת ההתחלה"); return; }
 
@@ -57,7 +56,6 @@ export function AddSessionDialog({ initialDate, initialHour, onClose, onSaved }:
           start_time:    startISO,
           end_time:      endISO,
           is_recurring:  recurring,
-          notes:         notes.trim() || undefined,
           weeks_ahead:   12,
         }),
       });
@@ -74,15 +72,21 @@ export function AddSessionDialog({ initialDate, initialHour, onClose, onSaved }:
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      onClick={onClose}
+    >
       <div
-        className="w-full max-w-md bg-navy-900 border border-surface-border rounded-2xl shadow-xl p-6 space-y-5 animate-fade-in"
+        className="w-full max-w-md bg-navy-900 border border-surface-border rounded-2xl shadow-xl p-5 space-y-4 animate-fade-in max-h-[90dvh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold text-white">הוסף אימון ליומן</h2>
-          <button onClick={onClose} className="p-1.5 rounded-lg text-navy-400 hover:text-white hover:bg-navy-800 transition-colors">
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-lg text-navy-400 hover:text-white hover:bg-navy-800 transition-colors"
+          >
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -130,51 +134,41 @@ export function AddSessionDialog({ initialDate, initialHour, onClose, onSaved }:
             />
           </div>
 
-          {/* Time range */}
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="text-sm font-medium text-navy-100 mb-1.5 block">שעת התחלה</label>
-              <div className="flex gap-1">
-                <input
-                  type="number" min="5" max="23"
-                  value={startHour}
-                  onChange={(e) => setStartHour(e.target.value.padStart(2, "0"))}
-                  className="w-full bg-navy-950 border border-surface-border rounded-lg px-2 py-2 text-sm text-white text-center focus:outline-none focus:border-signal-400"
-                  placeholder="16"
-                />
-                <span className="text-navy-400 self-center">:</span>
-                <input
-                  type="number" min="0" max="59" step="5"
-                  value={startMin}
-                  onChange={(e) => setStartMin(e.target.value.padStart(2, "0"))}
-                  className="w-full bg-navy-950 border border-surface-border rounded-lg px-2 py-2 text-sm text-white text-center focus:outline-none focus:border-signal-400"
-                  placeholder="00"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-navy-100 mb-1.5 block">שעת סיום</label>
-              <div className="flex gap-1">
-                <input
-                  type="number" min="5" max="23"
-                  value={endHour}
-                  onChange={(e) => setEndHour(e.target.value.padStart(2, "0"))}
-                  className="w-full bg-navy-950 border border-surface-border rounded-lg px-2 py-2 text-sm text-white text-center focus:outline-none focus:border-signal-400"
-                  placeholder="18"
-                />
-                <span className="text-navy-400 self-center">:</span>
-                <input
-                  type="number" min="0" max="59" step="5"
-                  value={endMin}
-                  onChange={(e) => setEndMin(e.target.value.padStart(2, "0"))}
-                  className="w-full bg-navy-950 border border-surface-border rounded-lg px-2 py-2 text-sm text-white text-center focus:outline-none focus:border-signal-400"
-                  placeholder="00"
-                />
-              </div>
-            </div>
+          {/* Time pickers */}
+          <div className="grid grid-cols-2 gap-4">
+            <TimeWheelPicker
+              label="שעת התחלה"
+              hour={startH}
+              minute={startM}
+              onChangeHour={setStartH}
+              onChangeMinute={setStartM}
+            />
+            <TimeWheelPicker
+              label="שעת סיום"
+              hour={endH}
+              minute={endM}
+              onChangeHour={setEndH}
+              onChangeMinute={setEndM}
+            />
           </div>
 
-          {/* Recurring toggle */}
+          {/* Duration preview */}
+          {(() => {
+            const totalMins = (endH * 60 + endM) - (startH * 60 + startM);
+            if (totalMins <= 0) return null;
+            const h = Math.floor(totalMins / 60);
+            const m = totalMins % 60;
+            return (
+              <p className="text-xs text-navy-400 text-center">
+                משך:{" "}
+                <span className="text-signal-400 font-medium">
+                  {h > 0 ? `${h} שעות` : ""}{h > 0 && m > 0 ? " ו-" : ""}{m > 0 ? `${m} דקות` : ""}
+                </span>
+              </p>
+            );
+          })()}
+
+          {/* Recurring */}
           <button
             type="button"
             onClick={() => setRecurring((r) => !r)}
@@ -188,9 +182,7 @@ export function AddSessionDialog({ initialDate, initialHour, onClose, onSaved }:
             <RotateCcw className="h-4 w-4 shrink-0" />
             <div className="text-start">
               <p className="font-medium">{recurring ? "אימון חוזר כל שבוע ✓" : "הפוך לאימון חוזר"}</p>
-              {recurring && (
-                <p className="text-xs opacity-70 mt-0.5">יווצרו 12 שבועות קדימה</p>
-              )}
+              {recurring && <p className="text-xs opacity-70 mt-0.5">יווצרו 12 שבועות קדימה</p>}
             </div>
           </button>
 
