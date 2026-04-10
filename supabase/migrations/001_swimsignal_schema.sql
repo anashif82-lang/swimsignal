@@ -17,7 +17,6 @@ create type pool_length as enum ('25m', '50m');
 create type stroke_type as enum ('freestyle', 'backstroke', 'breaststroke', 'butterfly', 'individual_medley');
 create type training_type as enum ('water', 'dryland', 'gym', 'other');
 create type session_status as enum ('completed', 'not_completed', 'partial');
-create type rpe_level as integer; -- 1-10 constraint enforced via check
 create type competition_level as enum ('local', 'regional', 'national', 'international');
 create type pb_source as enum ('official', 'unofficial');
 create type notification_type as enum ('connection_request', 'connection_approved', 'workout_assigned', 'reminder', 'system');
