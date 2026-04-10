@@ -8,12 +8,12 @@ export const swimmerOnboardingSchema = z.object({
     .min(2, "Name must be at least 2 characters")
     .max(100, "Name is too long"),
   birth_year: z
-    .number({ required_error: "Birth year is required" })
+    .number({ error: "Birth year is required" })
     .int()
     .min(1940, "Invalid birth year")
     .max(currentYear - 4, "Must be at least 4 years old"),
   gender: z.enum(["male", "female", "other", "prefer_not_to_say"], {
-    required_error: "Please select gender",
+    message: "Please select gender",
   }),
   club_name: z
     .string()

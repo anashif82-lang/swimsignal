@@ -5,7 +5,7 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const Select = SelectPrimitive.Root;
+const SelectRoot = SelectPrimitive.Root;
 const SelectGroup = SelectPrimitive.Group;
 const SelectValue = SelectPrimitive.Value;
 
@@ -141,6 +141,33 @@ const SelectSeparator = React.forwardRef<
   />
 ));
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
+
+interface SelectProps {
+  options: { value: string; label: string }[];
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  className?: string;
+}
+
+function Select({ options, value, onChange, placeholder, className }: SelectProps) {
+  const placeholderLabel = placeholder ?? options.find((o) => o.value === "")?.label;
+  const realOptions = options.filter((o) => o.value !== "");
+  return (
+    <SelectRoot value={value || undefined} onValueChange={onChange}>
+      <SelectTrigger className={className}>
+        <SelectValue placeholder={placeholderLabel} />
+      </SelectTrigger>
+      <SelectContent>
+        {realOptions.map((opt) => (
+          <SelectItem key={opt.value} value={opt.value}>
+            {opt.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </SelectRoot>
+  );
+}
 
 export {
   Select,

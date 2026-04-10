@@ -23,7 +23,7 @@ export const signupSchema = z.object({
     .regex(/[0-9]/, "Must contain at least one number"),
   confirm_password: z.string().min(1, "Please confirm your password"),
   role: z.enum(["swimmer", "coach"], {
-    required_error: "Please select a role",
+    message: "Please select a role",
   }),
 }).refine((data) => data.password === data.confirm_password, {
   message: "Passwords do not match",

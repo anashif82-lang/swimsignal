@@ -24,8 +24,8 @@ export const trainingSessionSchema = z.object({
   total_duration: z.number().int().min(0).max(720).optional(),
   rpe:            z.number().int().min(1).max(10).optional(),
   notes:          z.string().max(2000).optional(),
-  sets:           z.array(trainingSetSchema).default([]),
-  tag_ids:        z.array(z.string().uuid()).default([]),
+  sets:           z.array(trainingSetSchema),
+  tag_ids:        z.array(z.string().uuid()).optional(),
 }).refine(
   (d) => d.training_type !== "water" || d.pool_length !== undefined,
   { message: "Pool length is required for water sessions", path: ["pool_length"] }

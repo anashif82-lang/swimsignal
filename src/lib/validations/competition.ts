@@ -13,8 +13,8 @@ export const competitionResultSchema = z.object({
   place:            z.number().int().min(1).optional(),
   goal_time:        z.string().regex(swimTimeRegex).optional().or(z.literal("")),
   goal_time_ms:     z.number().int().min(1).optional(),
-  is_personal_best: z.boolean().default(false),
-  is_official:      z.boolean().default(true),
+  is_personal_best: z.boolean(),
+  is_official:      z.boolean(),
 });
 
 export const competitionSchema = z.object({

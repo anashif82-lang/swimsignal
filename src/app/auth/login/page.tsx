@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { LoginForm } from "@/features/auth/login-form";
 
 export const metadata: Metadata = {
@@ -12,7 +13,9 @@ export default function LoginPage() {
         <h1 className="text-2xl font-bold text-white">Welcome back</h1>
         <p className="text-navy-300 text-sm mt-1">Sign in to your SwimSignal account</p>
       </div>
-      <LoginForm />
+      <Suspense>
+        <LoginForm />
+      </Suspense>
     </>
   );
 }
