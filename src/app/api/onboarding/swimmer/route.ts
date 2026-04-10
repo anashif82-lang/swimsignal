@@ -37,7 +37,8 @@ export async function POST(request: NextRequest) {
 
     if (spError) throw spError;
 
-    if (coach_id) {
+    const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (coach_id && uuidRe.test(coach_id)) {
       await supabase
         .from("coach_swimmer_connections")
         .insert({ swimmer_id: user.id, coach_id, initiated_by: user.id, status: "pending" });
