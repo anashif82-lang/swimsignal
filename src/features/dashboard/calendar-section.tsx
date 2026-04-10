@@ -36,9 +36,9 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
     : logged?.total_duration ?? null;
 
   return (
-    <div className="space-y-3">
+    <div className="rounded-3xl bg-gray-100/80 border border-gray-200 p-3 space-y-2.5">
       {/* ── Week strip card ── */}
-      <div className="rounded-2xl bg-gray-50 border border-gray-200 p-4">
+      <div className="rounded-2xl bg-white shadow-sm p-4">
         <div className="flex items-center justify-between mb-3">
           <Link
             href="/dashboard/calendar"
@@ -57,7 +57,7 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
 
       {/* ── Session detail card ── */}
       {!scheduled && !logged ? (
-        <div className="rounded-2xl bg-gray-50 border border-gray-200 p-5 flex flex-col items-center gap-2 py-7">
+        <div className="rounded-2xl bg-white shadow-sm p-5 flex flex-col items-center gap-2 py-7">
           <span className="text-3xl">🏊‍♂️</span>
           <p className="text-sm text-gray-400">אין אימון מתוכנן ליום זה</p>
           <Link href="/dashboard/calendar" className="text-xs text-blue-500 hover:text-blue-600 transition-colors">
@@ -65,7 +65,7 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
           </Link>
         </div>
       ) : (
-        <div className="rounded-2xl bg-gray-50 border border-gray-200 overflow-hidden relative">
+        <div className="rounded-2xl bg-white shadow-sm overflow-hidden relative">
           {/* Subtle wave at bottom */}
           <div className="absolute bottom-0 inset-x-0 h-20 opacity-[0.05] pointer-events-none overflow-hidden">
             <svg viewBox="0 0 400 60" preserveAspectRatio="none" className="w-full h-full">
