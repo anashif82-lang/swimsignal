@@ -6,53 +6,54 @@ import { LayoutDashboard, BookOpen, BarChart2, User, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const tabs = [
-  { href: "/dashboard",            label: "ראשי",     icon: LayoutDashboard, exact: true },
-  { href: "/dashboard/training",   label: "אימונים",   icon: BookOpen                    },
-  null, // center placeholder
-  { href: "/dashboard/analytics",  label: "אנליטיקה", icon: BarChart2                   },
-  { href: "/dashboard/profile",    label: "פרופיל",   icon: User                        },
+  { href: "/dashboard",           label: "ראשי",     icon: LayoutDashboard, exact: true },
+  { href: "/dashboard/training",  label: "אימונים",   icon: BookOpen                    },
+  { href: "/dashboard/training/new", label: "תעד אימון", icon: Plus, isAction: true     },
+  { href: "/dashboard/analytics", label: "אנליטיקה", icon: BarChart2                   },
+  { href: "/dashboard/profile",   label: "פרופיל",   icon: User                        },
 ];
 
 export function SwimmerBottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 safe-area-bottom">
-      {/* Frosted glass bar */}
-      <div className="bg-navy-900/80 backdrop-blur-xl border-t border-white/[0.06]">
-        <div className="flex items-end h-[56px]">
-          {tabs.map((tab, i) => {
-            if (!tab) {
-              // Center FAB placeholder — actual button sits above
-              return <div key="center" className="flex-1" />;
-            }
-            const { href, label, icon: Icon, exact } = tab;
-            const isActive = exact ? pathname === href : pathname.startsWith(href);
+    <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-navy-900/85 backdrop-blur-xl border-t border-white/[0.07] safe-area-bottom">
+      <div className="flex items-center h-[60px] px-1">
+        {tabs.map(({ href, label, icon: Icon, exact, isAction }) => {
+          const isActive = exact ? pathname === href : pathname.startsWith(href);
+
+          if (isAction) {
             return (
               <Link
                 key={href}
                 href={href}
-                className={cn(
-                  "flex-1 flex flex-col items-center justify-center gap-[3px] h-full text-[10px] font-medium transition-colors",
-                  isActive ? "text-signal-400" : "text-navy-500"
-                )}
+                className="flex-1 flex flex-col items-center gap-1"
+                style={{ WebkitTapHighlightColor: "transparent" }}
               >
-                <Icon className={cn("h-[22px] w-[22px]", isActive && "drop-shadow-[0_0_6px_rgba(34,211,238,0.5)]")} />
-                <span>{label}</span>
+                <div className="w-11 h-11 rounded-2xl bg-signal-400 flex items-center justify-center shadow-[0_2px_12px_rgba(34,211,238,0.3)] active:scale-95 transition-transform">
+                  <Icon className="h-5 w-5 text-navy-950 stroke-[2.5]" />
+                </div>
+                <span className="text-[9px] font-medium text-signal-400">{label}</span>
               </Link>
             );
-          })}
-        </div>
-      </div>
+          }
 
-      {/* Center FAB — floats above bar */}
-      <Link
-        href="/dashboard/training/new"
-        className="absolute left-1/2 -translate-x-1/2 -top-[22px] w-[52px] h-[52px] rounded-full bg-signal-400 flex items-center justify-center shadow-[0_0_20px_rgba(34,211,238,0.35)] active:scale-95 transition-transform"
-        style={{ WebkitTapHighlightColor: "transparent" }}
-      >
-        <Plus className="h-6 w-6 text-navy-950 stroke-[2.5]" />
-      </Link>
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={cn(
+                "flex-1 flex flex-col items-center gap-1 transition-colors",
+                isActive ? "text-signal-400" : "text-navy-500"
+              )}
+              style={{ WebkitTapHighlightColor: "transparent" }}
+            >
+              <Icon className="h-[22px] w-[22px]" />
+              <span className="text-[10px] font-medium">{label}</span>
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }
