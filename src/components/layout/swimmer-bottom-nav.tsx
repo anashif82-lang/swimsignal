@@ -5,55 +5,67 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, BookOpen, BarChart2, User, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const tabs = [
+const LEFT_TABS = [
   { href: "/dashboard",           label: "ראשי",     icon: LayoutDashboard, exact: true },
   { href: "/dashboard/training",  label: "אימונים",   icon: BookOpen                    },
-  { href: "/dashboard/training/new", label: "תעד אימון", icon: Plus, isAction: true     },
-  { href: "/dashboard/analytics", label: "אנליטיקה", icon: BarChart2                   },
-  { href: "/dashboard/profile",   label: "פרופיל",   icon: User                        },
+];
+const RIGHT_TABS = [
+  { href: "/dashboard/analytics", label: "אנליטיקה", icon: BarChart2 },
+  { href: "/dashboard/profile",   label: "פרופיל",   icon: User      },
 ];
 
 export function SwimmerBottomNav() {
   const pathname = usePathname();
 
-  return (
-    <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-navy-900/85 backdrop-blur-xl border-t border-white/[0.07] safe-area-bottom">
-      <div className="flex items-center h-[60px] px-1">
-        {tabs.map(({ href, label, icon: Icon, exact, isAction }) => {
-          const isActive = exact ? pathname === href : pathname.startsWith(href);
+  const tabClass = (active: boolean) =>
+    cn(
+      "flex-1 flex flex-col items-center justify-center gap-[3px] h-full transition-colors",
+      active ? "text-signal-400" : "text-navy-500"
+    );
 
-          if (isAction) {
+  return (
+    <nav className="md:hidden fixed bottom-0 inset-x-0 z-40">
+      {/* Frosted glass bar */}
+      <div className="relative bg-navy-900/85 backdrop-blur-xl border-t border-white/[0.07]">
+        <div className="flex items-center h-[58px] px-2">
+
+          {/* Left tabs */}
+          {LEFT_TABS.map(({ href, label, icon: Icon, exact }) => {
+            const active = exact ? pathname === href : pathname.startsWith(href);
             return (
-              <Link
-                key={href}
-                href={href}
-                className="flex-1 flex flex-col items-center gap-1"
-                style={{ WebkitTapHighlightColor: "transparent" }}
-              >
-                <div className="w-11 h-11 rounded-2xl bg-signal-400 flex items-center justify-center shadow-[0_2px_12px_rgba(34,211,238,0.3)] active:scale-95 transition-transform">
-                  <Icon className="h-5 w-5 text-navy-950 stroke-[2.5]" />
-                </div>
-                <span className="text-[9px] font-medium text-signal-400">{label}</span>
+              <Link key={href} href={href} className={tabClass(active)}
+                style={{ WebkitTapHighlightColor: "transparent" }}>
+                <Icon className="h-[22px] w-[22px]" />
+                <span className="text-[10px] font-medium">{label}</span>
               </Link>
             );
-          }
+          })}
 
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={cn(
-                "flex-1 flex flex-col items-center gap-1 transition-colors",
-                isActive ? "text-signal-400" : "text-navy-500"
-              )}
-              style={{ WebkitTapHighlightColor: "transparent" }}
-            >
-              <Icon className="h-[22px] w-[22px]" />
-              <span className="text-[10px] font-medium">{label}</span>
-            </Link>
-          );
-        })}
+          {/* Center spacer for FAB */}
+          <div className="w-16 shrink-0" />
+
+          {/* Right tabs */}
+          {RIGHT_TABS.map(({ href, label, icon: Icon }) => {
+            const active = pathname.startsWith(href);
+            return (
+              <Link key={href} href={href} className={tabClass(active)}
+                style={{ WebkitTapHighlightColor: "transparent" }}>
+                <Icon className="h-[22px] w-[22px]" />
+                <span className="text-[10px] font-medium">{label}</span>
+              </Link>
+            );
+          })}
+        </div>
       </div>
+
+      {/* FAB — floats above bar */}
+      <Link
+        href="/dashboard/training/new"
+        className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 rounded-full bg-signal-400 flex items-center justify-center shadow-[0_4px_20px_rgba(34,211,238,0.4)] active:scale-95 transition-transform"
+        style={{ WebkitTapHighlightColor: "transparent" }}
+      >
+        <Plus className="h-6 w-6 text-navy-950 stroke-[2.5]" />
+      </Link>
     </nav>
   );
 }

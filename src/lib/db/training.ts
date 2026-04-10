@@ -177,3 +177,28 @@ export async function getWeeklyVolume(
     ...stats,
   }));
 }
+
+export async function getStreakDays(swimmerId: string): Promise<number> {
+  const supabase = await createClient();
+  const from = new Date();
+  from.setDate(from.getDate() - 90);
+  const { data } = await supabase
+    .from("training_sessions")
+    .select("session_date")
+    .eq("swimmer_id", swimmerId)
+    .eq("status", "completed")
+    .gte("session_date", from.toISOString().slice(0, 10))
+    .order("session_date", { ascending: false });
+  if (!data || data.length === 0) return 0;
+  const dates = new Set(data.map((s) => s.session_date));
+  let streak = 0;
+  const today = new Date();
+  for (let i = 0; i < 90; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const iso = d.toISOString().slice(0, 10);
+    if (dates.has(iso)) { streak++; }
+    else if (i > 0) { break; }
+  }
+  return streak;
+}
