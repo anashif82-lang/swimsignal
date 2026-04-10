@@ -18,7 +18,7 @@ interface WheelColumnProps {
 
 function WheelColumn({ items, selected, onChange }: WheelColumnProps) {
   const ref       = useRef<HTMLDivElement>(null);
-  const timerRef  = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef  = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const fromScroll = useRef(false); // prevent scroll→state→scroll loop
 
   // Initial scroll (instant)
