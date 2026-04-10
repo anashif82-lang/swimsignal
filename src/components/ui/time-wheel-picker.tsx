@@ -3,7 +3,7 @@
 import { useRef, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
-const ITEM_HEIGHT = 44;
+const ITEM_HEIGHT = 36;
 const VISIBLE    = 5; // visible rows (selected = middle)
 
 const HOURS   = Array.from({ length: 19 }, (_, i) => i + 5);          // 05..23
