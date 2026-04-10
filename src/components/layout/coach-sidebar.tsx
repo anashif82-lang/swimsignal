@@ -31,7 +31,7 @@ export function CoachSidebar({ profile }: CoachSidebarProps) {
   };
 
   return (
-    <aside className="w-60 shrink-0 flex flex-col h-dvh bg-navy-900 border-e border-surface-border">
+    <aside className="hidden md:flex w-60 shrink-0 flex-col h-dvh bg-navy-900 border-e border-surface-border">
       {/* Logo */}
       <div className="flex items-center gap-2.5 px-4 py-5 border-b border-surface-border">
         <div className="w-8 h-8 rounded-md bg-signal-400/10 border border-signal-400/30 flex items-center justify-center">

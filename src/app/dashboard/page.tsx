@@ -42,7 +42,7 @@ export default async function DashboardPage() {
     hour < 17 ? "צהריים טובים" : "ערב טוב";
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-8">
+    <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-6 md:space-y-8">
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <div className="flex items-start justify-between">
         <div>
@@ -55,7 +55,7 @@ export default async function DashboardPage() {
             })}
           </p>
         </div>
-        <Link href="/dashboard/training/new">
+        <Link href="/dashboard/training/new" className="hidden md:block">
           <Button variant="signal" className="gap-2">
             <Plus className="h-4 w-4" />
             תעד אימון
