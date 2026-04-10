@@ -1,16 +1,30 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { getSwimmerStats, getEventProgressData } from "@/lib/db/analytics";
+import { getWeeklyVolume } from "@/lib/db/training";
+import { AnalyticsView } from "@/features/analytics/analytics-view";
 
-export const metadata: Metadata = {
-  title: "Analytics",
-};
+export const metadata: Metadata = { title: "Analytics" };
 
-export default function Page() {
+export default async function AnalyticsPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/auth/login");
+
+  const [stats, weeklyVolume, eventData] = await Promise.all([
+    getSwimmerStats(user.id),
+    getWeeklyVolume(user.id, 12),
+    getEventProgressData(user.id),
+  ]);
+
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-2xl font-bold text-white capitalize mb-2">analytics</h1>
-      <p className="text-navy-400 text-sm">
-        This section is coming in the next phase.
-      </p>
+    <div className="p-6 max-w-5xl mx-auto">
+      <AnalyticsView
+        stats={stats}
+        weeklyVolume={weeklyVolume}
+        eventData={eventData}
+      />
     </div>
   );
 }
