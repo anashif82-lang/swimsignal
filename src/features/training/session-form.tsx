@@ -204,20 +204,20 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
       {/* ── Section 2: Stats ──────────────────────────────────────── */}
       <div className="card-surface rounded-xl p-5 space-y-4">
         <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">
-          Stats
+          נתונים
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           <Input
-            label="Distance (m)"
+            label="מרחק (מ׳)"
             type="number"
-            placeholder="e.g. 3500"
+            placeholder="לדוגמה: 3500"
             {...register("total_distance", { valueAsNumber: true })}
             error={errors.total_distance?.message}
           />
           <Input
-            label="Duration (min)"
+            label="משך (דקות)"
             type="number"
-            placeholder="e.g. 90"
+            placeholder="לדוגמה: 90"
             {...register("total_duration", { valueAsNumber: true })}
             error={errors.total_duration?.message}
           />
@@ -254,10 +254,10 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
 
       {/* ── Section 3: Notes ─────────────────────────────────────── */}
       <div className="card-surface rounded-xl p-5 space-y-4">
-        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">Notes</h2>
+        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">הערות</h2>
         <Textarea
           label=""
-          placeholder="How did the session go? Any observations..."
+          placeholder="איך הלך האימון? תחושות, תצפיות..."
           rows={4}
           {...register("notes")}
           error={errors.notes?.message}
@@ -273,7 +273,7 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
         >
           <div className="flex items-center gap-2">
             <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">
-              Sets
+              סטים
             </h2>
             {fields.length > 0 && (
               <span className="text-xs text-signal-400 font-medium bg-signal-400/10 px-1.5 py-0.5 rounded">

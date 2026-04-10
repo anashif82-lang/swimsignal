@@ -71,7 +71,7 @@ export function MyCoachSection({ coach: initialCoach }: Props) {
 
   async function disconnect() {
     if (!coach) return;
-    if (!confirm("Remove this coach connection?")) return;
+    if (!confirm("להסיר את החיבור למאמן?")) return;
     setDisconnecting(true);
     const res = await fetch(`/api/swimmer/coach?id=${coach.connectionId}`, { method: "DELETE" });
     setDisconnecting(false);
@@ -116,7 +116,7 @@ export function MyCoachSection({ coach: initialCoach }: Props) {
           </Button>
         </div>
       ) : (
-        <p className="text-sm text-navy-500">You are not connected to a coach yet.</p>
+        <p className="text-sm text-navy-500">אין מאמן מחובר</p>
       )}
 
       {/* Search for a coach */}
@@ -128,7 +128,7 @@ export function MyCoachSection({ coach: initialCoach }: Props) {
               type="text"
               value={query}
               onChange={(e) => handleSearch(e.target.value)}
-              placeholder="Search for a coach by name..."
+              placeholder="חפש מאמן לפי שם..."
               className="input-dark ps-9 w-full"
             />
             {searching && (

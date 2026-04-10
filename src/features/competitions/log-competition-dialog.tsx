@@ -256,14 +256,14 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
                 {/* Optional: place, goal time */}
                 <div className="grid grid-cols-2 gap-3">
                   <Input
-                    label="Place (optional)"
+                    label="מקום (אופציונלי)"
                     type="number"
-                    placeholder="e.g. 3"
+                    placeholder="לדוג. 3"
                     min={1}
                     {...register(`results.${idx}.place`, { valueAsNumber: true })}
                   />
                   <Input
-                    label="Goal time (optional)"
+                    label="זמן יעד (אופציונלי)"
                     placeholder="1:01.50"
                     {...register(`results.${idx}.goal_time`)}
                   />
@@ -284,7 +284,7 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
                         />
                       )}
                     />
-                    <span className="text-sm text-navy-300">Personal best</span>
+                    <span className="text-sm text-navy-300">שיא אישי</span>
                   </label>
 
                   <label className="flex items-center gap-2 cursor-pointer">
@@ -300,7 +300,7 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
                         />
                       )}
                     />
-                    <span className="text-sm text-navy-300">Official result</span>
+                    <span className="text-sm text-navy-300">תוצאה רשמית</span>
                   </label>
                 </div>
               </div>
