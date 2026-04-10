@@ -170,8 +170,8 @@ export function EventProgressChart({ data }: Props) {
         if (diffMs === 0) return null;
         return (
           <p className={`text-xs mt-3 ${diffMs > 0 ? "text-success-400" : "text-danger-400"}`}>
-            {diffMs > 0 ? "▼" : "▲"} {Math.abs(diffMs / 10).toFixed(0)} hundredths ({Math.abs(Number(pct))}%)
-            {diffMs > 0 ? " improvement" : " slower"} over {chartData.length} results
+            {diffMs > 0 ? "▼" : "▲"} {Math.abs(diffMs / 10).toFixed(0)} מאיות שנייה ({Math.abs(Number(pct))}%)
+            {diffMs > 0 ? " שיפור" : " האטה"} על פני {chartData.length} תוצאות
           </p>
         );
       })()}

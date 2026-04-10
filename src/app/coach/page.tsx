@@ -80,9 +80,9 @@ export default async function CoachDashboardPage() {
       {/* ── Swimmers list ──────────────────────────────────────────────────── */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-semibold text-white">Your Swimmers</h2>
+          <h2 className="text-base font-semibold text-white">השחיינים שלך</h2>
           <Link href="/coach/swimmers" className="text-xs text-signal-400 hover:text-signal-300 transition-colors flex items-center gap-1">
-            View all <ArrowRight className="h-3.5 w-3.5" />
+            הצג הכל <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
         <div className="card-surface p-4">

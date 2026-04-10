@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight, Waves, Trophy } from "lucide-react";
 import type { CalendarData, CalendarTraining, CalendarCompetition } from "@/lib/db/calendar";
 import { cn } from "@/lib/utils";
 
-const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const WEEKDAYS = ["ב׳", "ג׳", "ד׳", "ה׳", "ו׳", "ש׳", "א׳"];
 
 const TRAINING_TYPE_COLOR: Record<string, string> = {
   water:   "bg-signal-400",
@@ -72,7 +72,7 @@ export function CalendarGrid({ data, year, month }: Props) {
   }
 
   const monthLabel = new Date(year, month - 1, 1)
-    .toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    .toLocaleDateString("he-IL", { month: "long", year: "numeric" });
 
   return (
     <div className="space-y-4">
