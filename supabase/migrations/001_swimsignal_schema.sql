@@ -622,16 +622,23 @@ create trigger planned_workouts_updated_at
 
 -- Auto-create profile on sign-up
 create or replace function handle_new_user()
-returns trigger language plpgsql security definer as $$
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
 begin
-  insert into profiles (id, email, full_name, avatar_url)
+  insert into public.profiles (id, email, full_name, avatar_url)
   values (
     new.id,
-    new.email,
+    coalesce(new.email, ''),
     new.raw_user_meta_data ->> 'full_name',
     new.raw_user_meta_data ->> 'avatar_url'
   )
   on conflict (id) do nothing;
+  return new;
+exception when others then
+  raise log 'handle_new_user error: %', sqlerrm;
   return new;
 end;
 $$;
