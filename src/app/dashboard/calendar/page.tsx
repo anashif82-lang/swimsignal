@@ -32,10 +32,10 @@ export default async function CalendarPage({ searchParams }: Props) {
   ]);
 
   return (
-    <div className="p-4 md:p-6 h-full flex flex-col gap-4">
+    <div className="p-4 md:p-6 h-full flex flex-col gap-4 bg-white min-h-screen">
       <div className="shrink-0">
-        <h1 className="text-xl font-bold text-white">לוח שנה</h1>
-        <p className="text-navy-400 text-sm mt-0.5">תכנן את האימונים שלך</p>
+        <h1 className="text-xl font-bold text-gray-900">לוח שנה</h1>
+        <p className="text-gray-500 text-sm mt-0.5">תכנן את האימונים שלך</p>
       </div>
 
       <div className="flex-1 min-h-0">

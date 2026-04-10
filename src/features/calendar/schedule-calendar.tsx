@@ -71,7 +71,7 @@ export function ScheduleCalendar({
       {/* ── Toolbar ── */}
       <div className="flex items-center justify-between mb-4 shrink-0">
         {/* View switcher */}
-        <div className="flex items-center gap-1 bg-navy-900 border border-surface-border rounded-lg p-0.5">
+        <div className="flex items-center gap-1 bg-gray-100 border border-gray-200 rounded-lg p-0.5">
           {VIEWS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
@@ -80,7 +80,7 @@ export function ScheduleCalendar({
                 "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all",
                 view === id
                   ? "bg-signal-400 text-navy-950"
-                  : "text-navy-400 hover:text-white"
+                  : "text-gray-500 hover:text-gray-800"
               )}
             >
               <Icon className="h-3.5 w-3.5" />
@@ -169,25 +169,25 @@ function DayView({ date, sessions, onChangeDate, onClickSlot, onDelete }: DayVie
   return (
     <div className="flex flex-col h-full min-h-0">
       <div className="flex items-center justify-between mb-3 shrink-0">
-        <button onClick={() => shift(-1)} className="p-1.5 rounded-lg text-navy-400 hover:text-white hover:bg-navy-800 transition-colors">
+        <button onClick={() => shift(-1)} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-800 hover:bg-gray-100 transition-colors">
           ‹
         </button>
-        <span className="text-sm font-medium text-white">{label}</span>
-        <button onClick={() => shift(1)} className="p-1.5 rounded-lg text-navy-400 hover:text-white hover:bg-navy-800 transition-colors">
+        <span className="text-sm font-medium text-gray-800">{label}</span>
+        <button onClick={() => shift(1)} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-800 hover:bg-gray-100 transition-colors">
           ›
         </button>
       </div>
 
-      <div className="flex-1 overflow-auto rounded-xl border border-surface-border bg-navy-950">
+      <div className="flex-1 overflow-auto rounded-xl border border-gray-200 bg-white">
         <div className="relative" style={{ height: HOURS.length * HOUR_PX }}>
           {HOURS.map((h) => (
             <div
               key={h}
               style={{ top: (h - 6) * HOUR_PX, height: HOUR_PX }}
-              className="absolute inset-x-0 border-b border-surface-border/30 flex items-start gap-3 px-3 pt-1 hover:bg-navy-900/30 cursor-pointer transition-colors"
+              className="absolute inset-x-0 border-b border-gray-100 flex items-start gap-3 px-3 pt-1 hover:bg-gray-50 cursor-pointer transition-colors"
               onClick={() => onClickSlot(h)}
             >
-              <span className="text-[10px] text-navy-600 font-mono w-8 shrink-0">{String(h).padStart(2, "0")}:00</span>
+              <span className="text-[10px] text-gray-400 font-mono w-8 shrink-0">{String(h).padStart(2, "0")}:00</span>
             </div>
           ))}
 
@@ -201,13 +201,13 @@ function DayView({ date, sessions, onChangeDate, onClickSlot, onDelete }: DayVie
               <div
                 key={s.id}
                 style={{ top, height, left: 48, right: 8 }}
-                className="absolute rounded-lg bg-signal-400/20 border-s-2 border-signal-400 px-2 py-1"
+                className="absolute rounded-lg bg-signal-400/15 border-s-2 border-signal-400 px-2 py-1"
               >
-                <p className="text-xs font-semibold text-signal-300 truncate">{s.title}</p>
-                <p className="text-[10px] text-navy-400">{fmtTime(s.start_time)} – {fmtTime(s.end_time)}</p>
+                <p className="text-xs font-semibold text-signal-600 truncate">{s.title}</p>
+                <p className="text-[10px] text-gray-500">{fmtTime(s.start_time)} – {fmtTime(s.end_time)}</p>
                 <button
                   onClick={(e) => { e.stopPropagation(); onDelete(s.id, s.is_recurring ? s.recurrence_group_id : null); }}
-                  className="absolute top-1 end-1 text-navy-500 hover:text-danger-400 transition-colors"
+                  className="absolute top-1 end-1 text-gray-400 hover:text-red-500 transition-colors"
                 >
                   <span className="text-[10px]">✕</span>
                 </button>
