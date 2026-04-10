@@ -8,18 +8,47 @@
 create extension if not exists "uuid-ossp";
 create extension if not exists "pg_trgm"; -- fuzzy search for coach lookup
 
--- ─── ENUMS ────────────────────────────────────────────────────────────────────
+-- ─── ENUMS (safe re-run) ──────────────────────────────────────────────────────
 
-create type user_role as enum ('swimmer', 'coach');
-create type gender_type as enum ('male', 'female', 'other', 'prefer_not_to_say');
-create type connection_status as enum ('pending', 'approved', 'rejected', 'removed');
-create type pool_length as enum ('25m', '50m');
-create type stroke_type as enum ('freestyle', 'backstroke', 'breaststroke', 'butterfly', 'individual_medley');
-create type training_type as enum ('water', 'dryland', 'gym', 'other');
-create type session_status as enum ('completed', 'not_completed', 'partial');
-create type competition_level as enum ('local', 'regional', 'national', 'international');
-create type pb_source as enum ('official', 'unofficial');
-create type notification_type as enum ('connection_request', 'connection_approved', 'workout_assigned', 'reminder', 'system');
+do $$ begin
+  create type user_role as enum ('swimmer', 'coach');
+exception when duplicate_object then null; end $$;
+
+do $$ begin
+  create type gender_type as enum ('male', 'female', 'other', 'prefer_not_to_say');
+exception when duplicate_object then null; end $$;
+
+do $$ begin
+  create type connection_status as enum ('pending', 'approved', 'rejected', 'removed');
+exception when duplicate_object then null; end $$;
+
+do $$ begin
+  create type pool_length as enum ('25m', '50m');
+exception when duplicate_object then null; end $$;
+
+do $$ begin
+  create type stroke_type as enum ('freestyle', 'backstroke', 'breaststroke', 'butterfly', 'individual_medley');
+exception when duplicate_object then null; end $$;
+
+do $$ begin
+  create type training_type as enum ('water', 'dryland', 'gym', 'other');
+exception when duplicate_object then null; end $$;
+
+do $$ begin
+  create type session_status as enum ('completed', 'not_completed', 'partial');
+exception when duplicate_object then null; end $$;
+
+do $$ begin
+  create type competition_level as enum ('local', 'regional', 'national', 'international');
+exception when duplicate_object then null; end $$;
+
+do $$ begin
+  create type pb_source as enum ('official', 'unofficial');
+exception when duplicate_object then null; end $$;
+
+do $$ begin
+  create type notification_type as enum ('connection_request', 'connection_approved', 'workout_assigned', 'reminder', 'system');
+exception when duplicate_object then null; end $$;
 
 -- ─── CLUBS ────────────────────────────────────────────────────────────────────
 
@@ -566,22 +595,27 @@ begin
 end;
 $$;
 
+drop trigger if exists profiles_updated_at on profiles;
 create trigger profiles_updated_at
   before update on profiles
   for each row execute function update_updated_at();
 
+drop trigger if exists swimmer_profiles_updated_at on swimmer_profiles;
 create trigger swimmer_profiles_updated_at
   before update on swimmer_profiles
   for each row execute function update_updated_at();
 
+drop trigger if exists coach_profiles_updated_at on coach_profiles;
 create trigger coach_profiles_updated_at
   before update on coach_profiles
   for each row execute function update_updated_at();
 
+drop trigger if exists training_sessions_updated_at on training_sessions;
 create trigger training_sessions_updated_at
   before update on training_sessions
   for each row execute function update_updated_at();
 
+drop trigger if exists planned_workouts_updated_at on planned_workouts;
 create trigger planned_workouts_updated_at
   before update on planned_workouts
   for each row execute function update_updated_at();
@@ -602,6 +636,7 @@ begin
 end;
 $$;
 
+drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function handle_new_user();
