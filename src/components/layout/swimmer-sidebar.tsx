@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, BookOpen, Trophy, BarChart2, Calendar,
-  User, Bell, LogOut,
+  User, Bell, LogOut, BotMessageSquare,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -18,6 +18,7 @@ const navItems = [
   { href: "/dashboard/competitions",label: "Competitions", icon: Trophy          },
   { href: "/dashboard/analytics",   label: "Analytics",  icon: BarChart2        },
   { href: "/dashboard/calendar",    label: "Calendar",   icon: Calendar         },
+  { href: "/dashboard/chat",        label: "AI Coach",   icon: BotMessageSquare },
 ];
 
 interface SwimmerSidebarProps {
