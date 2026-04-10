@@ -7,7 +7,7 @@ import { CoachProfileForm } from "@/features/profile/coach-profile-form";
 import { MyCoachSection } from "@/features/profile/my-coach-section";
 import { User } from "lucide-react";
 
-export const metadata: Metadata = { title: "Profile" };
+export const metadata: Metadata = { title: "פרופיל" };
 
 export default async function ProfilePage() {
   const supabase = await createClient();
@@ -53,7 +53,7 @@ export default async function ProfilePage() {
           )}
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-white">{profile.full_name ?? "Your Profile"}</h1>
+          <h1 className="text-2xl font-bold text-white">{profile.full_name ?? "הפרופיל שלי"}</h1>
           <p className="text-navy-400 text-sm mt-0.5">{user.email} · {profile.role}</p>
         </div>
       </div>

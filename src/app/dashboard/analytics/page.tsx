@@ -5,7 +5,7 @@ import { getSwimmerStats, getEventProgressData } from "@/lib/db/analytics";
 import { getWeeklyVolume } from "@/lib/db/training";
 import { AnalyticsView } from "@/features/analytics/analytics-view";
 
-export const metadata: Metadata = { title: "Analytics" };
+export const metadata: Metadata = { title: "אנליטיקה" };
 
 export default async function AnalyticsPage() {
   const supabase = await createClient();

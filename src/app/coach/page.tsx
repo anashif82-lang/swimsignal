@@ -9,7 +9,7 @@ import { SwimmersList } from "@/features/coach/swimmers-list";
 import { Button } from "@/components/ui/button";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Coach Dashboard" };
+export const metadata: Metadata = { title: "לוח בקרה - מאמן" };
 
 export default async function CoachDashboardPage() {
   const supabase = await createClient();
@@ -30,10 +30,10 @@ export default async function CoachDashboardPage() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">
-            Welcome, {firstName}
+            ברוך הבא, {firstName}
           </h1>
           <p className="text-navy-400 text-sm mt-0.5">
-            {new Date().toLocaleDateString("en-US", {
+            {new Date().toLocaleDateString("he-IL", {
               weekday: "long", month: "long", day: "numeric",
             })}
           </p>
@@ -43,30 +43,30 @@ export default async function CoachDashboardPage() {
       {/* ── Stats ──────────────────────────────────────────────────────────── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger">
         <StatsCard
-          label="Active Swimmers"
+          label="שחיינים פעילים"
           value={swimmers.length}
           icon={Users}
           accent="signal"
           className="animate-fade-in"
         />
         <StatsCard
-          label="Pending Requests"
+          label="בקשות ממתינות"
           value={pendingRequests.length}
           icon={Activity}
           accent={pendingRequests.length > 0 ? "warning" : "default"}
           className="animate-fade-in"
         />
         <StatsCard
-          label="Groups"
+          label="קבוצות"
           value="0"
-          sub="swimmer groups"
+          sub="קבוצות שחיינים"
           icon={Users}
           className="animate-fade-in"
         />
         <StatsCard
-          label="Workouts"
+          label="אימונים"
           value="0"
-          sub="templates created"
+          sub="תבניות שנוצרו"
           icon={TrendingUp}
           className="animate-fade-in"
         />

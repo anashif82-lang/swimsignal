@@ -35,7 +35,7 @@ function CustomTooltip({ active, payload }: any) {
       <p className="text-signal-300 font-mono text-sm font-bold">{pt.final_time}</p>
       <p className="text-navy-400">{formatDateShort(pt.competition_date)}</p>
       {pt.is_personal_best && (
-        <p className="text-success-400 font-medium mt-1">Personal Best ★</p>
+        <p className="text-success-400 font-medium mt-1">שיא אישי ★</p>
       )}
     </div>
   );
@@ -76,10 +76,10 @@ export function EventProgressChart({ data }: Props) {
     return (
       <div className="card-surface rounded-xl p-6">
         <h3 className="text-sm font-semibold text-navy-300 uppercase tracking-wide mb-4">
-          Event Progress
+          התקדמות באירועים
         </h3>
         <div className="h-52 flex items-center justify-center text-navy-500 text-sm">
-          No competition results logged yet
+          אין תוצאות תחרות מתועדות עדיין
         </div>
       </div>
     );
@@ -89,7 +89,7 @@ export function EventProgressChart({ data }: Props) {
     <div className="card-surface rounded-xl p-6">
       <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
         <h3 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">
-          Event Progress
+          התקדמות באירועים
         </h3>
         <select
           value={selectedEvent}
@@ -107,8 +107,8 @@ export function EventProgressChart({ data }: Props) {
       {chartData.length < 2 ? (
         <div className="h-52 flex items-center justify-center text-navy-500 text-sm">
           {chartData.length === 0
-            ? "No results for this event"
-            : "Need at least 2 results to show a trend"}
+            ? "אין נתונים לאירוע זה"
+            : "נדרשות לפחות 2 תוצאות להצגת מגמה"}
         </div>
       ) : (
         <ResponsiveContainer width="100%" height={220}>

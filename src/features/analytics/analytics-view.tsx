@@ -20,8 +20,8 @@ export function AnalyticsView({ stats, weeklyVolume, eventData }: Props) {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white">Analytics</h1>
-        <p className="text-navy-400 text-sm mt-0.5">Your performance overview</p>
+        <h1 className="text-2xl font-bold text-white">ניתוח ביצועים</h1>
+        <p className="text-navy-400 text-sm mt-0.5">סקירת הביצועים שלך</p>
       </div>
 
       {/* Stats Cards */}

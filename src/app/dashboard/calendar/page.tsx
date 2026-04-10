@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getCalendarEvents } from "@/lib/db/calendar";
 import { CalendarGrid } from "@/features/calendar/calendar-grid";
 
-export const metadata: Metadata = { title: "Calendar" };
+export const metadata: Metadata = { title: "לוח שנה" };
 
 interface Props {
   searchParams: Promise<{ year?: string; month?: string }>;
@@ -27,9 +27,9 @@ export default async function CalendarPage({ searchParams }: Props) {
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">Calendar</h1>
+        <h1 className="text-2xl font-bold text-white">לוח שנה</h1>
         <p className="text-navy-400 text-sm mt-0.5">
-          {totalEvents} {totalEvents === 1 ? "event" : "events"} this month
+          {totalEvents} {totalEvents === 1 ? "אירוע" : "אירועים"} החודש
         </p>
       </div>
       <CalendarGrid data={data} year={year} month={month} />

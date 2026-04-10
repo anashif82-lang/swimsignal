@@ -36,9 +36,9 @@ function CustomTooltip({ active, payload, label }: any) {
   const { distance, sessions } = payload[0].payload as WeekPoint;
   return (
     <div className="bg-surface-card border border-surface-border rounded-lg px-3 py-2 text-xs shadow-raised">
-      <p className="text-navy-300 mb-1 font-medium">Week of {formatWeekLabel(label)}</p>
-      <p className="text-white font-mono">{distance.toLocaleString()} m</p>
-      <p className="text-navy-400">{sessions} {sessions === 1 ? "session" : "sessions"}</p>
+      <p className="text-navy-300 mb-1 font-medium">שבוע של {formatWeekLabel(label)}</p>
+      <p className="text-white font-mono">{distance.toLocaleString()} מ'</p>
+      <p className="text-navy-400">{sessions} {sessions === 1 ? "אימון" : "אימונים"}</p>
     </div>
   );
 }
@@ -48,10 +48,10 @@ export function VolumeChart({ data }: Props) {
     return (
       <div className="card-surface rounded-xl p-6">
         <h3 className="text-sm font-semibold text-navy-300 uppercase tracking-wide mb-4">
-          Weekly Volume
+          נפח שבועי
         </h3>
         <div className="h-44 flex items-center justify-center text-navy-500 text-sm">
-          No training sessions logged yet
+          אין אימונים מתועדים עדיין
         </div>
       </div>
     );
@@ -66,9 +66,9 @@ export function VolumeChart({ data }: Props) {
     <div className="card-surface rounded-xl p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">
-          Weekly Volume
+          נפח שבועי
         </h3>
-        <span className="text-xs text-navy-500">Last {data.length} weeks</span>
+        <span className="text-xs text-navy-500">{data.length} שבועות אחרונים</span>
       </div>
       <ResponsiveContainer width="100%" height={200}>
         <BarChart data={chartData} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>

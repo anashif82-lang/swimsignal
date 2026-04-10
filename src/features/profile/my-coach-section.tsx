@@ -162,8 +162,8 @@ export function MyCoachSection({ coach: initialCoach }: Props) {
                     {requesting === c.id
                       ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
                       : requested.has(c.id)
-                        ? "Requested ✓"
-                        : <><UserPlus className="h-3.5 w-3.5" />Request</>
+                        ? "בקשה נשלחה ✓"
+                        : <><UserPlus className="h-3.5 w-3.5" />התחבר</>
                     }
                   </Button>
                 </li>
@@ -172,7 +172,7 @@ export function MyCoachSection({ coach: initialCoach }: Props) {
           )}
 
           {query.trim().length >= 2 && results.length === 0 && !searching && (
-            <p className="text-sm text-navy-500">No coaches found for &ldquo;{query}&rdquo;</p>
+            <p className="text-sm text-navy-500">לא נמצאו מאמנים עבור &ldquo;{query}&rdquo;</p>
           )}
         </>
       )}

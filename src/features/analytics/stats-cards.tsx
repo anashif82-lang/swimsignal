@@ -38,30 +38,30 @@ export function StatsCards({ stats }: Props) {
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       <StatCard
         icon={<Waves className="h-5 w-5" />}
-        label="Total Sessions"
+        label="סה״כ אימונים"
         value={stats.totalSessions}
-        sub={`${stats.sessionsThisMonth} this month`}
+        sub={`${stats.sessionsThisMonth} החודש`}
         accent
       />
       <StatCard
         icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
           <path d="M3 3v18h18" /><path d="M7 16l4-4 4 4 4-4" />
         </svg>}
-        label="Total Distance"
-        value={`${stats.totalDistanceKm} km`}
-        sub="all water sessions"
+        label="סה״כ מרחק"
+        value={`${stats.totalDistanceKm} ק״מ`}
+        sub="כל אימוני המים"
       />
       <StatCard
         icon={<Trophy className="h-5 w-5" />}
-        label="Competitions"
+        label="תחרויות"
         value={stats.totalCompetitions}
-        sub="logged"
+        sub="מתועדות"
       />
       <StatCard
         icon={<Medal className="h-5 w-5" />}
-        label="Personal Bests"
+        label="שיאים אישיים"
         value={stats.pbCount}
-        sub="official"
+        sub="רשמיים"
         accent={stats.pbCount > 0}
       />
     </div>

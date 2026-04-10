@@ -77,7 +77,7 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
 
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
-      setServerError(body.error ?? "Failed to save session.");
+      setServerError(body.error ?? "שמירת האימון נכשלה.");
       return;
     }
 
@@ -294,7 +294,7 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
                 className="bg-navy-900/60 rounded-lg p-4 space-y-3 border border-surface-border"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-navy-400">Set {idx + 1}</span>
+                  <span className="text-xs font-medium text-navy-400">סט {idx + 1}</span>
                   <button
                     type="button"
                     onClick={() => remove(idx)}
@@ -306,26 +306,26 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   <Input
-                    label="Reps"
+                    label="חזרות"
                     type="number"
                     min={1}
                     {...register(`sets.${idx}.repetitions`, { valueAsNumber: true })}
                     error={errors.sets?.[idx]?.repetitions?.message}
                   />
                   <Input
-                    label="Distance (m)"
+                    label="מרחק (מ׳)"
                     type="number"
-                    placeholder="e.g. 100"
+                    placeholder="לדוגמה: 100"
                     {...register(`sets.${idx}.distance`, { valueAsNumber: true })}
                   />
                   <div className="space-y-1.5">
-                    <label className="block text-sm font-medium text-navy-200">Stroke</label>
+                    <label className="block text-sm font-medium text-navy-200">סגנון</label>
                     <Controller
                       control={control}
                       name={`sets.${idx}.stroke`}
                       render={({ field: f }) => (
                         <Select
-                          options={[{ value: "", label: "Any" }, ...STROKE_OPTIONS]}
+                          options={[{ value: "", label: "כלשהו" }, ...STROKE_OPTIONS]}
                           value={f.value ?? ""}
                           onChange={(v) => f.onChange(v || undefined)}
                         />
@@ -333,7 +333,7 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
                     />
                   </div>
                   <Input
-                    label="Rest (sec)"
+                    label="מנוחה (שניות)"
                     type="number"
                     placeholder="30"
                     {...register(`sets.${idx}.rest_seconds`, { valueAsNumber: true })}
@@ -342,13 +342,13 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
 
                 <div className="grid grid-cols-2 gap-3">
                   <Input
-                    label="Target time"
+                    label="זמן יעד"
                     placeholder="1:02.34"
                     {...register(`sets.${idx}.target_time`)}
                     error={errors.sets?.[idx]?.target_time?.message}
                   />
                   <Input
-                    label="Actual time"
+                    label="זמן בפועל"
                     placeholder="1:02.50"
                     {...register(`sets.${idx}.actual_time`)}
                     error={errors.sets?.[idx]?.actual_time?.message}
@@ -356,8 +356,8 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
                 </div>
 
                 <Input
-                  label="Description"
-                  placeholder="e.g. Descend pace each 50m"
+                  label="תיאור"
+                  placeholder="לדוגמה: ירידה בקצב כל 50מ׳"
                   {...register(`sets.${idx}.description`)}
                 />
               </div>
@@ -382,7 +382,7 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
               }
             >
               <Plus className="h-4 w-4" />
-              Add Set
+              הוסף סט
             </Button>
           </div>
         )}
@@ -396,11 +396,11 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
           onClick={() => router.back()}
           disabled={isSubmitting}
         >
-          Cancel
+          ביטול
         </Button>
         <Button type="submit" variant="signal" disabled={isSubmitting} className="gap-2">
           {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
-          {sessionId ? "Save changes" : "Log session"}
+          {sessionId ? "שמור שינויים" : "אימון חדש"}
         </Button>
       </div>
     </form>

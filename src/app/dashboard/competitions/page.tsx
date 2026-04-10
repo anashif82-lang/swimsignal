@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { listCompetitions, getPersonalBests } from "@/lib/db/competitions";
 import { CompetitionsView } from "@/features/competitions/competitions-view";
 
-export const metadata: Metadata = { title: "Competitions & PBs" };
+export const metadata: Metadata = { title: "תחרויות ושיאים אישיים" };
 
 export default async function CompetitionsPage() {
   const supabase = await createClient();

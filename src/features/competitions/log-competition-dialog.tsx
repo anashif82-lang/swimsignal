@@ -322,14 +322,14 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
               }
             >
               <Plus className="h-4 w-4" />
-              Add Event
+              הוסף אירוע
             </Button>
           </div>
 
           {/* Notes */}
           <Textarea
-            label="Notes (optional)"
-            placeholder="Any comments about the competition..."
+            label="הערות (אופציונלי)"
+            placeholder="הערות על התחרות..."
             rows={2}
             {...register("notes")}
           />
@@ -337,11 +337,11 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
           {/* Actions */}
           <div className="flex justify-end gap-3 pt-2">
             <Button type="button" variant="ghost" onClick={handleClose} disabled={isSubmitting}>
-              Cancel
+              ביטול
             </Button>
             <Button type="submit" variant="signal" disabled={isSubmitting} className="gap-2">
               {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
-              Save Competition
+              שמור תחרות
             </Button>
           </div>
         </form>
