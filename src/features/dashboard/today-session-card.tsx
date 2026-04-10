@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Waves, Clock, Flame, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import type { ScheduledSession } from "@/lib/db/schedule";
 import type { TrainingSession } from "@/types";
 
@@ -15,12 +15,12 @@ function fmtTime(iso: string) {
 export function TodaySessionCard({ scheduled, logged }: TodaySessionCardProps) {
   if (!scheduled && !logged) {
     return (
-      <div className="rounded-2xl bg-navy-800/60 border border-white/[0.06] p-4 flex flex-col items-center justify-center gap-2 py-6">
-        <Waves className="h-8 w-8 text-navy-600" />
-        <p className="text-sm text-navy-500">אין אימון מתוכנן להיום</p>
+      <div className="rounded-2xl bg-white shadow-sm border border-gray-100 p-5 flex flex-col items-center justify-center gap-2 py-7">
+        <span className="text-3xl">🏊‍♂️</span>
+        <p className="text-sm text-gray-400">אין אימון מתוכנן להיום</p>
         <Link
           href="/dashboard/calendar"
-          className="text-xs text-signal-400 hover:text-signal-300 transition-colors"
+          className="text-xs text-blue-500 hover:text-blue-600 transition-colors"
         >
           הוסף ליומן
         </Link>
@@ -39,53 +39,63 @@ export function TodaySessionCard({ scheduled, logged }: TodaySessionCardProps) {
   const fmtDuration = (min: number) => {
     const h = Math.floor(min / 60);
     const m = min % 60;
-    return h > 0 ? `${h}:${String(m).padStart(2,"0")}:00` : `0:${String(m).padStart(2,"0")}:00`;
+    return `${h}:${String(m).padStart(2,"0")}:00`;
   };
 
+  const title = scheduled?.title ?? logged?.title ?? "אימון היום";
+
   return (
-    <div className="rounded-2xl bg-navy-800/60 border border-white/[0.06] overflow-hidden">
+    <div className="rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden relative">
+      {/* Water wave decoration */}
+      <div className="absolute bottom-0 inset-x-0 h-16 opacity-[0.06] pointer-events-none overflow-hidden">
+        <svg viewBox="0 0 400 60" preserveAspectRatio="none" className="w-full h-full">
+          <path d="M0,30 C100,10 200,50 300,30 C350,20 380,35 400,30 L400,60 L0,60 Z" fill="#3b82f6"/>
+          <path d="M0,40 C80,20 180,55 280,35 C340,22 370,42 400,38 L400,60 L0,60 Z" fill="#3b82f6" opacity="0.6"/>
+        </svg>
+      </div>
+
       {/* Header */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-white/[0.05]">
-        <div className="w-7 h-7 rounded-lg bg-signal-400/15 flex items-center justify-center">
-          <Waves className="h-3.5 w-3.5 text-signal-400" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-white truncate">
-            {scheduled?.title ?? logged?.title ?? "אימון היום"}
-          </p>
-          {timeLabel && <p className="text-[10px] text-navy-400">{timeLabel}</p>}
-        </div>
+      <div className="flex items-center gap-2 px-4 pt-4 pb-3">
+        <span className="text-xl">🏊‍♂️</span>
+        <p className="text-sm font-semibold text-gray-800">
+          {timeLabel ? `אימון ${timeLabel}` : title}
+        </p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 divide-x divide-white/[0.05] px-0">
-        <div className="flex flex-col items-center gap-0.5 py-3">
-          <Clock className="h-4 w-4 text-navy-400" />
-          <p className="text-sm font-bold text-white">
+      <div className="grid grid-cols-3 px-4 pb-3 gap-2">
+        {/* Duration */}
+        <div className="flex flex-col items-center gap-0.5">
+          <span className="text-lg">🕐</span>
+          <p className="text-base font-bold text-gray-900">
             {durationMin ? fmtDuration(durationMin) : "—"}
           </p>
-          <p className="text-[9px] text-navy-500">זמן כולל</p>
+          <p className="text-[10px] text-gray-400">
+            {logged?.stroke ? logged.stroke : "זמן כולל"}
+          </p>
         </div>
-        <div className="flex flex-col items-center gap-0.5 py-3">
-          <Waves className="h-4 w-4 text-navy-400" />
-          <p className="text-sm font-bold text-white">
+        {/* Distance */}
+        <div className="flex flex-col items-center gap-0.5">
+          <span className="text-lg">🏊</span>
+          <p className="text-base font-bold text-gray-900">
             {logged?.total_distance ? `${logged.total_distance.toLocaleString()}m` : "—"}
           </p>
-          <p className="text-[9px] text-navy-500">מרחק</p>
+          <p className="text-[10px] text-gray-400">מרחק</p>
         </div>
-        <div className="flex flex-col items-center gap-0.5 py-3">
-          <Flame className="h-4 w-4 text-navy-400" />
-          <p className="text-sm font-bold text-white">—</p>
-          <p className="text-[9px] text-navy-500">קלוריות</p>
+        {/* Calories */}
+        <div className="flex flex-col items-center gap-0.5">
+          <span className="text-lg">🔥</span>
+          <p className="text-base font-bold text-gray-900">—</p>
+          <p className="text-[10px] text-gray-400">קלוריות</p>
         </div>
       </div>
 
       {/* CTA */}
-      <div className="px-4 pb-3">
+      <div className="px-4 pb-4 flex justify-end">
         {logged ? (
           <Link
             href={`/dashboard/training/${logged.id}`}
-            className="flex items-center justify-center gap-1.5 w-full py-2 rounded-xl bg-signal-400/10 border border-signal-400/20 text-signal-400 text-xs font-medium hover:bg-signal-400/20 transition-colors"
+            className="flex items-center gap-1 px-4 py-2 rounded-xl bg-blue-50 text-blue-500 text-xs font-semibold hover:bg-blue-100 transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             צפה באימון
@@ -93,7 +103,7 @@ export function TodaySessionCard({ scheduled, logged }: TodaySessionCardProps) {
         ) : (
           <Link
             href="/dashboard/training/new"
-            className="flex items-center justify-center gap-1.5 w-full py-2 rounded-xl bg-signal-400/10 border border-signal-400/20 text-signal-400 text-xs font-medium hover:bg-signal-400/20 transition-colors"
+            className="flex items-center gap-1 px-4 py-2 rounded-xl bg-blue-50 text-blue-500 text-xs font-semibold hover:bg-blue-100 transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             תעד אימון

@@ -78,11 +78,14 @@ export default async function DashboardPage() {
         </div>
 
         {/* Week strip card */}
-        <div className="rounded-2xl bg-navy-800/60 border border-white/[0.06] p-4 space-y-1">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-semibold text-white">יומן שבועי</p>
-            <Link href="/dashboard/calendar" className="text-[10px] text-signal-400 flex items-center gap-0.5">
-              הצג הכל <ArrowRight className="h-3 w-3" />
+        <div className="rounded-2xl bg-white shadow-sm border border-gray-100 p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🏊‍♂️</span>
+              <p className="text-sm font-bold text-gray-900">יומן אימוני</p>
+            </div>
+            <Link href="/dashboard/calendar" className="text-xs text-blue-500 flex items-center gap-0.5">
+              הצג הכל <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
           <WeekStrip sessions={scheduledSessions} />

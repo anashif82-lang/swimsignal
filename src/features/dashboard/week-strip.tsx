@@ -47,18 +47,18 @@ export function WeekStrip({ sessions, onSelect }: WeekStripProps) {
               className="flex flex-col items-center gap-[3px] px-2"
               style={{ WebkitTapHighlightColor: "transparent" }}
             >
-              <span className="text-[10px] text-navy-500 font-medium">{DAY[d.getDay()]}</span>
+              <span className="text-[10px] text-gray-400 font-medium">{DAY[d.getDay()]}</span>
               <div className={cn(
-                "w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all",
+                "w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold transition-all",
                 (isToday || isSel)
-                  ? "bg-signal-400 text-navy-950 shadow-[0_0_10px_rgba(34,211,238,0.4)]"
-                  : "text-navy-300"
+                  ? "bg-blue-500 text-white shadow-[0_4px_12px_rgba(59,130,246,0.4)]"
+                  : "text-gray-800"
               )}>
                 {d.getDate()}
               </div>
               <div className={cn(
-                "w-1 h-1 rounded-full transition-colors",
-                hasDot ? (isToday || isSel) ? "bg-navy-950" : "bg-signal-400" : "bg-transparent"
+                "w-1.5 h-1.5 rounded-full transition-colors",
+                hasDot ? (isToday || isSel) ? "bg-white" : "bg-blue-400" : "bg-transparent"
               )} />
             </button>
           );
