@@ -166,7 +166,7 @@ export function CalendarGrid({ data, year, month }: Props) {
                   ))}
                   {(trainings.length + comps.length) > 3 && (
                     <span className="text-xs text-navy-500">
-                      +{trainings.length + comps.length - 3} more
+                      +{trainings.length + comps.length - 3} נוספים
                     </span>
                   )}
                 </div>
@@ -183,16 +183,16 @@ export function CalendarGrid({ data, year, month }: Props) {
 
       {/* Legend */}
       <div className="flex items-center gap-4 text-xs text-navy-500">
-        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-signal-400" />Water</span>
-        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-warning-400" />Dryland / Competition</span>
-        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-navy-400" />Gym / Other</span>
+        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-signal-400" />מים</span>
+        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-warning-400" />יבשה / תחרות</span>
+        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-navy-400" />חדר כושר / אחר</span>
       </div>
     </div>
   );
 }
 
 function DayPanel({ detail, onClose }: { detail: DayDetail; onClose: () => void }) {
-  const label = new Date(detail.date + "T00:00:00").toLocaleDateString("en-US", {
+  const label = new Date(detail.date + "T00:00:00").toLocaleDateString("he-IL", {
     weekday: "long", month: "long", day: "numeric",
   });
 
@@ -204,12 +204,12 @@ function DayPanel({ detail, onClose }: { detail: DayDetail; onClose: () => void 
           onClick={onClose}
           className="text-xs text-navy-500 hover:text-navy-300 transition-colors"
         >
-          close
+          סגור
         </button>
       </div>
 
       {detail.trainings.length === 0 && detail.competitions.length === 0 && (
-        <p className="text-sm text-navy-500">No events on this day.</p>
+        <p className="text-sm text-navy-500">אין אירועים ביום זה.</p>
       )}
 
       {detail.trainings.map((t) => (

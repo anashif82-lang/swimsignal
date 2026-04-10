@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Profile",
+  title: "פרופיל",
 };
 
 export default function Page() {
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-2xl font-bold text-white capitalize mb-2">profile</h1>
-      <p className="text-navy-400 text-sm">Coming in the next phase.</p>
+      <h1 className="text-2xl font-bold text-white capitalize mb-2">פרופיל</h1>
+      <p className="text-navy-400 text-sm">יגיע בשלב הבא.</p>
     </div>
   );
 }

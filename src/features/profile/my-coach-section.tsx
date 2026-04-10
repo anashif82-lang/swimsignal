@@ -65,7 +65,7 @@ export function MyCoachSection({ coach: initialCoach }: Props) {
       router.refresh();
     } else {
       const body = await res.json().catch(() => ({}));
-      setError(body.error ?? "Failed to send request.");
+      setError(body.error ?? "שליחת הבקשה נכשלה.");
     }
   }
 
@@ -96,7 +96,7 @@ export function MyCoachSection({ coach: initialCoach }: Props) {
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <p className="text-sm font-semibold text-white">{coach.name ?? "Coach"}</p>
+              <p className="text-sm font-semibold text-white">{coach.name ?? "מאמן"}</p>
               {coach.status === "approved"
                 ? <span className="flex items-center gap-1 text-xs text-success-400"><UserCheck className="h-3 w-3" />מחובר</span>
                 : <span className="flex items-center gap-1 text-xs text-warning-400"><Loader2 className="h-3 w-3" />ממתין לאישור</span>
@@ -149,7 +149,7 @@ export function MyCoachSection({ coach: initialCoach }: Props) {
                     }
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-white">{c.full_name ?? "Coach"}</p>
+                    <p className="text-sm font-medium text-white">{c.full_name ?? "מאמן"}</p>
                     {c.club_name && <p className="text-xs text-navy-400">{c.club_name}</p>}
                   </div>
                   <Button
