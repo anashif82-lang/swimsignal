@@ -77,6 +77,42 @@ export async function upsertCoachProfile(
   return data ?? null;
 }
 
+// ─── SWIMMER SEARCH ───────────────────────────────────────────────────────────
+
+export async function searchSwimmers(
+  query: string,
+  limit = 10
+): Promise<{ id: string; full_name: string | null; avatar_url: string | null; club_name: string | null }[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("profiles")
+    .select("id, full_name, avatar_url, swimmer_profiles(club_name_raw)")
+    .eq("role", "swimmer")
+    .eq("onboarding_done", true)
+    .ilike("full_name", `%${query}%`)
+    .limit(limit);
+
+  if (!data) return [];
+  return data.map((p) => ({
+    id:         p.id,
+    full_name:  p.full_name,
+    avatar_url: p.avatar_url,
+    club_name:  (p.swimmer_profiles as unknown as { club_name_raw: string | null }[] | null)?.[0]?.club_name_raw ?? null,
+  }));
+}
+
+export async function getSentPendingInvites(coachId: string) {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("coach_swimmer_connections")
+    .select("*, swimmer:profiles!swimmer_id(id, full_name, avatar_url)")
+    .eq("coach_id", coachId)
+    .eq("initiated_by", coachId)
+    .eq("status", "pending")
+    .order("created_at", { ascending: false });
+  return data ?? [];
+}
+
 // ─── COACH SEARCH ─────────────────────────────────────────────────────────────
 
 export async function searchCoaches(

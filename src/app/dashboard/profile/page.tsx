@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { getProfile, getSwimmerProfile, getCoachProfile } from "@/lib/db/profiles";
+import { getProfile, getSwimmerProfile, getCoachProfile, getMyCoach } from "@/lib/db/profiles";
 import { SwimmerProfileForm } from "@/features/profile/swimmer-profile-form";
 import { CoachProfileForm } from "@/features/profile/coach-profile-form";
+import { MyCoachSection } from "@/features/profile/my-coach-section";
 import { User } from "lucide-react";
 
 export const metadata: Metadata = { title: "Profile" };
@@ -17,10 +18,23 @@ export default async function ProfilePage() {
   if (!profile) redirect("/auth/login");
 
   const isSwimmer = profile.role === "swimmer";
-  const [swimmerProfile, coachProfile] = await Promise.all([
-    isSwimmer ? getSwimmerProfile(user.id) : Promise.resolve(null),
-    !isSwimmer ? getCoachProfile(user.id)  : Promise.resolve(null),
+
+  const [swimmerProfile, coachProfile, coachConnection] = await Promise.all([
+    isSwimmer  ? getSwimmerProfile(user.id) : Promise.resolve(null),
+    !isSwimmer ? getCoachProfile(user.id)   : Promise.resolve(null),
+    isSwimmer  ? getMyCoach(user.id)        : Promise.resolve(null),
   ]);
+
+  const coachInfo = coachConnection
+    ? {
+        connectionId: coachConnection.id,
+        coachId:      coachConnection.coach_id,
+        name:         (coachConnection.coach as { full_name: string | null } | null)?.full_name ?? null,
+        avatar:       (coachConnection.coach as { avatar_url: string | null } | null)?.avatar_url ?? null,
+        club:         null,
+        status:       coachConnection.status,
+      }
+    : null;
 
   return (
     <div className="p-6 max-w-2xl mx-auto space-y-6">
@@ -44,12 +58,15 @@ export default async function ProfilePage() {
         </div>
       </div>
 
-      {/* Form */}
+      {/* Profile form */}
       {isSwimmer ? (
         <SwimmerProfileForm profile={profile} swimmerProfile={swimmerProfile} />
       ) : (
         <CoachProfileForm profile={profile} coachProfile={coachProfile} />
       )}
+
+      {/* Swimmer: my coach section */}
+      {isSwimmer && <MyCoachSection coach={coachInfo} />}
     </div>
   );
 }

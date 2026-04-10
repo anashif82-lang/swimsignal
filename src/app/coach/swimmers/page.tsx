@@ -1,14 +1,50 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { getCoachSwimmers, getPendingConnectionRequests, getSentPendingInvites } from "@/lib/db/profiles";
+import { InviteSwimmer } from "@/features/coach/invite-swimmer";
+import { PendingRequests } from "@/features/coach/pending-requests";
+import { SwimmersList } from "@/features/coach/swimmers-list";
+import { SentInvites } from "@/features/coach/sent-invites";
 
-export const metadata: Metadata = {
-  title: "Swimmers",
-};
+export const metadata: Metadata = { title: "Swimmers" };
 
-export default function Page() {
+export default async function CoachSwimmersPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/auth/login");
+
+  const [swimmers, pendingRequests, sentInvites] = await Promise.all([
+    getCoachSwimmers(user.id),
+    getPendingConnectionRequests(user.id),
+    getSentPendingInvites(user.id),
+  ]);
+
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-2xl font-bold text-white capitalize mb-2">swimmers</h1>
-      <p className="text-navy-400 text-sm">Coming in the next phase.</p>
+    <div className="p-6 max-w-3xl mx-auto space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-white">Swimmers</h1>
+        <p className="text-navy-400 text-sm mt-0.5">
+          {swimmers.length} connected · {pendingRequests.length + sentInvites.length} pending
+        </p>
+      </div>
+
+      <InviteSwimmer />
+
+      {pendingRequests.length > 0 && (
+        <PendingRequests requests={pendingRequests} />
+      )}
+
+      {sentInvites.length > 0 && (
+        <SentInvites invites={sentInvites} />
+      )}
+
+      <div className="card-surface rounded-xl p-5 space-y-3">
+        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">
+          Your Swimmers ({swimmers.length})
+        </h2>
+        <SwimmersList connections={swimmers} />
+      </div>
     </div>
   );
 }
