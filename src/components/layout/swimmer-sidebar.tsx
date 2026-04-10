@@ -13,12 +13,12 @@ import { getInitials } from "@/lib/utils";
 import type { Profile } from "@/types";
 
 const navItems = [
-  { href: "/dashboard",             label: "Dashboard",  icon: LayoutDashboard },
-  { href: "/dashboard/training",    label: "Training",   icon: BookOpen         },
-  { href: "/dashboard/competitions",label: "Competitions", icon: Trophy          },
-  { href: "/dashboard/analytics",   label: "Analytics",  icon: BarChart2        },
-  { href: "/dashboard/calendar",    label: "Calendar",   icon: Calendar         },
-  { href: "/dashboard/chat",        label: "AI Coach",   icon: BotMessageSquare },
+  { href: "/dashboard",             label: "ראשי",  icon: LayoutDashboard },
+  { href: "/dashboard/training",    label: "אימונים",   icon: BookOpen         },
+  { href: "/dashboard/competitions",label: "תחרויות", icon: Trophy          },
+  { href: "/dashboard/analytics",   label: "אנליטיקה",  icon: BarChart2        },
+  { href: "/dashboard/calendar",    label: "לוח שנה",   icon: Calendar         },
+  { href: "/dashboard/chat",        label: "מאמן AI",   icon: BotMessageSquare },
 ];
 
 interface SwimmerSidebarProps {
@@ -114,7 +114,7 @@ export function SwimmerSidebar({ profile, unreadCount = 0 }: SwimmerSidebarProps
           <button
             onClick={handleLogout}
             className="p-1.5 rounded-md text-navy-400 hover:text-danger-400 hover:bg-danger-500/10 transition-colors"
-            title="Sign out"
+            title="יציאה"
           >
             <LogOut className="h-3.5 w-3.5" />
           </button>

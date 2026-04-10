@@ -9,10 +9,10 @@ import { cn, getInitials } from "@/lib/utils";
 import type { Profile } from "@/types";
 
 const navItems = [
-  { href: "/coach",           label: "Overview",  icon: LayoutDashboard },
-  { href: "/coach/swimmers",  label: "Swimmers",  icon: Users            },
-  { href: "/coach/groups",    label: "Groups",    icon: Group            },
-  { href: "/coach/analytics", label: "Analytics", icon: BarChart2        },
+  { href: "/coach",           label: "סקירה",  icon: LayoutDashboard },
+  { href: "/coach/swimmers",  label: "שחיינים",  icon: Users            },
+  { href: "/coach/groups",    label: "קבוצות",    icon: Group            },
+  { href: "/coach/analytics", label: "אנליטיקה", icon: BarChart2        },
 ];
 
 interface CoachSidebarProps {
@@ -95,14 +95,14 @@ export function CoachSidebar({ profile }: CoachSidebarProps) {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-white truncate">
-              {profile.full_name ?? "Coach"}
+              {profile.full_name ?? "מאמן"}
             </p>
             <p className="text-xs text-navy-400 truncate">{profile.email}</p>
           </div>
           <button
             onClick={handleLogout}
             className="p-1.5 rounded-md text-navy-400 hover:text-danger-400 hover:bg-danger-500/10 transition-colors"
-            title="Sign out"
+            title="יציאה"
           >
             <LogOut className="h-3.5 w-3.5" />
           </button>

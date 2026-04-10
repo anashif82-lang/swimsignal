@@ -9,8 +9,8 @@ export default function SignupPage() {
   return (
     <>
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-white">Create your account</h1>
-        <p className="text-navy-300 text-sm mt-1">Start tracking your performance today</p>
+        <h1 className="text-2xl font-bold text-white">צור את החשבון שלך</h1>
+        <p className="text-navy-300 text-sm mt-1">התחל לעקוב אחר הביצועים שלך היום</p>
       </div>
       <SignupForm />
     </>

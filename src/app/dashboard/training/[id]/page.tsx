@@ -14,7 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export const metadata: Metadata = { title: "Session Detail" };
+export const metadata: Metadata = { title: "פרטי אימון" };
 
 const TYPE_ICON: Record<string, React.ReactNode> = {
   water:   <Waves className="h-5 w-5 text-signal-400" />,
@@ -24,17 +24,17 @@ const TYPE_ICON: Record<string, React.ReactNode> = {
 };
 
 const STATUS_LABEL: Record<string, string> = {
-  completed:     "Completed",
-  not_completed: "Not completed",
-  partial:       "Partial",
+  completed:     "הושלם",
+  not_completed: "הוחמץ",
+  partial:       "חלקי",
 };
 
 const STROKE_LABEL: Record<string, string> = {
-  freestyle:         "Freestyle",
-  backstroke:        "Backstroke",
-  breaststroke:      "Breaststroke",
-  butterfly:         "Butterfly",
-  individual_medley: "IM",
+  freestyle:         "חופשי",
+  backstroke:        "גב",
+  breaststroke:      "חזה",
+  butterfly:         "פרפר",
+  individual_medley: "מדלי",
 };
 
 export default async function TrainingSessionPage({
@@ -69,7 +69,7 @@ export default async function TrainingSessionPage({
             </div>
             <div>
               <h1 className="text-xl font-bold text-white">
-                {session.title ?? `${session.training_type.charAt(0).toUpperCase() + session.training_type.slice(1)} Session`}
+                {session.title ?? `אימון ${session.training_type.charAt(0).toUpperCase() + session.training_type.slice(1)}`}
               </h1>
               <div className="flex items-center gap-2 mt-0.5">
                 <Badge variant={sessionStatusBadge(session.status) as "success" | "danger" | "warning"}>
@@ -85,7 +85,7 @@ export default async function TrainingSessionPage({
         <Link href={`/dashboard/training/${id}/edit`}>
           <Button variant="outline" size="sm" className="gap-1.5">
             <Pencil className="h-3.5 w-3.5" />
-            Edit
+            עריכה
           </Button>
         </Link>
       </div>
@@ -94,20 +94,20 @@ export default async function TrainingSessionPage({
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <StatCard
           icon={<Calendar className="h-4 w-4" />}
-          label="Date"
+          label="תאריך"
           value={formatDate(session.session_date)}
         />
         {session.total_distance != null && session.total_distance > 0 && (
           <StatCard
             icon={<Ruler className="h-4 w-4" />}
-            label="Distance"
+            label="מרחק"
             value={formatDistance(session.total_distance)}
           />
         )}
         {session.total_duration != null && session.total_duration > 0 && (
           <StatCard
             icon={<Clock className="h-4 w-4" />}
-            label="Duration"
+            label="משך"
             value={formatDuration(session.total_duration)}
           />
         )}
@@ -123,7 +123,7 @@ export default async function TrainingSessionPage({
       {/* Notes */}
       {session.notes && (
         <div className="card-surface rounded-xl p-5">
-          <h2 className="text-sm font-semibold text-navy-400 uppercase tracking-wide mb-3">Notes</h2>
+          <h2 className="text-sm font-semibold text-navy-400 uppercase tracking-wide mb-3">הערות</h2>
           <p className="text-navy-200 text-sm whitespace-pre-wrap leading-relaxed">{session.notes}</p>
         </div>
       )}
@@ -132,7 +132,7 @@ export default async function TrainingSessionPage({
       {sets.length > 0 && (
         <div className="card-surface rounded-xl p-5 space-y-3">
           <h2 className="text-sm font-semibold text-navy-400 uppercase tracking-wide">
-            Sets ({sets.length})
+            סטים ({sets.length})
           </h2>
           <div className="space-y-2">
             {sets.map((set, idx) => (
@@ -150,16 +150,16 @@ export default async function TrainingSessionPage({
                       <Badge variant="navy">{STROKE_LABEL[set.stroke]}</Badge>
                     )}
                     {set.rest_seconds != null && (
-                      <span className="text-navy-500 text-xs">:{set.rest_seconds}s rest</span>
+                      <span className="text-navy-500 text-xs">:{set.rest_seconds}s מנוחה</span>
                     )}
                   </div>
                   {(set.target_time || set.actual_time) && (
                     <div className="flex items-center gap-3 text-xs text-navy-400">
                       {set.target_time && (
-                        <span>Target: <span className="font-mono text-navy-200">{set.target_time}</span></span>
+                        <span>זמן יעד: <span className="font-mono text-navy-200">{set.target_time}</span></span>
                       )}
                       {set.actual_time && (
-                        <span>Actual: <span className="font-mono text-signal-300">{set.actual_time}</span></span>
+                        <span>זמן בפועל: <span className="font-mono text-signal-300">{set.actual_time}</span></span>
                       )}
                     </div>
                   )}

@@ -15,15 +15,15 @@ import { Select } from "@/components/ui/select";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const LEVEL_OPTIONS = [
-  { value: "",              label: "Level (optional)" },
-  { value: "local",         label: "Local" },
-  { value: "regional",      label: "Regional" },
-  { value: "national",      label: "National" },
-  { value: "international", label: "International" },
+  { value: "",              label: "רמה (אופציונלי)" },
+  { value: "local",         label: "מקומי" },
+  { value: "regional",      label: "אזורי" },
+  { value: "national",      label: "ארצי" },
+  { value: "international", label: "בינלאומי" },
 ];
 
 const EVENT_OPTIONS = [
-  { value: "", label: "Select event..." },
+  { value: "", label: "בחר אירוע..." },
   ...SWIM_EVENTS.map((e) => ({ value: e.key, label: e.label })),
 ];
 
@@ -102,7 +102,7 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
 
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
-      setServerError(body.error ?? "Failed to save competition.");
+      setServerError(body.error ?? "שמירת התחרות נכשלה.");
       return;
     }
 
@@ -115,8 +115,8 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
       <DialogContent className="max-h-[90dvh] overflow-y-auto max-w-xl">
       <div className="space-y-6">
         <div>
-          <h2 className="text-lg font-bold text-white">Log Competition</h2>
-          <p className="text-sm text-navy-400 mt-0.5">Record results from a competition</p>
+          <h2 className="text-lg font-bold text-white">תעד תחרות</h2>
+          <p className="text-sm text-navy-400 mt-0.5">תיעוד תוצאות מתחרות</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -129,22 +129,22 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
           {/* ── Competition details ────────────────────────────────── */}
           <div className="space-y-3">
             <Input
-              label="Competition name"
-              placeholder="e.g. ISA National Championships 2025"
+              label="שם התחרות"
+              placeholder="לדוג. אליפות ישראל 2025"
               {...register("name")}
               error={errors.name?.message}
             />
 
             <div className="grid grid-cols-2 gap-3">
               <Input
-                label="Date"
+                label="תאריך"
                 type="date"
                 {...register("competition_date")}
                 error={errors.competition_date?.message}
               />
               <Input
-                label="Location"
-                placeholder="e.g. Tel Aviv"
+                label="מיקום"
+                placeholder="לדוג. תל אביב"
                 {...register("location")}
               />
             </div>
@@ -152,7 +152,7 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
             <div className="grid grid-cols-2 gap-3">
               {/* Pool length */}
               <div className="space-y-1.5">
-                <label className="block text-sm font-medium text-navy-200">Pool</label>
+                <label className="block text-sm font-medium text-navy-200">בריכה</label>
                 <Controller
                   control={control}
                   name="pool_length"
@@ -180,7 +180,7 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
 
               {/* Level */}
               <div className="space-y-1.5">
-                <label className="block text-sm font-medium text-navy-200">Level</label>
+                <label className="block text-sm font-medium text-navy-200">רמה</label>
                 <Controller
                   control={control}
                   name="level"
@@ -200,7 +200,7 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <label className="text-sm font-semibold text-navy-300 uppercase tracking-wide">
-                Results
+                תוצאות
               </label>
               {errors.results?.root && (
                 <span className="text-xs text-danger-400">{errors.results.root.message}</span>
@@ -213,7 +213,7 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
                 className="bg-navy-900/60 rounded-lg p-4 space-y-3 border border-surface-border"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-navy-400 font-medium">Result {idx + 1}</span>
+                  <span className="text-xs text-navy-400 font-medium">תוצאה {idx + 1}</span>
                   {fields.length > 1 && (
                     <button
                       type="button"
@@ -228,7 +228,7 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
                 {/* Event + time */}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1.5">
-                    <label className="block text-sm font-medium text-navy-200">Event</label>
+                    <label className="block text-sm font-medium text-navy-200">אירוע</label>
                     <Controller
                       control={control}
                       name={`results.${idx}.event_name`}
@@ -246,7 +246,7 @@ export function LogCompetitionDialog({ open, onClose }: Props) {
                   </div>
 
                   <Input
-                    label="Final time"
+                    label="זמן סופי"
                     placeholder="1:02.34"
                     {...register(`results.${idx}.final_time`)}
                     error={errors.results?.[idx]?.final_time?.message}

@@ -7,7 +7,7 @@ import { listTrainingSessions } from "@/lib/db/training";
 import { Button } from "@/components/ui/button";
 import { SessionList } from "@/features/training/session-list";
 
-export const metadata: Metadata = { title: "Training Log" };
+export const metadata: Metadata = { title: "יומן אימונים" };
 
 export default async function TrainingPage({
   searchParams,
@@ -37,15 +37,15 @@ export default async function TrainingPage({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Training Log</h1>
+          <h1 className="text-2xl font-bold text-white">יומן אימונים</h1>
           <p className="text-navy-400 text-sm mt-0.5">
-            {total} {total === 1 ? "session" : "sessions"} recorded
+            {total} {total === 1 ? "אימון" : "אימונים"} מתועדים
           </p>
         </div>
         <Link href="/dashboard/training/new">
           <Button variant="signal" size="sm" className="gap-1.5">
             <Plus className="h-4 w-4" />
-            Log Session
+            אימון חדש
           </Button>
         </Link>
       </div>

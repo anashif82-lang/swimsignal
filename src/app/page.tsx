@@ -20,10 +20,10 @@ export default function LandingPage() {
 
           <div className="flex items-center gap-3">
             <Link href="/auth/login">
-              <Button variant="ghost" size="sm">Sign in</Button>
+              <Button variant="ghost" size="sm">כניסה</Button>
             </Link>
             <Link href="/auth/signup">
-              <Button variant="signal" size="sm">Get started</Button>
+              <Button variant="signal" size="sm">הרשמה</Button>
             </Link>
           </div>
         </nav>
@@ -50,30 +50,29 @@ export default function LandingPage() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 rounded-full bg-signal-400/10 border border-signal-400/20 px-4 py-1.5 text-sm text-signal-400 font-medium mb-8">
               <Zap className="h-3.5 w-3.5" />
-              Performance platform for competitive swimmers
+              פלטפורמת ביצועים לשחיינים תחרותיים
             </div>
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-6">
-              Signal your{" "}
-              <span className="gradient-text">next level</span>
-              {" "}swimming
+              קדם את השחייה שלך{" "}
+              <span className="gradient-text">לרמה הבאה</span>
             </h1>
 
             <p className="text-xl text-navy-300 max-w-2xl mx-auto mb-10 leading-relaxed">
-              The premium training journal and analytics platform built for competitive swimmers and their coaches.
-              Track every session. Analyze every result. Improve every season.
+              יומן אימונים ופלטפורמת אנליטיקה פרמיום לשחיינים תחרותיים ומאמניהם.
+              תעד כל אימון. נתח כל תוצאה. השתפר בכל עונה.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="/auth/signup">
                 <Button variant="signal" size="lg" className="gap-2 min-w-[180px]">
-                  Start for free
+                  התחל בחינם
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
               <Link href="/auth/login">
                 <Button variant="outline" size="lg" className="min-w-[180px]">
-                  Sign in
+                  כניסה
                 </Button>
               </Link>
             </div>
@@ -99,9 +98,9 @@ export default function LandingPage() {
         <section className="border-y border-surface-border bg-surface-card/50 py-8">
           <div className="max-w-6xl mx-auto px-6 grid grid-cols-3 gap-8 text-center">
             {[
-              { value: "25m & 50m", label: "Pool analytics" },
-              { value: "18+ events", label: "Swim events tracked" },
-              { value: "Full RTL", label: "Hebrew-first interface" },
+              { value: "25m & 50m", label: "אנליטיקת בריכה" },
+              { value: "18+ אירועים", label: "אירועי שחייה במעקב" },
+              { value: "RTL מלא", label: "ממשק בעברית" },
             ].map(({ value, label }) => (
               <div key={label}>
                 <p className="text-2xl font-bold text-white">{value}</p>
@@ -116,11 +115,11 @@ export default function LandingPage() {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                Everything your training needs
+                כל מה שהאימון שלך צריך
               </h2>
               <p className="text-navy-400 max-w-xl mx-auto">
-                Built for serious swimmers who want to see progress in the data —
-                not just feel it in the water.
+                בנוי לשחיינים רציניים שרוצים לראות את ההתקדמות בנתונים —
+                לא רק להרגיש אותה במים.
               </p>
             </div>
 
@@ -128,38 +127,38 @@ export default function LandingPage() {
               {[
                 {
                   icon: BookOpen,
-                  title: "Training Journal",
-                  desc: "Log every session with sets, distances, times, and RPE. Weekly view with planned vs actual tracking.",
+                  title: "יומן אימונים",
+                  desc: "תעד כל אימון עם סטים, מרחקים, זמנים ו-RPE. תצוגה שבועית עם מעקב מתוכנן מול בפועל.",
                   accent: "text-signal-400",
                 },
                 {
                   icon: BarChart2,
-                  title: "Performance Analytics",
-                  desc: "Progress graphs, load trends, PB comparison, and seasonal analysis — split by pool length.",
+                  title: "אנליטיקת ביצועים",
+                  desc: "גרפי התקדמות, מגמות עומס, השוואת שיאים אישיים וניתוח עונתי — מפוצל לפי אורך בריכה.",
                   accent: "text-success-400",
                 },
                 {
                   icon: Trophy,
-                  title: "Competitions & PBs",
-                  desc: "Record competition results, official personal bests, and track goal vs actual times.",
+                  title: "תחרויות ושיאים אישיים",
+                  desc: "תעד תוצאות תחרויות, שיאים אישיים רשמיים, ועקוב אחר זמן יעד מול בפועל.",
                   accent: "text-warning-400",
                 },
                 {
                   icon: Users,
-                  title: "Coach Dashboard",
-                  desc: "Coaches manage swimmers and groups, assign workouts, and monitor performance from one place.",
+                  title: "לוח מחוונים למאמן",
+                  desc: "מאמנים מנהלים שחיינים וקבוצות, מקצים אימונים, ועוקבים אחר ביצועים ממקום אחד.",
                   accent: "text-signal-400",
                 },
                 {
                   icon: Shield,
-                  title: "Privacy First",
-                  desc: "Your data is private by default. You control what your coach can see and when.",
+                  title: "פרטיות קודמת",
+                  desc: "הנתונים שלך פרטיים כברירת מחדל. אתה שולט במה המאמן שלך יכול לראות ומתי.",
                   accent: "text-navy-300",
                 },
                 {
                   icon: Zap,
-                  title: "AI Coach (coming soon)",
-                  desc: "Data-driven recommendations based on your training load, PB trends, and performance patterns.",
+                  title: "מאמן AI (בקרוב)",
+                  desc: "המלצות מבוססות נתונים על סמך עומס האימונים, מגמות השיאים האישיים ודפוסי הביצועים שלך.",
                   accent: "text-warning-400",
                 },
               ].map(({ icon: Icon, title, desc, accent }) => (
@@ -181,15 +180,15 @@ export default function LandingPage() {
             {/* For Swimmers */}
             <div className="card-signal p-8">
               <div className="signal-bar mb-6 w-16" />
-              <h3 className="text-xl font-bold text-white mb-3">For Swimmers</h3>
+              <h3 className="text-xl font-bold text-white mb-3">לשחיינים</h3>
               <ul className="space-y-3">
                 {[
-                  "Log water and dryland training in seconds",
-                  "Track personal bests by pool length",
-                  "Visualize weekly and seasonal trends",
-                  "Connect with your coach",
-                  "Set and monitor performance goals",
-                  "Compare yourself to past seasons",
+                  "תעד אימוני מים ויבשה תוך שניות",
+                  "עקוב אחר שיאים אישיים לפי אורך בריכה",
+                  "דמיין מגמות שבועיות ועונתיות",
+                  "התחבר למאמן שלך",
+                  "הגדר ועקוב אחר יעדי ביצועים",
+                  "השווה את עצמך לעונות קודמות",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm text-navy-300">
                     <div className="w-1.5 h-1.5 rounded-full bg-signal-400 mt-1.5 shrink-0" />
@@ -199,7 +198,7 @@ export default function LandingPage() {
               </ul>
               <Link href="/auth/signup?role=swimmer" className="mt-8 inline-flex">
                 <Button variant="signal" size="md" className="gap-2">
-                  Create swimmer account
+                  צור חשבון שחיין
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
@@ -208,15 +207,15 @@ export default function LandingPage() {
             {/* For Coaches */}
             <div className="card-surface p-8">
               <div className="h-[3px] rounded-sm bg-navy-600 mb-6 w-16" />
-              <h3 className="text-xl font-bold text-white mb-3">For Coaches</h3>
+              <h3 className="text-xl font-bold text-white mb-3">למאמנים</h3>
               <ul className="space-y-3">
                 {[
-                  "Manage all your swimmers in one dashboard",
-                  "Create swimmer groups and structured workouts",
-                  "Monitor training load and session compliance",
-                  "Assign planned workouts to individuals or groups",
-                  "Review competition results and PBs",
-                  "Approve swimmer connection requests",
+                  "נהל את כל השחיינים שלך בלוח מחוונים אחד",
+                  "צור קבוצות שחיינים ואימונים מובנים",
+                  "עקוב אחר עומס אימונים ועמידה בסשנים",
+                  "קצה אימונים מתוכננים לאנשים פרטיים או קבוצות",
+                  "סקור תוצאות תחרויות ושיאים אישיים",
+                  "אשר בקשות חיבור של שחיינים",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm text-navy-300">
                     <div className="w-1.5 h-1.5 rounded-full bg-navy-400 mt-1.5 shrink-0" />
@@ -226,7 +225,7 @@ export default function LandingPage() {
               </ul>
               <Link href="/auth/signup?role=coach" className="mt-8 inline-flex">
                 <Button variant="outline" size="md" className="gap-2">
-                  Create coach account
+                  צור חשבון מאמן
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
@@ -239,14 +238,14 @@ export default function LandingPage() {
           style={{ background: "radial-gradient(ellipse 60% 80% at 50% 100%, #0d2040 0%, transparent 60%)" }}
         >
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Ready to level up?
+            מוכן לעלות רמה?
           </h2>
           <p className="text-navy-400 mb-8 max-w-md mx-auto">
-            SwimSignal is free to get started. Sign up and set up your profile in under 3 minutes.
+            SwimSignal חינמי לתחילת השימוש. הירשם והגדר את הפרופיל שלך תוך פחות מ-3 דקות.
           </p>
           <Link href="/auth/signup">
             <Button variant="signal" size="lg" className="gap-2">
-              Start tracking today
+              התחל לעקוב היום
               <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
@@ -266,7 +265,7 @@ export default function LandingPage() {
             <span className="text-sm font-semibold text-white">SwimSignal</span>
           </div>
           <p className="text-xs text-navy-500">
-            &copy; {new Date().getFullYear()} SwimSignal. Signal your next level swimming.
+            &copy; {new Date().getFullYear()} SwimSignal. קדם את השחייה שלך לרמה הבאה.
           </p>
         </div>
       </footer>

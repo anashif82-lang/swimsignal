@@ -42,9 +42,9 @@ export function NotificationsList({ notifications: initial }: Props) {
     return (
       <div className="card-surface rounded-xl p-12 text-center">
         <Bell className="h-10 w-10 text-navy-600 mx-auto mb-3" />
-        <p className="text-navy-300 font-medium">No notifications</p>
+        <p className="text-navy-300 font-medium">אין התראות</p>
         <p className="text-navy-500 text-sm mt-1">
-          You&apos;ll see connection requests and updates here.
+          כאן יופיעו בקשות חיבור ועדכונים.
         </p>
       </div>
     );
@@ -55,7 +55,7 @@ export function NotificationsList({ notifications: initial }: Props) {
       {unreadCount > 0 && (
         <div className="flex items-center justify-between">
           <span className="text-xs text-navy-400">
-            {unreadCount} unread
+            {unreadCount} לא נקרא
           </span>
           <Button
             variant="ghost"
@@ -65,7 +65,7 @@ export function NotificationsList({ notifications: initial }: Props) {
             onClick={markAll}
           >
             <CheckCheck className="h-3.5 w-3.5" />
-            Mark all as read
+            סמן הכל כנקרא
           </Button>
         </div>
       )}
@@ -107,7 +107,7 @@ export function NotificationsList({ notifications: initial }: Props) {
               <button
                 onClick={() => markOne(n.id)}
                 className="flex-shrink-0 mt-0.5 p-1.5 rounded-md text-navy-500 hover:text-success-400 hover:bg-success-400/10 transition-colors"
-                title="Mark as read"
+                title="סמן כנקרא"
               >
                 <Check className="h-3.5 w-3.5" />
               </button>

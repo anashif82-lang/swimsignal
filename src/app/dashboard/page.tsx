@@ -35,11 +35,11 @@ export default async function DashboardPage() {
     .eq("id", user.id)
     .single();
 
-  const firstName = profile?.full_name?.split(" ")[0] ?? "Swimmer";
+  const firstName = profile?.full_name?.split(" ")[0] ?? "שחיין";
   const hour = new Date().getHours();
   const greeting =
-    hour < 12 ? "Good morning" :
-    hour < 17 ? "Good afternoon" : "Good evening";
+    hour < 12 ? "בוקר טוב" :
+    hour < 17 ? "צהריים טובים" : "ערב טוב";
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-8">
@@ -50,7 +50,7 @@ export default async function DashboardPage() {
             {greeting}, {firstName}
           </h1>
           <p className="text-navy-400 text-sm mt-0.5">
-            {new Date().toLocaleDateString("en-US", {
+            {new Date().toLocaleDateString("he-IL", {
               weekday: "long", month: "long", day: "numeric",
             })}
           </p>
@@ -58,7 +58,7 @@ export default async function DashboardPage() {
         <Link href="/dashboard/training/new">
           <Button variant="signal" className="gap-2">
             <Plus className="h-4 w-4" />
-            Log Session
+            תעד אימון
           </Button>
         </Link>
       </div>
@@ -67,14 +67,14 @@ export default async function DashboardPage() {
       {!coachConnection && (
         <div className="card-signal p-4 flex items-center justify-between gap-4">
           <div>
-            <p className="text-sm font-medium text-white">Connect with your coach</p>
+            <p className="text-sm font-medium text-white">התחבר למאמן שלך</p>
             <p className="text-xs text-navy-400 mt-0.5">
-              Link your account to get personalized workouts and feedback
+              קשר את החשבון שלך לקבלת אימונים מותאמים אישית ומשוב
             </p>
           </div>
           <Link href="/dashboard/profile">
             <Button variant="outline" size="sm" className="shrink-0">
-              Find coach
+              מצא מאמן
               <ArrowRight className="h-3.5 w-3.5" />
             </Button>
           </Link>
@@ -89,43 +89,43 @@ export default async function DashboardPage() {
             </span>
           </div>
           <div>
-            <p className="text-xs text-navy-400 font-medium uppercase tracking-wide">Your Coach</p>
+            <p className="text-xs text-navy-400 font-medium uppercase tracking-wide">המאמן שלך</p>
             <p className="text-sm font-semibold text-white">
-              {coachConnection.coach?.full_name ?? "Coach"}
+              {coachConnection.coach?.full_name ?? "מאמן"}
             </p>
           </div>
-          <Badge variant="success" className="ms-auto">Connected</Badge>
+          <Badge variant="success" className="ms-auto">מחובר</Badge>
         </div>
       )}
 
       {/* ── Stats grid ─────────────────────────────────────────────────────── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger">
         <StatsCard
-          label="Sessions this week"
+          label="אימונים השבוע"
           value={stats?.sessions_this_week ?? 0}
           icon={Activity}
           accent="signal"
           className="animate-fade-in"
         />
         <StatsCard
-          label="This month"
+          label="החודש"
           value={stats?.sessions_this_month ?? 0}
-          sub="sessions"
+          sub="אימונים"
           icon={Calendar}
           className="animate-fade-in"
         />
         <StatsCard
-          label="Total distance"
+          label="סה״כ מרחק"
           value={stats ? `${stats.total_distance_km}km` : "0km"}
-          sub="all time"
+          sub="סה״כ"
           icon={Waves}
           accent="default"
           className="animate-fade-in"
         />
         <StatsCard
-          label="Personal bests"
+          label="שיאים אישיים"
           value={stats?.pb_count ?? 0}
-          sub="official records"
+          sub="רשומות רשמיות"
           icon={Trophy}
           accent="success"
           className="animate-fade-in"
@@ -137,12 +137,12 @@ export default async function DashboardPage() {
         {/* Recent sessions (2/3) */}
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base font-semibold text-white">Recent Sessions</h2>
+            <h2 className="text-base font-semibold text-white">אימונים אחרונים</h2>
             <Link
               href="/dashboard/training"
               className="text-xs text-signal-400 hover:text-signal-300 transition-colors flex items-center gap-1"
             >
-              View all <ArrowRight className="h-3.5 w-3.5" />
+              הכל <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
           <div className="card-surface">
@@ -155,24 +155,24 @@ export default async function DashboardPage() {
         {/* Personal Bests sidebar (1/3) */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base font-semibold text-white">Personal Bests</h2>
+            <h2 className="text-base font-semibold text-white">שיאים אישיים</h2>
             <Link
               href="/dashboard/competitions"
               className="text-xs text-signal-400 hover:text-signal-300 transition-colors flex items-center gap-1"
             >
-              All <ArrowRight className="h-3.5 w-3.5" />
+              הכל <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
           <div className="card-surface p-4">
             {pbs.length === 0 ? (
               <div className="text-center py-8">
                 <Trophy className="h-8 w-8 text-navy-600 mx-auto mb-2" />
-                <p className="text-sm text-navy-400">No PBs recorded yet</p>
+                <p className="text-sm text-navy-400">אין שיאים אישיים עדיין</p>
                 <Link
                   href="/dashboard/competitions"
                   className="text-xs text-signal-400 mt-2 block hover:text-signal-300 transition-colors"
                 >
-                  Add competition results
+                  הוסף תוצאות תחרות
                 </Link>
               </div>
             ) : (

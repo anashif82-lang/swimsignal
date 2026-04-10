@@ -41,41 +41,41 @@ export function CoachOnboarding() {
   return (
     <div className="w-full max-w-lg animate-fade-in">
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-white">Set up your coach profile</h1>
+        <h1 className="text-2xl font-bold text-white">הגדר את פרופיל המאמן שלך</h1>
         <p className="text-navy-300 text-sm mt-1">
-          Swimmers will find you by name when they join
+          שחיינים ימצאו אותך לפי שם כשהם יצטרפו
         </p>
       </div>
 
       <div className="card-signal p-6 sm:p-8">
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
           <Input
-            label="Full Name"
-            placeholder="Your full name"
+            label="שם מלא"
+            placeholder="השם המלא שלך"
             autoFocus
             error={errors.full_name?.message}
             {...register("full_name")}
           />
 
           <Input
-            label="Club / Team"
-            placeholder="e.g. Maccabi Haifa Swimming"
+            label="מועדון / קבוצה"
+            placeholder="לדוגמה מכבי חיפה שחייה"
             error={errors.club_name?.message}
             {...register("club_name")}
           />
 
           <Textarea
-            label="Bio"
-            placeholder="Brief description of your coaching background..."
-            hint="Optional – visible to swimmers who search for you"
+            label="ביוגרפיה"
+            placeholder="תיאור קצר של הרקע האימוני שלך..."
+            hint="אופציונלי – גלוי לשחיינים שמחפשים אותך"
             rows={3}
             {...register("bio")}
           />
 
           <Textarea
-            label="Credentials"
-            placeholder="Certifications, experience, licenses..."
-            hint="Optional"
+            label="הסמכות"
+            placeholder="תעודות, ניסיון, רישיונות..."
+            hint="אופציונלי"
             rows={2}
             {...register("credentials")}
           />
@@ -94,7 +94,7 @@ export function CoachOnboarding() {
             loading={isSubmitting}
           >
             <Check className="h-4 w-4" />
-            Complete setup
+            סיים הגדרה
           </Button>
         </form>
       </div>

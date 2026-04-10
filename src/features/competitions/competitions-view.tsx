@@ -25,9 +25,9 @@ export function CompetitionsView({ competitions, pbs25, pbs50 }: Props) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Competitions & PBs</h1>
+          <h1 className="text-2xl font-bold text-white">תחרויות ושיאים אישיים</h1>
           <p className="text-navy-400 text-sm mt-0.5">
-            {competitions.length} {competitions.length === 1 ? "competition" : "competitions"} logged
+            {competitions.length} {competitions.length === 1 ? "תחרות" : "תחרויות"} מתועדות
           </p>
         </div>
         <Button
@@ -37,14 +37,14 @@ export function CompetitionsView({ competitions, pbs25, pbs50 }: Props) {
           onClick={() => setLogOpen(true)}
         >
           <Plus className="h-4 w-4" />
-          Log Competition
+          תעד תחרות
         </Button>
       </div>
 
       {/* Tabs */}
       <div className="flex gap-1 p-1 bg-navy-900 rounded-lg w-fit">
         <TabButton active={tab === "competitions"} onClick={() => setTab("competitions")}>
-          Competitions
+          תחרויות
           {competitions.length > 0 && (
             <span className="ms-1.5 text-xs bg-navy-800 rounded px-1.5 py-0.5">
               {competitions.length}
@@ -52,7 +52,7 @@ export function CompetitionsView({ competitions, pbs25, pbs50 }: Props) {
           )}
         </TabButton>
         <TabButton active={tab === "pbs"} onClick={() => setTab("pbs")}>
-          Personal Bests
+          שיאים אישיים
           {(pbs25.length + pbs50.length) > 0 && (
             <span className="ms-1.5 text-xs bg-navy-800 rounded px-1.5 py-0.5">
               {pbs25.length + pbs50.length}

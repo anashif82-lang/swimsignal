@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { SessionForm } from "@/features/training/session-form";
 
-export const metadata: Metadata = { title: "Log Training Session" };
+export const metadata: Metadata = { title: "תעד אימון" };
 
 export default async function NewTrainingPage() {
   const supabase = await createClient();
@@ -22,8 +22,8 @@ export default async function NewTrainingPage() {
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-white">Log Training Session</h1>
-          <p className="text-navy-400 text-sm mt-0.5">Record a new training session</p>
+          <h1 className="text-2xl font-bold text-white">תעד אימון</h1>
+          <p className="text-navy-400 text-sm mt-0.5">הוסף אימון חדש</p>
         </div>
       </div>
 

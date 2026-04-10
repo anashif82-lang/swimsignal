@@ -16,10 +16,10 @@ const LEVEL_BADGE: Record<CompetitionLevel, string> = {
 };
 
 const LEVEL_LABEL: Record<CompetitionLevel, string> = {
-  local:         "Local",
-  regional:      "Regional",
-  national:      "National",
-  international: "International",
+  local:         "מקומי",
+  regional:      "אזורי",
+  national:      "ארצי",
+  international: "בינלאומי",
 };
 
 const STROKE_SHORT: Record<string, string> = {
@@ -42,14 +42,14 @@ export function CompetitionsList({ competitions, onAdd }: Props) {
   const [isPending, startTransition] = useTransition();
 
   async function handleDelete(id: string) {
-    if (!confirm("Delete this competition and all its results?")) return;
+    if (!confirm("למחוק את התחרות ואת כל תוצאותיה?")) return;
     setDeleting(id);
     const res = await fetch(`/api/competitions/${id}`, { method: "DELETE" });
     setDeleting(null);
     if (res.ok) {
       startTransition(() => router.refresh());
     } else {
-      alert("Failed to delete competition.");
+      alert("מחיקת התחרות נכשלה.");
     }
   }
 
@@ -57,12 +57,12 @@ export function CompetitionsList({ competitions, onAdd }: Props) {
     return (
       <div className="card-surface rounded-xl p-12 text-center">
         <Trophy className="h-10 w-10 text-navy-600 mx-auto mb-3" />
-        <p className="text-navy-300 font-medium">No competitions logged</p>
-        <p className="text-navy-500 text-sm mt-1">Record your first competition result to start tracking.</p>
+        <p className="text-navy-300 font-medium">אין תחרויות מתועדות</p>
+        <p className="text-navy-500 text-sm mt-1">תעד את תוצאת התחרות הראשונה שלך כדי להתחיל לעקוב.</p>
         <button onClick={onAdd} className="mt-4 inline-block">
           <Button variant="signal" size="sm" className="gap-1.5">
             <Plus className="h-4 w-4" />
-            Log Competition
+            תעד תחרות
           </Button>
         </button>
       </div>
@@ -112,7 +112,7 @@ export function CompetitionsList({ competitions, onAdd }: Props) {
                       {comp.location}
                     </span>
                   )}
-                  <span>{results.length} {results.length === 1 ? "event" : "events"}</span>
+                  <span>{results.length} {results.length === 1 ? "אירוע" : "אירועים"}</span>
                 </div>
               </div>
 
@@ -124,7 +124,7 @@ export function CompetitionsList({ competitions, onAdd }: Props) {
                   className="h-8 w-8 text-danger-400 hover:text-danger-300 hover:bg-danger-900/30 opacity-0 group-hover:opacity-100 transition-opacity"
                   onClick={(e) => { e.stopPropagation(); handleDelete(comp.id); }}
                   disabled={deleting === comp.id}
-                  title="Delete competition"
+                  title="מחק תחרות"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </Button>
@@ -139,10 +139,10 @@ export function CompetitionsList({ competitions, onAdd }: Props) {
               <div className="border-t border-surface-border divide-y divide-surface-border">
                 {/* Table header */}
                 <div className="px-5 py-2 grid grid-cols-[1fr_auto_auto_auto] gap-4 text-xs text-navy-500 font-medium uppercase tracking-wide">
-                  <span>Event</span>
-                  <span className="text-center">Time</span>
-                  <span className="text-center">Place</span>
-                  <span className="text-center">PB</span>
+                  <span>אירוע</span>
+                  <span className="text-center">זמן</span>
+                  <span className="text-center">מקום</span>
+                  <span className="text-center">שיא אישי</span>
                 </div>
                 {results.map((result) => (
                   <div
@@ -175,7 +175,7 @@ export function CompetitionsList({ competitions, onAdd }: Props) {
 
             {isOpen && results.length === 0 && (
               <div className="border-t border-surface-border px-5 py-4">
-                <p className="text-sm text-navy-500">No results logged for this competition.</p>
+                <p className="text-sm text-navy-500">אין תוצאות מתועדות לתחרות זו.</p>
               </div>
             )}
 

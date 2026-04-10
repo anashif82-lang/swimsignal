@@ -63,16 +63,16 @@ export function CoachProfileForm({ profile, coachProfile }: Props) {
 
       {/* ── Basic info ── */}
       <div className="card-surface rounded-xl p-5 space-y-4">
-        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">Basic Info</h2>
+        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">פרטים בסיסיים</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
-            label="Full name"
+            label="שם מלא"
             {...register("full_name")}
             error={errors.full_name?.message}
           />
           <Input
-            label="Club"
-            placeholder="e.g. Maccabi Haifa"
+            label="מועדון"
+            placeholder="לדוגמה: מכבי חיפה"
             {...register("club_name")}
             error={errors.club_name?.message}
           />
@@ -81,16 +81,16 @@ export function CoachProfileForm({ profile, coachProfile }: Props) {
 
       {/* ── About ── */}
       <div className="card-surface rounded-xl p-5 space-y-4">
-        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">About</h2>
+        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">אודות</h2>
         <Textarea
-          label="Bio (optional)"
-          placeholder="A short description about you and your coaching approach..."
+          label="ביוגרפיה (אופציונלי)"
+          placeholder="תיאור קצר עליך ועל גישת האימון שלך..."
           rows={3}
           {...register("bio")}
         />
         <Textarea
-          label="Credentials (optional)"
-          placeholder="Certifications, experience, notable achievements..."
+          label="הסמכות (אופציונלי)"
+          placeholder="תעודות, ניסיון, הישגים בולטים..."
           rows={2}
           {...register("credentials")}
         />
@@ -101,7 +101,7 @@ export function CoachProfileForm({ profile, coachProfile }: Props) {
         {saved && (
           <span className="flex items-center gap-1.5 text-sm text-success-400">
             <Check className="h-4 w-4" />
-            Saved
+            נשמר
           </span>
         )}
         <Button
@@ -111,7 +111,7 @@ export function CoachProfileForm({ profile, coachProfile }: Props) {
           className="gap-2"
         >
           {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
-          Save Changes
+          שמור שינויים
         </Button>
       </div>
     </form>

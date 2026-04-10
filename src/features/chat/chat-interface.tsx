@@ -10,11 +10,11 @@ interface Message {
 }
 
 const SUGGESTED_PROMPTS = [
-  "How can I improve my 100m freestyle time?",
-  "What should my training focus on this week?",
-  "Analyze my recent training load",
-  "Give me a dryland workout for today",
-  "How do I work on my turn technique?",
+  "איך אני יכול לשפר את זמן ה-100 מטר חופשי שלי?",
+  "על מה כדאי לי להתמקד השבוע?",
+  "נתח את עומס האימון האחרון שלי",
+  "תן לי אימון יבשה להיום",
+  "איך אני עובד על טכניקת הפנייה שלי?",
 ];
 
 export function ChatInterface() {
@@ -118,9 +118,9 @@ export function ChatInterface() {
               <Waves className="h-7 w-7 text-signal-400" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-white">AI Coach</h2>
+              <h2 className="text-lg font-semibold text-white">מאמן AI</h2>
               <p className="text-sm text-navy-400 mt-1 max-w-xs">
-                Ask me anything about your training, technique, or performance. I have access to your sessions and PBs.
+                שאל אותי כל דבר על האימונים, הטכניקה או הביצועים שלך. יש לי גישה לאימונים ולשיאים האישיים שלך.
               </p>
             </div>
             <div className="flex flex-wrap gap-2 justify-center">
@@ -195,7 +195,7 @@ export function ChatInterface() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask your AI coach…"
+            placeholder="שאל את מאמן ה-AI שלך…"
             rows={1}
             disabled={streaming}
             className="flex-1 input-dark resize-none py-2.5 min-h-[42px] max-h-32 overflow-y-auto leading-relaxed"
@@ -222,7 +222,7 @@ export function ChatInterface() {
             }
           </button>
         </div>
-        <p className="text-xs text-navy-600 mt-2">Enter to send · Shift+Enter for new line</p>
+        <p className="text-xs text-navy-600 mt-2">Enter לשליחה · Shift+Enter לשורה חדשה</p>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import { getTrainingSession } from "@/lib/db/training";
 import { SessionForm } from "@/features/training/session-form";
 import type { TrainingSessionInput } from "@/lib/validations/training";
 
-export const metadata: Metadata = { title: "Edit Session" };
+export const metadata: Metadata = { title: "ערוך אימון" };
 
 export default async function EditTrainingPage({
   params,
@@ -56,9 +56,9 @@ export default async function EditTrainingPage({
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-white">Edit Session</h1>
+          <h1 className="text-2xl font-bold text-white">ערוך אימון</h1>
           <p className="text-navy-400 text-sm mt-0.5">
-            {session.title ?? `Session on ${session.session_date}`}
+            {session.title ?? `אימון מתאריך ${session.session_date}`}
           </p>
         </div>
       </div>

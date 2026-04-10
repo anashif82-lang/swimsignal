@@ -42,12 +42,12 @@ export default function ForgotPasswordPage() {
         <div className="w-16 h-16 rounded-full bg-signal-400/10 border border-signal-400/30 flex items-center justify-center mx-auto mb-4">
           <Mail className="h-7 w-7 text-signal-400" />
         </div>
-        <h2 className="text-xl font-semibold text-white mb-2">Check your inbox</h2>
+        <h2 className="text-xl font-semibold text-white mb-2">בדוק את תיבת הדואר</h2>
         <p className="text-navy-300 text-sm mb-6">
-          If an account exists for that email, you&apos;ll receive a reset link shortly.
+          אם קיים חשבון עם האימייל הזה, תקבל קישור לאיפוס בקרוב.
         </p>
         <Link href="/auth/login" className="text-signal-400 text-sm hover:text-signal-300 transition-colors">
-          Back to sign in
+          חזור להתחברות
         </Link>
       </div>
     );
@@ -56,15 +56,15 @@ export default function ForgotPasswordPage() {
   return (
     <>
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-white">Reset password</h1>
+        <h1 className="text-2xl font-bold text-white">איפוס סיסמה</h1>
         <p className="text-navy-300 text-sm mt-1">
-          Enter your email and we&apos;ll send a reset link
+          הכנס את האימייל שלך ונשלח קישור לאיפוס
         </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
         <Input
-          label="Email"
+          label="אימייל"
           type="email"
           autoComplete="email"
           placeholder="you@example.com"
@@ -80,14 +80,14 @@ export default function ForgotPasswordPage() {
         )}
 
         <Button type="submit" variant="signal" size="lg" className="w-full" loading={isSubmitting}>
-          Send reset link
+          שלח קישור לאיפוס
         </Button>
       </form>
 
       <p className="mt-6 text-center text-sm text-navy-400">
-        Remember your password?{" "}
+        זוכר את הסיסמה?{" "}
         <Link href="/auth/login" className="text-signal-400 hover:text-signal-300 font-medium transition-colors">
-          Sign in
+          כניסה
         </Link>
       </p>
     </>

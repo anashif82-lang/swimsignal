@@ -15,10 +15,10 @@ import { Textarea } from "@/components/ui/textarea";
 const STROKES: StrokeType[] = ["freestyle", "backstroke", "breaststroke", "butterfly", "individual_medley"];
 
 const GENDER_OPTIONS = [
-  { value: "male",              label: "Male"           },
-  { value: "female",            label: "Female"         },
-  { value: "other",             label: "Other"          },
-  { value: "prefer_not_to_say", label: "Prefer not to say" },
+  { value: "male",              label: "זכר"           },
+  { value: "female",            label: "נקבה"         },
+  { value: "other",             label: "אחר"          },
+  { value: "prefer_not_to_say", label: "מעדיף שלא לציין" },
 ] as const;
 
 interface Props {
@@ -77,17 +77,17 @@ export function SwimmerProfileForm({ profile, swimmerProfile }: Props) {
 
       {/* ── Basic info ──────────────────────────────────── */}
       <div className="card-surface rounded-xl p-5 space-y-4">
-        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">Basic Info</h2>
+        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">פרטים בסיסיים</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
-            label="Full name"
+            label="שם מלא"
             {...register("full_name")}
             error={errors.full_name?.message}
           />
           <Input
-            label="Club"
-            placeholder="e.g. Hapoel Tel Aviv"
+            label="מועדון"
+            placeholder="לדוגמה: הפועל תל אביב"
             {...register("club_name")}
             error={errors.club_name?.message}
           />
@@ -95,15 +95,15 @@ export function SwimmerProfileForm({ profile, swimmerProfile }: Props) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
-            label="Birth year"
+            label="שנת לידה"
             type="number"
-            placeholder="e.g. 2005"
+            placeholder="לדוגמה: 2005"
             {...register("birth_year", { valueAsNumber: true })}
             error={errors.birth_year?.message}
           />
 
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-navy-200">Gender</label>
+            <label className="block text-sm font-medium text-navy-200">מין</label>
             <Controller
               control={control}
               name="gender"
@@ -133,7 +133,7 @@ export function SwimmerProfileForm({ profile, swimmerProfile }: Props) {
 
       {/* ── Strokes ─────────────────────────────────────── */}
       <div className="card-surface rounded-xl p-5 space-y-3">
-        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">Strokes</h2>
+        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">סגנונות שחייה</h2>
         {errors.strokes && (
           <p className="text-xs text-danger-400">{errors.strokes.message}</p>
         )}
@@ -170,7 +170,7 @@ export function SwimmerProfileForm({ profile, swimmerProfile }: Props) {
 
       {/* ── Main events ─────────────────────────────────── */}
       <div className="card-surface rounded-xl p-5 space-y-3">
-        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">Main Events</h2>
+        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">אירועים עיקריים</h2>
         {errors.main_events && (
           <p className="text-xs text-danger-400">{errors.main_events.message}</p>
         )}
@@ -207,9 +207,9 @@ export function SwimmerProfileForm({ profile, swimmerProfile }: Props) {
 
       {/* ── Goals ───────────────────────────────────────── */}
       <div className="card-surface rounded-xl p-5 space-y-3">
-        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">Goals</h2>
+        <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">יעדים</h2>
         <Textarea
-          placeholder="What are your swimming goals this season?"
+          placeholder="מהם יעדי השחייה שלך העונה?"
           rows={3}
           {...register("goals")}
         />
@@ -220,7 +220,7 @@ export function SwimmerProfileForm({ profile, swimmerProfile }: Props) {
         {saved && (
           <span className="flex items-center gap-1.5 text-sm text-success-400">
             <Check className="h-4 w-4" />
-            Saved
+            נשמר
           </span>
         )}
         <Button
@@ -230,7 +230,7 @@ export function SwimmerProfileForm({ profile, swimmerProfile }: Props) {
           className="gap-2"
         >
           {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
-          Save Changes
+          שמור שינויים
         </Button>
       </div>
     </form>

@@ -14,17 +14,17 @@ import { Select } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 const STROKE_OPTIONS = [
-  { value: "freestyle",         label: "Freestyle" },
-  { value: "backstroke",        label: "Backstroke" },
-  { value: "breaststroke",      label: "Breaststroke" },
-  { value: "butterfly",         label: "Butterfly" },
-  { value: "individual_medley", label: "IM" },
+  { value: "freestyle",         label: "חופשי" },
+  { value: "backstroke",        label: "גב" },
+  { value: "breaststroke",      label: "חזה" },
+  { value: "butterfly",         label: "פרפר" },
+  { value: "individual_medley", label: "מדלי" },
 ];
 
 const STATUS_OPTIONS = [
-  { value: "completed",     label: "Completed" },
-  { value: "partial",       label: "Partial" },
-  { value: "not_completed", label: "Not completed" },
+  { value: "completed",     label: "הושלם" },
+  { value: "partial",       label: "חלקי" },
+  { value: "not_completed", label: "הוחמץ" },
 ];
 
 interface Props {
@@ -97,13 +97,13 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
       {/* ── Section 1: Basic Info ─────────────────────────────────── */}
       <div className="card-surface rounded-xl p-5 space-y-4">
         <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">
-          Session Info
+          פרטי אימון
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Date */}
           <Input
-            label="Date"
+            label="תאריך"
             type="date"
             {...register("session_date")}
             error={errors.session_date?.message}
@@ -111,8 +111,8 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
 
           {/* Title */}
           <Input
-            label="Title (optional)"
-            placeholder="e.g. Morning endurance"
+            label="כותרת (אופציונלי)"
+            placeholder="לדוגמה: אימון בוקר"
             {...register("title")}
             error={errors.title?.message}
           />
@@ -121,7 +121,7 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {/* Type */}
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-navy-200">Type</label>
+            <label className="block text-sm font-medium text-navy-200">סוג</label>
             <Controller
               control={control}
               name="training_type"
@@ -139,7 +139,7 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
                           : "bg-navy-900 border-surface-border text-navy-400 hover:text-navy-200"
                       )}
                     >
-                      {t.charAt(0).toUpperCase() + t.slice(1)}
+                      {t === "water" ? "מים" : t === "dryland" ? "יבשה" : t === "gym" ? "חדר כושר" : "אחר"}
                     </button>
                   ))}
                 </div>
@@ -153,7 +153,7 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
           {/* Pool Length — only for water */}
           {trainingType === "water" && (
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-navy-200">Pool Length</label>
+              <label className="block text-sm font-medium text-navy-200">אורך בריכה</label>
               <Controller
                 control={control}
                 name="pool_length"
@@ -185,7 +185,7 @@ export function SessionForm({ defaultValues, sessionId }: Props) {
 
           {/* Status */}
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-navy-200">Status</label>
+            <label className="block text-sm font-medium text-navy-200">סטטוס</label>
             <Controller
               control={control}
               name="status"

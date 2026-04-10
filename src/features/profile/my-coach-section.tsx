@@ -83,7 +83,7 @@ export function MyCoachSection({ coach: initialCoach }: Props) {
 
   return (
     <div className="card-surface rounded-xl p-5 space-y-4">
-      <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">My Coach</h2>
+      <h2 className="text-sm font-semibold text-navy-300 uppercase tracking-wide">המאמן שלי</h2>
 
       {/* Current coach */}
       {coach ? (
@@ -98,8 +98,8 @@ export function MyCoachSection({ coach: initialCoach }: Props) {
             <div className="flex items-center gap-2">
               <p className="text-sm font-semibold text-white">{coach.name ?? "Coach"}</p>
               {coach.status === "approved"
-                ? <span className="flex items-center gap-1 text-xs text-success-400"><UserCheck className="h-3 w-3" />Connected</span>
-                : <span className="flex items-center gap-1 text-xs text-warning-400"><Loader2 className="h-3 w-3" />Pending</span>
+                ? <span className="flex items-center gap-1 text-xs text-success-400"><UserCheck className="h-3 w-3" />מחובר</span>
+                : <span className="flex items-center gap-1 text-xs text-warning-400"><Loader2 className="h-3 w-3" />ממתין לאישור</span>
               }
             </div>
             {coach.club && <p className="text-xs text-navy-400">{coach.club}</p>}
@@ -112,7 +112,7 @@ export function MyCoachSection({ coach: initialCoach }: Props) {
             onClick={disconnect}
           >
             <UserX className="h-4 w-4" />
-            Remove
+            הסר
           </Button>
         </div>
       ) : (

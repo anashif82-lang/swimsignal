@@ -49,9 +49,9 @@ export function PbGrid({ pbs25, pbs50 }: Props) {
       {!hasAny ? (
         <div className="card-surface rounded-xl p-12 text-center">
           <Trophy className="h-10 w-10 text-navy-600 mx-auto mb-3" />
-          <p className="text-navy-300 font-medium">No personal bests for {pool}</p>
+          <p className="text-navy-300 font-medium">אין שיאים אישיים עבור {pool}</p>
           <p className="text-navy-500 text-sm mt-1">
-            PBs are recorded automatically when you mark a result as an official PB.
+            שיאים אישיים נרשמים אוטומטית כשמסמנים תוצאה כשיא אישי רשמי.
           </p>
         </div>
       ) : (
@@ -64,7 +64,7 @@ export function PbGrid({ pbs25, pbs50 }: Props) {
                   {STROKE_LABELS[stroke as keyof typeof STROKE_LABELS]?.en ?? stroke}
                 </span>
                 <span className="text-xs text-navy-500">
-                  {records.length} {records.length === 1 ? "PB" : "PBs"}
+                  {records.length} {records.length === 1 ? "שיא אישי" : "שיאים אישיים"}
                 </span>
               </div>
 
@@ -72,10 +72,10 @@ export function PbGrid({ pbs25, pbs50 }: Props) {
               <div className="divide-y divide-surface-border">
                 {/* Column headers */}
                 <div className="px-5 py-2 grid grid-cols-[auto_1fr_auto_auto] gap-4 text-xs text-navy-500 uppercase tracking-wide font-medium">
-                  <span>Dist</span>
+                  <span>מרחק</span>
                   <span />
-                  <span className="text-end">Time</span>
-                  <span className="text-end">Date</span>
+                  <span className="text-end">זמן</span>
+                  <span className="text-end">תאריך</span>
                 </div>
 
                 {records

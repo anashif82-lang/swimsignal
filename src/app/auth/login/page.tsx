@@ -10,8 +10,8 @@ export default function LoginPage() {
   return (
     <>
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-white">Welcome back</h1>
-        <p className="text-navy-300 text-sm mt-1">Sign in to your SwimSignal account</p>
+        <h1 className="text-2xl font-bold text-white">ברוך הבא</h1>
+        <p className="text-navy-300 text-sm mt-1">כניסה לחשבון SwimSignal שלך</p>
       </div>
       <Suspense>
         <LoginForm />

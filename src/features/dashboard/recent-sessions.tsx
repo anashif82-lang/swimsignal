@@ -15,13 +15,13 @@ export function RecentSessions({ sessions }: RecentSessionsProps) {
         <div className="w-12 h-12 rounded-full bg-navy-800 border border-surface-border flex items-center justify-center mx-auto mb-3">
           <Waves className="h-6 w-6 text-navy-500" />
         </div>
-        <p className="text-navy-400 text-sm">No sessions yet</p>
-        <p className="text-navy-500 text-xs mt-1">Log your first training session to get started</p>
+        <p className="text-navy-400 text-sm">אין אימונים עדיין</p>
+        <p className="text-navy-500 text-xs mt-1">תעד את האימון הראשון שלך כדי להתחיל</p>
         <Link
           href="/dashboard/training/new"
           className="inline-flex items-center gap-1.5 mt-4 text-signal-400 text-sm hover:text-signal-300 transition-colors"
         >
-          Log a session
+          תעד אימון
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
@@ -49,7 +49,7 @@ export function RecentSessions({ sessions }: RecentSessionsProps) {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-0.5">
               <p className="text-sm font-medium text-white truncate">
-                {session.title ?? (session.training_type === "water" ? "Water Training" : "Dryland")}
+                {session.title ?? (session.training_type === "water" ? "אימון מים" : "אימון יבשה")}
               </p>
               {session.pool_length && (
                 <span className="text-[10px] text-navy-500 font-mono bg-navy-800 px-1.5 py-0.5 rounded">
@@ -75,8 +75,8 @@ export function RecentSessions({ sessions }: RecentSessionsProps) {
               session.status === "completed"     ? "success" :
               session.status === "not_completed" ? "danger"  : "warning"
             }>
-              {session.status === "completed"     ? "Done" :
-               session.status === "not_completed" ? "Missed" : "Partial"}
+              {session.status === "completed"     ? "הושלם" :
+               session.status === "not_completed" ? "הוחמץ" : "חלקי"}
             </Badge>
             <ArrowRight className="h-4 w-4 text-navy-600 group-hover:text-navy-400 transition-colors" />
           </div>

@@ -26,7 +26,7 @@ function StepIndicator({ current, total, labels }: StepIndicatorProps) {
   return (
     <div className="mb-8">
       <div className="flex items-center justify-between mb-3">
-        <span className="text-xs text-navy-400">Step {current + 1} of {total}</span>
+        <span className="text-xs text-navy-400">שלב {current + 1} מתוך {total}</span>
         <span className="text-xs text-navy-400">{labels[current]}</span>
       </div>
       <Progress value={((current + 1) / total) * 100} />
@@ -73,7 +73,7 @@ export function SwimmerOnboarding({ userId }: { userId: string }) {
     }
   };
 
-  const stepLabels = ["Basic Info", "Club & Coach", "Swimming", "Goals"];
+  const stepLabels = ["פרטים אישיים", "מועדון ומאמן", "שחייה", "יעדים"];
 
   const nextStep = async () => {
     const fieldsPerStep: (keyof SwimmerOnboardingInput)[][] = [
@@ -112,9 +112,9 @@ export function SwimmerOnboarding({ userId }: { userId: string }) {
   return (
     <div className="w-full max-w-lg animate-fade-in">
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-white">Set up your swimmer profile</h1>
+        <h1 className="text-2xl font-bold text-white">הגדר את פרופיל השחיין שלך</h1>
         <p className="text-navy-300 text-sm mt-1">
-          Let&apos;s personalize your SwimSignal experience
+          בואו נתאים אישית את חוויית SwimSignal שלך
         </p>
       </div>
 
@@ -126,17 +126,17 @@ export function SwimmerOnboarding({ userId }: { userId: string }) {
           {step === 0 && (
             <div className="space-y-5 animate-fade-in">
               <Input
-                label="Full Name"
-                placeholder="Your full name"
+                label="שם מלא"
+                placeholder="השם המלא שלך"
                 autoFocus
                 error={errors.full_name?.message}
                 {...register("full_name")}
               />
 
               <Input
-                label="Birth Year"
+                label="שנת לידה"
                 type="number"
-                placeholder="e.g. 2005"
+                placeholder="לדוגמה 2005"
                 min={1940}
                 max={new Date().getFullYear() - 4}
                 error={errors.birth_year?.message}
@@ -144,7 +144,7 @@ export function SwimmerOnboarding({ userId }: { userId: string }) {
               />
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-medium text-navy-100">Gender</label>
+                <label className="text-sm font-medium text-navy-100">מין</label>
                 <div className="grid grid-cols-2 gap-2">
                   {genderOptions.map((g) => (
                     <button
@@ -158,7 +158,7 @@ export function SwimmerOnboarding({ userId }: { userId: string }) {
                           : "border-surface-border bg-navy-900/50 text-navy-300 hover:border-navy-500 hover:text-white"
                       )}
                     >
-                      {g.label}
+                      {g.labelHe}
                     </button>
                   ))}
                 </div>
@@ -171,8 +171,8 @@ export function SwimmerOnboarding({ userId }: { userId: string }) {
           {step === 1 && (
             <div className="space-y-5 animate-fade-in">
               <Input
-                label="Swimming Club"
-                placeholder="e.g. Hapoel Tel Aviv Swimming"
+                label="מועדון שחייה"
+                placeholder="לדוגמה הפועל תל אביב שחייה"
                 autoFocus
                 error={errors.club_name?.message}
                 {...register("club_name")}
@@ -180,14 +180,14 @@ export function SwimmerOnboarding({ userId }: { userId: string }) {
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-sm font-medium text-navy-100">
-                  Coach <span className="text-navy-500 font-normal">(optional)</span>
+                  מאמן <span className="text-navy-500 font-normal">(אופציונלי)</span>
                 </label>
                 <p className="text-xs text-navy-400">
-                  You can search for your coach by name. They&apos;ll need to approve the connection.
+                  ניתן לחפש מאמן לפי שם. המאמן יצטרך לאשר את החיבור.
                 </p>
                 <Input
-                  placeholder="Search coach by name..."
-                  hint="Leave blank to skip — you can add a coach later"
+                  placeholder="חפש מאמן לפי שם..."
+                  hint="השאר ריק לדילוג — ניתן להוסיף מאמן מאוחר יותר"
                   {...register("coach_id")}
                 />
               </div>
@@ -199,8 +199,8 @@ export function SwimmerOnboarding({ userId }: { userId: string }) {
             <div className="space-y-6 animate-fade-in">
               <div>
                 <label className="text-sm font-medium text-navy-100 mb-3 block">
-                  Your strokes
-                  <span className="text-navy-400 font-normal ms-1">(select all that apply)</span>
+                  סגנונות השחייה שלך
+                  <span className="text-navy-400 font-normal ms-1">(בחר את כל הרלוונטיים)</span>
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {STROKES.map((s) => (
@@ -215,7 +215,7 @@ export function SwimmerOnboarding({ userId }: { userId: string }) {
                           : "border-surface-border bg-navy-900/50 text-navy-300 hover:border-navy-500 hover:text-white"
                       )}
                     >
-                      {STROKE_LABELS[s].en}
+                      {STROKE_LABELS[s].he}
                     </button>
                   ))}
                 </div>
@@ -224,8 +224,8 @@ export function SwimmerOnboarding({ userId }: { userId: string }) {
 
               <div>
                 <label className="text-sm font-medium text-navy-100 mb-3 block">
-                  Main events
-                  <span className="text-navy-400 font-normal ms-1">(select your key races)</span>
+                  אירועים עיקריים
+                  <span className="text-navy-400 font-normal ms-1">(בחר את המרוצים העיקריים שלך)</span>
                 </label>
                 <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto pe-1">
                   {SWIM_EVENTS.filter((e) =>
@@ -257,9 +257,9 @@ export function SwimmerOnboarding({ userId }: { userId: string }) {
           {step === 3 && (
             <div className="space-y-5 animate-fade-in">
               <Textarea
-                label="Your swimming goals"
-                placeholder="e.g. Break 1:00 in the 100m freestyle by end of season, qualify for nationals..."
-                hint="Optional – helps your coach understand what you're working toward"
+                label="יעדי השחייה שלך"
+                placeholder="לדוגמה: לשבור 1:00 ב-100 חופשי עד סוף העונה, להתאגל לאליפות..."
+                hint="אופציונלי – עוזר למאמן שלך להבין לאן אתה שואף"
                 rows={5}
                 {...register("goals")}
               />
@@ -281,19 +281,19 @@ export function SwimmerOnboarding({ userId }: { userId: string }) {
               disabled={step === 0}
               className="gap-1.5"
             >
-              <ChevronLeft className="h-4 w-4" />
-              Back
+              <ChevronRight className="h-4 w-4" />
+              חזרה
             </Button>
 
             {step < TOTAL_STEPS - 1 ? (
               <Button type="button" variant="signal" onClick={nextStep} className="gap-1.5">
-                Continue
-                <ChevronRight className="h-4 w-4" />
+                המשך
+                <ChevronLeft className="h-4 w-4" />
               </Button>
             ) : (
               <Button type="submit" variant="signal" loading={isSubmitting} className="gap-1.5">
                 <Check className="h-4 w-4" />
-                Complete setup
+                סיים הגדרה
               </Button>
             )}
           </div>
