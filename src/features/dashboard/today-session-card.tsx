@@ -70,9 +70,7 @@ export function TodaySessionCard({ scheduled, logged }: TodaySessionCardProps) {
           <p className="text-base font-bold text-gray-900">
             {durationMin ? fmtDuration(durationMin) : "—"}
           </p>
-          <p className="text-[10px] text-gray-400">
-            {logged?.stroke ? logged.stroke : "זמן כולל"}
-          </p>
+          <p className="text-[10px] text-gray-400">זמן כולל</p>
         </div>
         {/* Distance */}
         <div className="flex flex-col items-center gap-0.5">
