@@ -111,7 +111,7 @@ export function TimeWheelPicker({ hour, minute, onChangeHour, onChangeMinute, la
       {label && (
         <p className="text-sm font-medium text-navy-100 mb-2">{label}</p>
       )}
-      <div className="flex items-center justify-center gap-1 bg-navy-950 border border-surface-border rounded-xl overflow-hidden px-2">
+      <div dir="ltr" className="flex items-center justify-center gap-1 bg-navy-950 border border-surface-border rounded-xl overflow-hidden px-2">
         <WheelColumn items={HOURS}   selected={hour}   onChange={onChangeHour}   />
         <span className="text-2xl font-bold text-navy-400 mb-0.5 select-none">:</span>
         <WheelColumn items={MINUTES} selected={minute} onChange={onChangeMinute} />
