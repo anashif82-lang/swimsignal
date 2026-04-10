@@ -22,10 +22,11 @@ const navItems = [
 ];
 
 interface SwimmerSidebarProps {
-  profile: Profile;
+  profile:      Profile;
+  unreadCount?: number;
 }
 
-export function SwimmerSidebar({ profile }: SwimmerSidebarProps) {
+export function SwimmerSidebar({ profile, unreadCount = 0 }: SwimmerSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -75,7 +76,14 @@ export function SwimmerSidebar({ profile }: SwimmerSidebarProps) {
           href="/dashboard/notifications"
           className={cn("sidebar-link", pathname === "/dashboard/notifications" && "active")}
         >
-          <Bell className="h-4 w-4 shrink-0" />
+          <div className="relative">
+            <Bell className="h-4 w-4 shrink-0" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1.5 -end-1.5 w-3.5 h-3.5 rounded-full bg-signal-400 text-navy-950 text-[9px] font-bold flex items-center justify-center leading-none">
+                {unreadCount > 9 ? "9+" : unreadCount}
+              </span>
+            )}
+          </div>
           Notifications
         </Link>
         <Link

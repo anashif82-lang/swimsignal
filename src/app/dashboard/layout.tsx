@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SwimmerSidebar } from "@/components/layout/swimmer-sidebar";
+import { getUnreadCount } from "@/lib/db/notifications";
 
 export default async function DashboardLayout({
   children,
@@ -20,9 +21,11 @@ export default async function DashboardLayout({
   if (!profile) redirect("/auth/login");
   if (!profile.onboarding_done) redirect("/onboarding");
 
+  const unreadCount = await getUnreadCount(user.id);
+
   return (
     <div className="flex h-dvh overflow-hidden">
-      <SwimmerSidebar profile={profile} />
+      <SwimmerSidebar profile={profile} unreadCount={unreadCount} />
       <main className="flex-1 overflow-y-auto bg-navy-950">
         {children}
       </main>
