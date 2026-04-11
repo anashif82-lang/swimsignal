@@ -57,6 +57,7 @@ export default async function DashboardPage() {
     <div className="max-w-xl mx-auto px-4 pt-4 pb-24 space-y-4">
 
       {/* ── Greeting card ── */}
+      <div className="animate-fade-in" style={{ animationDelay: "0ms" }}>
       <GreetingCard
         firstName={firstName}
         greeting={greeting}
@@ -65,8 +66,10 @@ export default async function DashboardPage() {
         weeklyDone={stats?.sessions_this_week ?? 0}
         weeklyGoal={6}
       />
+      </div>
 
       {/* ── Calendar section ── */}
+      <div className="animate-fade-in" style={{ animationDelay: "80ms" }}>
       <div
         className="rounded-[28px] px-4 pt-5 pb-6 space-y-4"
         style={{
@@ -91,9 +94,12 @@ export default async function DashboardPage() {
           recentSessions={recentSessions}
         />
       </div>
+      </div>
 
       {/* ── AI insights ── */}
-      <AIInsightsCard stats={stats} pbs={pbs} />
+      <div className="animate-fade-in" style={{ animationDelay: "160ms" }}>
+        <AIInsightsCard stats={stats} pbs={pbs} />
+      </div>
 
     </div>
   );

@@ -128,9 +128,19 @@ h1, h2, h3, h4, h5, h6 {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes session-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 0 0 rgb(0 212 255 / 0); }
   50%       { box-shadow: 0 0 0 6px rgb(0 212 255 / 0.15); }
+}
+
+@keyframes fab-pulse-light {
+  0%, 100% { box-shadow: 0 4px 20px rgba(0,212,255,0.35); }
+  50%       { box-shadow: 0 4px 32px rgba(0,212,255,0.55), 0 0 0 6px rgba(0,212,255,0.07); }
 }
 
 @keyframes shimmer {
@@ -138,8 +148,10 @@ h1, h2, h3, h4, h5, h6 {
   to   { background-position:  200% center; }
 }
 
-.animate-fade-in    { animation: fade-in 0.3s ease-out both; }
-.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-fade-in      { animation: fade-in 0.24s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-pulse-glow   { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-session-enter { animation: session-enter 0.2s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-fab-pulse    { animation: fab-pulse-light 2.6s ease-in-out infinite; }
 
 .stagger > *:nth-child(1) { animation-delay: 0ms; }
 .stagger > *:nth-child(2) { animation-delay: 60ms; }

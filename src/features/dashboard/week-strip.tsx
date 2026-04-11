@@ -55,7 +55,7 @@ export function WeekStrip({ sessions, onSelect }: WeekStripProps) {
             <button
               key={iso}
               onClick={() => handleSelect(iso)}
-              className="flex flex-col items-center gap-[3px] px-2"
+              className="flex flex-col items-center gap-[3px] px-2 transition-transform duration-[180ms] ease-out active:scale-[0.88]"
               style={{ WebkitTapHighlightColor: "transparent" }}
             >
               <span className="text-[10px] text-gray-400 font-medium">{DAY[d.getDay()]}</span>

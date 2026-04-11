@@ -49,7 +49,8 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
       {/* ── Session detail card ── */}
       {!scheduled && !logged ? (
         <div
-          className="rounded-2xl bg-white flex flex-col items-center gap-2 py-8"
+          key={selectedDate}
+          className="rounded-2xl bg-white flex flex-col items-center gap-2 py-8 animate-session-enter"
           style={{ boxShadow: cardShadow }}
         >
           <span className="text-3xl">🏊‍♂️</span>
@@ -63,7 +64,8 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
         </div>
       ) : (
         <div
-          className="rounded-2xl bg-white overflow-hidden relative"
+          key={selectedDate}
+          className="rounded-2xl bg-white overflow-hidden relative animate-session-enter"
           style={{ boxShadow: cardShadow }}
         >
           {/* Subtle wave decoration */}

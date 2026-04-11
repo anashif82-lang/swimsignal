@@ -41,7 +41,7 @@ export function AIInsightsCard({ stats, pbs }: AIInsightsCardProps) {
 
   return (
     <div
-      className="rounded-2xl p-4 space-y-3"
+      className="rounded-2xl p-4 space-y-3 transition-all duration-[200ms] ease-out hover:-translate-y-0.5 active:-translate-y-0.5"
       style={{
         background: "linear-gradient(135deg, #EAF3FF 0%, #F8FBFF 100%)",
         border: "1px solid #D6E8FF",

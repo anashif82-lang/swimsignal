@@ -61,7 +61,7 @@ export function SwimmerBottomNav() {
       {/* FAB — floats above bar */}
       <Link
         href="/dashboard/training/new"
-        className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 rounded-full bg-signal-400 flex items-center justify-center shadow-[0_4px_20px_rgba(34,211,238,0.4)] active:scale-95 transition-transform"
+        className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 rounded-full bg-signal-400 flex items-center justify-center animate-fab-pulse active:scale-95 transition-transform duration-[180ms]"
         style={{ WebkitTapHighlightColor: "transparent" }}
       >
         <Plus className="h-6 w-6 text-navy-950 stroke-[2.5]" />
