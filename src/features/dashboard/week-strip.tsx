@@ -28,11 +28,13 @@ export function WeekStrip({ sessions, onSelect }: WeekStripProps) {
     return d;
   });
 
-  // Map date → session start time
+  // Map date → "start–end" time
   const sessionMap = new Map<string, string>();
   for (const s of sessions) {
     const date = s.start_time.slice(0, 10);
-    if (!sessionMap.has(date)) sessionMap.set(date, fmtTime(s.start_time));
+    if (!sessionMap.has(date)) {
+      sessionMap.set(date, `${fmtTime(s.start_time)}-${fmtTime(s.end_time)}`);
+    }
   }
 
   function handleSelect(iso: string) {
