@@ -42,7 +42,7 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
     <div className="space-y-3">
 
       {/* ── Week strip card ── */}
-      <div className="rounded-2xl bg-white p-4" style={{ boxShadow: cardShadow }}>
+      <div className="rounded-2xl bg-white px-4 pt-4 pb-5" style={{ boxShadow: cardShadow }}>
         <WeekStrip sessions={scheduledSessions} onSelect={setSelectedDate} />
       </div>
 

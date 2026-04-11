@@ -8,6 +8,10 @@ const DAY = ["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ש׳"]; // Sun-Sat
 
 function isoDate(d: Date) { return d.toISOString().slice(0, 10); }
 
+function fmtTime(iso: string) {
+  return new Date(iso).toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit", hour12: false });
+}
+
 interface WeekStripProps {
   sessions: ScheduledSession[];
   onSelect?: (date: string) => void;
@@ -24,7 +28,12 @@ export function WeekStrip({ sessions, onSelect }: WeekStripProps) {
     return d;
   });
 
-  const sessionDates = new Set(sessions.map((s) => s.start_time.slice(0, 10)));
+  // Map date → session start time
+  const sessionMap = new Map<string, string>();
+  for (const s of sessions) {
+    const date = s.start_time.slice(0, 10);
+    if (!sessionMap.has(date)) sessionMap.set(date, fmtTime(s.start_time));
+  }
 
   function handleSelect(iso: string) {
     setSelected(iso);
@@ -33,12 +42,12 @@ export function WeekStrip({ sessions, onSelect }: WeekStripProps) {
 
   return (
     <div className="overflow-x-auto scrollbar-none -mx-1 px-1">
-      <div className="flex items-center gap-1 min-w-max py-1">
+      <div className="flex items-center gap-1 min-w-max py-1 pb-2">
         {days.map((d) => {
-          const iso     = isoDate(d);
-          const isToday = iso === todayISO;
-          const isSel   = iso === selected;
-          const hasDot  = sessionDates.has(iso);
+          const iso      = isoDate(d);
+          const isToday  = iso === todayISO;
+          const isSel    = iso === selected;
+          const timeText = sessionMap.get(iso) ?? null;
 
           return (
             <button
@@ -56,10 +65,15 @@ export function WeekStrip({ sessions, onSelect }: WeekStripProps) {
               )}>
                 {d.getDate()}
               </div>
-              <div className={cn(
-                "w-1.5 h-1.5 rounded-full transition-colors",
-                hasDot ? (isToday || isSel) ? "bg-white" : "bg-blue-400" : "bg-transparent"
-              )} />
+              {/* Time or empty spacer */}
+              <span className={cn(
+                "text-[9px] font-medium leading-none h-3",
+                timeText
+                  ? (isToday || isSel) ? "text-blue-400" : "text-blue-400"
+                  : "text-transparent"
+              )}>
+                {timeText ?? "·"}
+              </span>
             </button>
           );
         })}
