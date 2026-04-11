@@ -17,28 +17,11 @@ function addWeeks(d: Date, n: number) { const r = new Date(d); r.setDate(r.getDa
 
 function SwimmerIcon() {
   return (
-    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Head */}
-      <circle cx="20" cy="5.5" r="2.2" fill="#1e3a5f" />
-      {/* Body + arm stroke */}
-      <path
-        d="M18 8.5 L11 12 L7 10.5 L3 13"
-        stroke="#1e3a5f" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
-      />
-      {/* Legs */}
-      <path
-        d="M11 12 L9 16"
-        stroke="#1e3a5f" strokeWidth="1.8" strokeLinecap="round"
-      />
-      {/* Water waves */}
-      <path
-        d="M2 19 Q5 17 8 19 Q11 21 14 19 Q17 17 20 19 Q23 21 25 19"
-        stroke="#3b82f6" strokeWidth="1.6" strokeLinecap="round" fill="none"
-      />
-      <path
-        d="M2 22 Q5 20 8 22 Q11 24 14 22 Q17 20 20 22 Q23 24 25 22"
-        stroke="#93c5fd" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.6"
-      />
+    <svg width="22" height="22" viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="4" r="2.2" fill="#374151" />
+      <path d="M18 7 L11 11 L7 9.5 L3 12" stroke="#374151" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M11 11 L9 15" stroke="#374151" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M2 17 Q5 15 8 17 Q11 19 14 17 Q17 15 20 17 Q23 19 25 17" stroke="#3b82f6" strokeWidth="1.5" strokeLinecap="round" fill="none" />
     </svg>
   );
 }
@@ -71,56 +54,51 @@ export default async function DashboardPage() {
   const greeting  = hour < 12 ? "בוקר טוב" : hour < 17 ? "צהריים טובים" : "ערב טוב";
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="max-w-xl mx-auto">
 
-      {/* ── Dark top section ── */}
-      <div className="px-4 pt-4 pb-16">
-        <div className="max-w-xl mx-auto">
-          <GreetingCard
-            firstName={firstName}
-            greeting={greeting}
-            streak={streak}
-            lastPb={pbs[0] ?? null}
-            weeklyDone={stats?.sessions_this_week ?? 0}
-            weeklyGoal={6}
-          />
-        </div>
+      {/* ── Greeting (dark background inherited from layout) ── */}
+      <div className="px-4 pt-4 pb-10">
+        <GreetingCard
+          firstName={firstName}
+          greeting={greeting}
+          streak={streak}
+          lastPb={pbs[0] ?? null}
+          weeklyDone={stats?.sessions_this_week ?? 0}
+          weeklyGoal={6}
+        />
       </div>
 
-      {/* ── Floating light card — overlaps dark section ── */}
+      {/* ── Light section: overlaps greeting with soft rounded top ── */}
       <div
-        className="flex-1 -mt-10 rounded-t-[36px]"
+        className="-mt-6 rounded-t-[28px] px-4 pt-5 pb-24 space-y-5"
         style={{
           background: "#F8FAFC",
-          boxShadow: "0 -20px 60px rgba(0,0,0,0.18), 0 -4px 16px rgba(0,0,0,0.07)",
+          boxShadow: "0 -8px 28px rgba(0,0,0,0.10), 0 -2px 6px rgba(0,0,0,0.05)",
         }}
       >
-        <div className="max-w-xl mx-auto px-4 pt-6 pb-24 space-y-5">
-
-          {/* Section header */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <SwimmerIcon />
-              <h2 className="text-base font-bold text-gray-900">יומן אימונים</h2>
-            </div>
-            <Link
-              href="/dashboard/calendar"
-              className="text-xs text-blue-500 font-medium hover:text-blue-600 transition-colors"
-            >
-              הצג הכל ←
-            </Link>
+        {/* Calendar header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <SwimmerIcon />
+            <h2 className="text-base font-bold text-gray-900">יומן אימונים</h2>
           </div>
-
-          {/* Calendar section */}
-          <DashboardCalendarSection
-            scheduledSessions={scheduledSessions}
-            recentSessions={recentSessions}
-          />
-
-          {/* AI insights */}
-          <AIInsightsCard stats={stats} pbs={pbs} />
-
+          <Link
+            href="/dashboard/calendar"
+            className="text-xs text-blue-500 font-medium hover:text-blue-600 transition-colors"
+          >
+            הצג הכל ←
+          </Link>
         </div>
+
+        {/* Calendar cards */}
+        <DashboardCalendarSection
+          scheduledSessions={scheduledSessions}
+          recentSessions={recentSessions}
+        />
+
+        {/* AI insights — secondary, below calendar */}
+        <AIInsightsCard stats={stats} pbs={pbs} />
+
       </div>
 
     </div>
