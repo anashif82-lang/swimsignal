@@ -170,8 +170,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes fab-pulse-light {
-  0%, 100% { box-shadow: 0 4px 20px rgba(0,212,255,0.35); }
-  50%       { box-shadow: 0 4px 32px rgba(0,212,255,0.55), 0 0 0 6px rgba(0,212,255,0.07); }
+  0%, 100% { box-shadow: 0 4px 14px rgba(59,130,246,0.18); }
+  50%       { box-shadow: 0 4px 22px rgba(59,130,246,0.28), 0 0 0 5px rgba(59,130,246,0.06); }
 }
 
 @keyframes shimmer {

@@ -59,20 +59,22 @@ export function WeekStrip({ sessions, onSelect }: WeekStripProps) {
               style={{ WebkitTapHighlightColor: "transparent" }}
             >
               <span className="text-[10px] text-gray-400 font-medium">{DAY[d.getDay()]}</span>
-              <div className={cn(
-                "w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold transition-all",
-                (isToday || isSel)
-                  ? "bg-blue-500 text-white shadow-[0_4px_12px_rgba(59,130,246,0.4)]"
-                  : "text-gray-800"
-              )}>
+              <div
+                className={cn(
+                  "w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold transition-all",
+                  (isToday || isSel) ? "text-[#2C6FA8]" : "text-gray-800"
+                )}
+                style={(isToday || isSel) ? {
+                  background: "linear-gradient(160deg, #EBF4FF 0%, #DAEAF8 100%)",
+                  boxShadow: "0 2px 8px rgba(59,130,246,0.12), inset 0 1px 0 rgba(255,255,255,0.8)",
+                } : undefined}
+              >
                 {d.getDate()}
               </div>
               {/* Time or empty spacer */}
               <span className={cn(
                 "text-[9px] font-medium leading-none h-3",
-                timeText
-                  ? (isToday || isSel) ? "text-blue-400" : "text-blue-400"
-                  : "text-transparent"
+                timeText ? "text-[#7BAFD4]" : "text-transparent"
               )}>
                 {timeText ?? "·"}
               </span>
