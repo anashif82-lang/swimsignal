@@ -54,29 +54,26 @@ export default async function DashboardPage() {
   const greeting  = hour < 12 ? "בוקר טוב" : hour < 17 ? "צהריים טובים" : "ערב טוב";
 
   return (
-    <div className="max-w-xl mx-auto">
+    <div className="max-w-xl mx-auto px-4 pt-4 pb-24 space-y-4">
 
-      {/* ── Greeting (dark background inherited from layout) ── */}
-      <div className="px-4 pt-4 pb-10">
-        <GreetingCard
-          firstName={firstName}
-          greeting={greeting}
-          streak={streak}
-          lastPb={pbs[0] ?? null}
-          weeklyDone={stats?.sessions_this_week ?? 0}
-          weeklyGoal={6}
-        />
-      </div>
+      {/* ── Greeting card ── */}
+      <GreetingCard
+        firstName={firstName}
+        greeting={greeting}
+        streak={streak}
+        lastPb={pbs[0] ?? null}
+        weeklyDone={stats?.sessions_this_week ?? 0}
+        weeklyGoal={6}
+      />
 
-      {/* ── Light section: overlaps greeting with soft rounded top ── */}
+      {/* ── Calendar section ── */}
       <div
-        className="-mt-6 rounded-[28px] px-4 pt-5 pb-8 space-y-5"
+        className="rounded-[28px] px-4 pt-5 pb-6 space-y-4"
         style={{
           background: "#F8FAFC",
-          boxShadow: "0 -8px 28px rgba(0,0,0,0.10), 0 -2px 6px rgba(0,0,0,0.05)",
+          boxShadow: "0 2px 20px rgba(59,130,246,0.08), 0 1px 6px rgba(0,0,0,0.04)",
         }}
       >
-        {/* Calendar header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <SwimmerIcon />
@@ -89,17 +86,14 @@ export default async function DashboardPage() {
             הצג הכל ←
           </Link>
         </div>
-
-        {/* Calendar cards */}
         <DashboardCalendarSection
           scheduledSessions={scheduledSessions}
           recentSessions={recentSessions}
         />
-
-        {/* AI insights — secondary, below calendar */}
-        <AIInsightsCard stats={stats} pbs={pbs} />
-
       </div>
+
+      {/* ── AI insights ── */}
+      <AIInsightsCard stats={stats} pbs={pbs} />
 
     </div>
   );

@@ -23,42 +23,50 @@ export function GreetingCard({
     : null;
 
   return (
-    <div className="rounded-2xl bg-gradient-to-b from-navy-800 to-navy-900 border border-white/[0.07] p-4 space-y-4">
+    <div
+      className="rounded-2xl p-4 space-y-4"
+      style={{
+        background: "#FFFFFF",
+        boxShadow: "0 2px 16px rgba(59,130,246,0.07), 0 1px 4px rgba(0,0,0,0.04)",
+      }}
+    >
       {/* Greeting */}
       <div className="text-center">
-        <h1 className="text-xl font-bold text-white">{greeting}, {firstName}! 👋</h1>
-        <p className="text-sm text-navy-400 mt-0.5">מוכן לשבור עוד שיא היום?</p>
+        <h1 className="text-xl font-bold" style={{ color: "#0B1A2B" }}>{greeting}, {firstName}! 👋</h1>
+        <p className="text-sm mt-0.5" style={{ color: "#6B7C93" }}>מוכן לשבור עוד שיא היום?</p>
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-3 rounded-xl bg-navy-950/60 border border-white/[0.05] divide-x divide-white/[0.05] overflow-hidden">
-
+      <div
+        className="grid grid-cols-3 rounded-xl divide-x overflow-hidden"
+        style={{ background: "#F5F7FA", borderColor: "#E8ECF0", border: "1px solid #E8ECF0" }}
+      >
         {/* Streak */}
         <div className="flex flex-col items-center justify-center gap-0.5 py-3 px-1">
           <span className="text-2xl leading-none">🔥</span>
-          <span className="text-2xl font-bold text-white leading-tight">{streak}</span>
-          <span className="text-[10px] text-navy-400">ימי רצף</span>
+          <span className="text-2xl font-bold leading-tight" style={{ color: "#0B1A2B" }}>{streak}</span>
+          <span className="text-[10px]" style={{ color: "#6B7C93" }}>ימי רצף</span>
         </div>
 
         {/* Last achievement */}
         <div className="flex flex-col items-center justify-center gap-0.5 py-3 px-2 text-center">
-          <p className="text-[9px] text-navy-500 uppercase tracking-wide">הישג אחרון</p>
+          <p className="text-[9px] uppercase tracking-wide" style={{ color: "#6B7C93" }}>הישג אחרון</p>
           {lastPb ? (
             <>
               <span className="text-base leading-none">🏆</span>
-              <p className="text-[10px] text-navy-300 leading-tight">{eventLabel}</p>
-              <p className="text-sm font-bold text-signal-400">{lastPb.time_text}</p>
+              <p className="text-[10px] leading-tight" style={{ color: "#0B1A2B" }}>{eventLabel}</p>
+              <p className="text-sm font-bold text-blue-500">{lastPb.time_text}</p>
             </>
           ) : (
-            <p className="text-xs text-navy-600 mt-1">אין עדיין</p>
+            <p className="text-xs mt-1" style={{ color: "#6B7C93" }}>אין עדיין</p>
           )}
         </div>
 
         {/* Weekly ring */}
         <div className="flex flex-col items-center justify-center gap-0.5 py-3 px-1">
-          <p className="text-[9px] text-navy-500 uppercase tracking-wide">מטרה שבועית</p>
+          <p className="text-[9px] uppercase tracking-wide" style={{ color: "#6B7C93" }}>מטרה שבועית</p>
           <ProgressRing done={weeklyDone} total={weeklyGoal} size={64} />
-          <p className="text-[10px] text-navy-400">אימונים</p>
+          <p className="text-[10px]" style={{ color: "#6B7C93" }}>אימונים</p>
         </div>
       </div>
     </div>
