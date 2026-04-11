@@ -20,16 +20,15 @@ export function MobileHeader({
     <header className="md:hidden sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100 px-4 py-3 flex items-center justify-between">
       {/* Logo */}
       <div className="flex items-center gap-2">
-        <div className="w-7 h-7 rounded-md bg-signal-400/10 border border-signal-400/30 flex items-center justify-center shrink-0">
+        <div className="w-7 h-7 rounded-md flex items-center justify-center shrink-0" style={{ background: "rgba(59,130,246,0.08)", border: "1px solid rgba(59,130,246,0.2)" }}>
           <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
             <path
               d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0"
-              stroke="currentColor"
+              stroke="#4B7BA6"
               strokeWidth="2.5"
               strokeLinecap="round"
-              className="text-signal-400"
             />
-            <circle cx="16" cy="7" r="2.5" fill="currentColor" className="text-signal-400" />
+            <circle cx="16" cy="7" r="2.5" fill="#4B7BA6" />
           </svg>
         </div>
         <span className="font-bold text-gray-900 text-sm">SwimSignal</span>
