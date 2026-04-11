@@ -80,7 +80,7 @@ export default async function DashboardPage() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <SwimmerIcon />
-            <h2 className="text-base font-bold text-blue-700/70">יומן אימונים</h2>
+            <h2 className="text-base font-bold text-blue-500">יומן אימונים</h2>
           </div>
           <Link
             href="/dashboard/calendar"
