@@ -51,7 +51,12 @@ export function MobileHeader({
         {showAddButton && (
           <Link
             href={addHref}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-signal-400 text-navy-950 text-xs font-semibold hover:bg-signal-300 transition-colors"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors"
+            style={{
+              background: "linear-gradient(160deg, #C8E0F4 0%, #A8CBE8 100%)",
+              color: "#2C6FA8",
+              boxShadow: "0 2px 8px rgba(59,130,246,0.15), inset 0 1px 0 rgba(255,255,255,0.7)",
+            }}
           >
             <Plus className="h-3.5 w-3.5" />
             {addLabel}
