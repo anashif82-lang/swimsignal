@@ -51,11 +51,12 @@ export function MobileHeader({
         {showAddButton && (
           <Link
             href={addHref}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors backdrop-blur-sm"
             style={{
-              background: "linear-gradient(160deg, #C8E0F4 0%, #A8CBE8 100%)",
-              color: "#2C6FA8",
-              boxShadow: "0 2px 8px rgba(59,130,246,0.15), inset 0 1px 0 rgba(255,255,255,0.7)",
+              background: "rgba(220,238,255,0.55)",
+              border: "1px solid rgba(147,197,253,0.45)",
+              color: "#2563EB",
+              boxShadow: "0 1px 3px rgba(59,130,246,0.08)",
             }}
           >
             <Plus className="h-3.5 w-3.5" />

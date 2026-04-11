@@ -63,12 +63,12 @@ export function SwimmerBottomNav() {
         href="/dashboard/training/new"
         className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 rounded-full flex items-center justify-center animate-fab-pulse active:scale-95 transition-transform duration-[180ms]"
         style={{
-          background: "linear-gradient(160deg, #C8E0F4 0%, #A8CBE8 100%)",
-          boxShadow: "0 4px 16px rgba(59,130,246,0.18), 0 1px 0 rgba(255,255,255,0.70) inset",
+          background: "linear-gradient(160deg, #5AAAD8 0%, #4492C6 100%)",
+          boxShadow: "0 4px 14px rgba(59,130,246,0.22)",
           WebkitTapHighlightColor: "transparent",
         }}
       >
-        <Plus className="h-6 w-6 stroke-[2.5]" style={{ color: "#2C6FA8" }} />
+        <Plus className="h-6 w-6 stroke-[2.5] text-white" />
       </Link>
     </nav>
   );
