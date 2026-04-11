@@ -26,7 +26,7 @@ export function SwimmerBottomNav() {
   return (
     <nav className="md:hidden fixed bottom-0 inset-x-0 z-40">
       {/* Frosted glass bar */}
-      <div className="relative bg-white/85 backdrop-blur-xl border-t border-gray-200/80">
+      <div className="relative bg-white/80 backdrop-blur-2xl border-t border-white/60" style={{ boxShadow: "0 -1px 0 rgba(203,213,225,0.5), 0 -8px 24px rgba(15,23,42,0.06)" }}>
         <div className="flex items-center h-[58px] px-2">
 
           {/* Left tabs */}
@@ -61,8 +61,12 @@ export function SwimmerBottomNav() {
       {/* FAB — floats above bar */}
       <Link
         href="/dashboard/training/new"
-        className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 rounded-full bg-signal-400 flex items-center justify-center animate-fab-pulse active:scale-95 transition-transform duration-[180ms]"
-        style={{ WebkitTapHighlightColor: "transparent" }}
+        className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 rounded-full flex items-center justify-center animate-fab-pulse active:scale-95 transition-transform duration-[180ms]"
+        style={{
+          background: "linear-gradient(145deg, #34d9f0 0%, #22d3ee 40%, #0ea5e9 100%)",
+          boxShadow: "0 4px 16px rgba(0,212,255,0.40), 0 1px 0 rgba(255,255,255,0.25) inset",
+          WebkitTapHighlightColor: "transparent",
+        }}
       >
         <Plus className="h-6 w-6 text-navy-950 stroke-[2.5]" />
       </Link>

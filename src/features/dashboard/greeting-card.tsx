@@ -26,8 +26,10 @@ export function GreetingCard({
     <div
       className="rounded-2xl p-4 space-y-4"
       style={{
-        background: "linear-gradient(180deg, #FFFFFF 0%, #F7FBFF 100%)",
-        boxShadow: "0 12px 32px rgba(15,23,42,0.08)",
+        background: "linear-gradient(180deg, #FFFFFF 0%, #F4F9FF 100%)",
+        boxShadow: "0 1px 2px rgba(15,23,42,0.04), 0 8px 24px rgba(15,23,42,0.08), 0 20px 40px rgba(15,23,42,0.05)",
+        border: "1px solid rgba(255,255,255,0.9)",
+        outline: "1px solid rgba(203,213,225,0.35)",
       }}
     >
       {/* Greeting */}

@@ -33,7 +33,7 @@ export default async function DashboardLayout({
         <main
           className="flex-1 overflow-y-auto pb-16 md:pb-0 relative"
           style={{
-            background: "linear-gradient(180deg, #F5F7FA 0%, #EEF6FF 45%, #F5F7FA 100%)",
+            background: "linear-gradient(180deg, #F5F7FA 0%, #EBF4FF 45%, #F2F7FA 100%)",
           }}
         >
           {/* Subtle wave overlay */}

@@ -54,7 +54,7 @@ export default async function DashboardPage() {
   const greeting  = hour < 12 ? "בוקר טוב" : hour < 17 ? "צהריים טובים" : "ערב טוב";
 
   return (
-    <div className="max-w-xl mx-auto px-4 pt-4 pb-24 space-y-4">
+    <div className="max-w-xl mx-auto px-4 pt-4 pb-24 space-y-6">
 
       {/* ── Greeting card ── */}
       <div className="animate-fade-in" style={{ animationDelay: "0ms" }}>
