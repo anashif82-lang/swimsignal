@@ -33,15 +33,22 @@ export default async function DashboardLayout({
         <main
           className="flex-1 overflow-y-auto pb-16 md:pb-0 relative"
           style={{
-            background: "linear-gradient(180deg, #F5F7FA 0%, #EBF4FF 45%, #F2F7FA 100%)",
+            background: [
+              /* sky-light bloom at the top — simulates soft light from above */
+              "radial-gradient(ellipse 90% 45% at 50% -5%, rgba(147,210,255,0.28) 0%, transparent 65%)",
+              /* soft shimmer pocket — lower right, like a water reflection */
+              "radial-gradient(ellipse 55% 28% at 82% 65%, rgba(186,224,255,0.14) 0%, transparent 60%)",
+              /* base gradient — very light sky-blue, barely shifts */
+              "linear-gradient(180deg, #EDF5FF 0%, #E6F0FC 38%, #ECF6FF 68%, #F0F8FA 100%)",
+            ].join(", "),
           }}
         >
-          {/* Subtle wave overlay */}
+          {/* Subtle wave overlay — very faint water-surface hint */}
           <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
             <svg
               viewBox="0 0 390 844"
               preserveAspectRatio="xMidYMid slice"
-              className="absolute inset-0 w-full h-full opacity-[0.04]"
+              className="absolute inset-0 w-full h-full opacity-[0.05]"
             >
               <path d="M0 500 Q97 460 195 500 Q293 540 390 500 L390 560 Q293 600 195 560 Q97 520 0 560Z" fill="#3b82f6"/>
               <path d="M0 620 Q97 580 195 620 Q293 660 390 620 L390 670 Q293 710 195 670 Q97 630 0 670Z" fill="#0ea5e9"/>
