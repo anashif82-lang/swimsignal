@@ -45,7 +45,7 @@ export function AIInsightsCard({ stats, pbs }: AIInsightsCardProps) {
       style={{
         background: "linear-gradient(135deg, #EAF3FF 0%, #F8FBFF 100%)",
         border: "1px solid #D6E8FF",
-        boxShadow: "0 2px 12px rgba(59,130,246,0.06)",
+        boxShadow: "0 8px 24px rgba(15,23,42,0.06)",
       }}
     >
       {/* Header */}
@@ -61,7 +61,7 @@ export function AIInsightsCard({ stats, pbs }: AIInsightsCardProps) {
         {insights.map((ins, i) => (
           <div key={i} className="flex items-start gap-2">
             <span className="text-base leading-none mt-0.5">{ins.icon}</span>
-            <p className="text-sm leading-snug" style={{ color: "#374151" }}>{ins.text}</p>
+            <p className="text-sm leading-snug" style={{ color: "#0F172A" }}>{ins.text}</p>
           </div>
         ))}
       </div>
