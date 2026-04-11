@@ -18,10 +18,10 @@ function addWeeks(d: Date, n: number) { const r = new Date(d); r.setDate(r.getDa
 function SwimmerIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="20" cy="4" r="2.2" fill="#374151" />
-      <path d="M18 7 L11 11 L7 9.5 L3 12" stroke="#374151" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M11 11 L9 15" stroke="#374151" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M2 17 Q5 15 8 17 Q11 19 14 17 Q17 15 20 17 Q23 19 25 17" stroke="#3b82f6" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+      <circle cx="20" cy="4" r="2.2" fill="#0f172a" />
+      <path d="M18 7 L11 11 L7 9.5 L3 12" stroke="#0f172a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M11 11 L9 15" stroke="#0f172a" strokeWidth="2" strokeLinecap="round" />
+      <path d="M2 17 Q5 15 8 17 Q11 19 14 17 Q17 15 20 17 Q23 19 25 17" stroke="#3b82f6" strokeWidth="1.8" strokeLinecap="round" fill="none" />
     </svg>
   );
 }
