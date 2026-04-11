@@ -185,6 +185,18 @@ h1, h2, h3, h4, h5, h6 {
   to   { background-position:  200% center; }
 }
 
+@keyframes sky-breathe {
+  0%, 100% { opacity: 0.75; transform: scale(1); }
+  50%       { opacity: 1;    transform: scale(1.08); }
+}
+
+@keyframes water-drift {
+  0%, 100% { opacity: 0.55; transform: translateX(0)    scale(1);    }
+  50%       { opacity: 0.90; transform: translateX(-14px) scale(1.06); }
+}
+
+.animate-sky-breathe  { animation: sky-breathe  12s ease-in-out infinite; }
+.animate-water-drift  { animation: water-drift   9s ease-in-out infinite; animation-delay: -4s; }
 .animate-fade-in      { animation: fade-in 0.24s cubic-bezier(0.16,1,0.3,1) both; }
 .animate-pulse-glow   { animation: pulse-glow 2s ease-in-out infinite; }
 .animate-session-enter { animation: session-enter 0.2s cubic-bezier(0.16,1,0.3,1) both; }
