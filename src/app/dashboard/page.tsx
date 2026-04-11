@@ -70,7 +70,7 @@ export default async function DashboardPage() {
 
       {/* ── Light section: overlaps greeting with soft rounded top ── */}
       <div
-        className="-mt-6 rounded-[28px] px-4 pt-5 pb-24 space-y-5"
+        className="-mt-6 rounded-[28px] px-4 pt-5 pb-8 space-y-5"
         style={{
           background: "#F8FAFC",
           boxShadow: "0 -8px 28px rgba(0,0,0,0.10), 0 -2px 6px rgba(0,0,0,0.05)",
