@@ -77,15 +77,17 @@ export default async function DashboardPage() {
         }}
       >
         {/* Calendar header */}
-        <div className="relative flex items-center justify-center">
-          <h2 className="text-base font-bold text-gray-900">יומן אימונים</h2>
+        <div className="relative flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <SwimmerIcon />
+          </div>
+          <h2 className="absolute left-1/2 -translate-x-1/2 text-base font-bold text-gray-900">יומן אימונים</h2>
           <Link
             href="/dashboard/calendar"
-            className="absolute start-0 text-xs text-blue-500 font-medium hover:text-blue-600 transition-colors"
+            className="text-xs text-blue-500 font-medium hover:text-blue-600 transition-colors"
           >
             הצג הכל ←
           </Link>
-          <span className="absolute end-0"><SwimmerIcon /></span>
         </div>
 
         {/* Calendar cards */}
