@@ -50,10 +50,47 @@
   --radius-xl:  1rem;
   --radius-2xl: 1.5rem;
 
-  /* Shadows */
-  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+  /* Shadows (dark) */
   --shadow-raised: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
-  --shadow-glow: 0 0 0 1px rgb(0 212 255 / 0.2), 0 0 20px 0 rgb(0 212 255 / 0.08);
+  --shadow-glow:   0 0 0 1px rgb(0 212 255 / 0.2), 0 0 20px 0 rgb(0 212 255 / 0.08);
+
+  /* ─────────────────────────────────────────────
+     Apple Light UI – Design System
+     ───────────────────────────────────────────── */
+
+  /* Backgrounds */
+  --color-bg-primary:   #F5F7FA;
+  --color-bg-secondary: #EEF3F8;
+
+  /* Cards */
+  --color-card:      #FFFFFF;
+  --color-card-soft: #F8FAFC;
+
+  /* Text */
+  --color-text-primary:   #0F172A;
+  --color-text-secondary: #667085;
+  --color-text-muted:     #98A2B3;
+
+  /* Water Accent */
+  --color-water-light: #EAF3FF;
+  --color-water-main:  #3B82F6;
+
+  /* Shadows (light) */
+  --shadow-card:     0 8px 24px rgba(15,23,42,0.06);
+  --shadow-elevated: 0 12px 32px rgba(15,23,42,0.08);
+  --shadow-hero:     0 16px 40px rgba(15,23,42,0.10);
+
+  /* Radius */
+  --radius-card:  20px;
+  --radius-large: 24px;
+  --radius-pill:  999px;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
 }
 
 /* ─── Base ───────────────────────────────────────────────────────────────────── */
@@ -189,6 +226,16 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid rgb(0 212 255 / 0.2);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-glow);
+}
+
+/* ─── Light Gradients ──────────────────────────────────────────────────────── */
+
+.bg-gradient-water {
+  background: linear-gradient(180deg, #F5F7FA 0%, #EEF6FF 40%, #F5F7FA 100%);
+}
+
+.bg-gradient-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F7FBFF 100%);
 }
 
 .signal-bar {
