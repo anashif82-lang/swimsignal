@@ -17,7 +17,7 @@ export function MobileHeader({
   addLabel = "תעד",
 }: MobileHeaderProps) {
   return (
-    <header className="md:hidden sticky top-0 z-40 bg-navy-900/95 backdrop-blur-sm border-b border-surface-border px-4 py-3 flex items-center justify-between">
+    <header className="md:hidden sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100 px-4 py-3 flex items-center justify-between">
       {/* Logo */}
       <div className="flex items-center gap-2">
         <div className="w-7 h-7 rounded-md bg-signal-400/10 border border-signal-400/30 flex items-center justify-center shrink-0">
@@ -32,14 +32,14 @@ export function MobileHeader({
             <circle cx="16" cy="7" r="2.5" fill="currentColor" className="text-signal-400" />
           </svg>
         </div>
-        <span className="font-bold text-white text-sm">SwimSignal</span>
+        <span className="font-bold text-gray-900 text-sm">SwimSignal</span>
       </div>
 
       {/* Actions */}
       <div className="flex items-center gap-1">
         <Link
           href="/dashboard/notifications"
-          className="relative p-2 rounded-lg text-navy-400 hover:text-white hover:bg-navy-800 transition-colors"
+          className="relative p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
         >
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (

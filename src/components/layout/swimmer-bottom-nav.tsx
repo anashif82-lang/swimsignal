@@ -20,13 +20,13 @@ export function SwimmerBottomNav() {
   const tabClass = (active: boolean) =>
     cn(
       "flex-1 flex flex-col items-center justify-center gap-[3px] h-full transition-colors",
-      active ? "text-signal-400" : "text-navy-500"
+      active ? "text-blue-500" : "text-gray-400"
     );
 
   return (
     <nav className="md:hidden fixed bottom-0 inset-x-0 z-40">
       {/* Frosted glass bar */}
-      <div className="relative bg-navy-900/85 backdrop-blur-xl border-t border-white/[0.07]">
+      <div className="relative bg-white/85 backdrop-blur-xl border-t border-gray-200/80">
         <div className="flex items-center h-[58px] px-2">
 
           {/* Left tabs */}
