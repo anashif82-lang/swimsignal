@@ -119,7 +119,7 @@ export function MobileHeader({ unreadCount = 0, profile }: MobileHeaderProps) {
 
   const Avatar = ({ size, editable }: { size: "sm" | "lg"; editable?: boolean }) => {
     const cls = size === "sm"
-      ? "w-7 h-7 text-xs font-bold"
+      ? "w-10 h-10 text-sm font-bold"
       : "w-12 h-12 text-base font-bold";
     return (
       <div
@@ -185,16 +185,17 @@ export function MobileHeader({ unreadCount = 0, profile }: MobileHeaderProps) {
           {/* Profile pill */}
           <button
             onClick={() => setOpen(true)}
-            className="flex items-center gap-1.5 ps-1 pe-2.5 py-1 rounded-2xl transition-all duration-[120ms] active:scale-[0.94] active:opacity-80"
+            className="flex items-center gap-2.5 ps-1.5 pe-3.5 py-1.5 rounded-2xl transition-all duration-[120ms] active:scale-[0.93] active:opacity-75"
             style={{
-              background: "rgba(241,245,249,0.80)",
-              border: "1px solid rgba(203,213,225,0.50)",
+              background: "rgba(255,255,255,0.88)",
+              border: "1px solid rgba(203,213,225,0.60)",
+              boxShadow: "0 1px 4px rgba(15,23,42,0.07), 0 0 0 0.5px rgba(203,213,225,0.35)",
               WebkitTapHighlightColor: "transparent",
             }}
           >
             <Avatar size="sm" />
             {firstName && (
-              <span className="text-sm font-semibold" style={{ color: "#0F172A" }}>{firstName}</span>
+              <span className="text-[15px] font-semibold tracking-tight" style={{ color: "#0F172A" }}>{firstName}</span>
             )}
           </button>
         </div>
