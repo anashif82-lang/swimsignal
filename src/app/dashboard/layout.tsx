@@ -29,7 +29,10 @@ export default async function DashboardLayout({
     <div className="flex h-dvh overflow-hidden">
       <SwimmerSidebar profile={profile} unreadCount={unreadCount} />
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <MobileHeader unreadCount={unreadCount} showAddButton addHref="/dashboard/training/new" addLabel="תעד" />
+        <MobileHeader
+          unreadCount={unreadCount}
+          profile={{ full_name: profile.full_name, avatar_url: profile.avatar_url }}
+        />
         <main
           className="flex-1 overflow-y-auto pb-16 md:pb-0 relative"
           style={{ background: "linear-gradient(180deg, #C8DCF0 0%, #BED0E8 40%, #C4D8EE 100%)" }}

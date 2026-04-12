@@ -189,7 +189,17 @@ h1, h2, h3, h4, h5, h6 {
   50%       { opacity: 0.90; transform: translateX(-14px) scale(1.06); }
 }
 
-.animate-sky-breathe  { animation: sky-breathe  12s ease-in-out infinite; }
+@keyframes sheet-enter {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-sheet-enter   { animation: sheet-enter  0.30s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-backdrop-in   { animation: backdrop-in  0.20s ease both; }
+.animate-sky-breathe   { animation: sky-breathe  12s ease-in-out infinite; }
 .animate-water-drift  { animation: water-drift   9s ease-in-out infinite; animation-delay: -4s; }
 .animate-fade-in      { animation: fade-in 0.24s cubic-bezier(0.16,1,0.3,1) both; }
 .animate-pulse-glow   { animation: pulse-glow 2s ease-in-out infinite; }
