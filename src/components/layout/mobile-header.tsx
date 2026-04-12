@@ -164,7 +164,17 @@ export function MobileHeader({ unreadCount = 0, profile }: MobileHeaderProps) {
               <circle cx="16" cy="7" r="2.5" fill="#4B7BA6" />
             </svg>
           </div>
-          <span className="font-bold text-gray-900 text-sm">SwimSignal</span>
+          <span
+            className="text-sm tracking-tight"
+            style={{
+              fontWeight: 600,
+              letterSpacing: "-0.01em",
+              background: "linear-gradient(90deg, #6FD3FF 0%, #4DA3FF 35%, #7B61FF 70%, #B57BFF 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >SwimSignal</span>
         </div>
 
         {/* Actions */}
