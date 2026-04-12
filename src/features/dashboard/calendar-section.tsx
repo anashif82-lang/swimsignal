@@ -19,8 +19,6 @@ function fmtDuration(min: number) {
   return `${h}:${String(m).padStart(2, "0")}:00`;
 }
 
-// Premium card shadow
-const cardShadow = "0 8px 24px rgba(15,23,42,0.06)";
 
 interface Props {
   scheduledSessions: ScheduledSession[];
@@ -42,7 +40,7 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
     <div className="space-y-3">
 
       {/* ── Week strip card ── */}
-      <div className="rounded-2xl bg-white px-4 pt-4 pb-5" style={{ boxShadow: cardShadow }}>
+      <div className="mat-card px-4 pt-4 pb-5">
         <WeekStrip sessions={scheduledSessions} onSelect={setSelectedDate} />
       </div>
 
@@ -50,14 +48,14 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
       {!scheduled && !logged ? (
         <div
           key={selectedDate}
-          className="rounded-2xl bg-white flex flex-col items-center gap-2 py-8 animate-session-enter"
-          style={{ boxShadow: cardShadow }}
+          className="mat-card flex flex-col items-center gap-2 py-8 animate-session-enter"
         >
           <span className="text-3xl">🏊‍♂️</span>
           <p className="text-sm text-gray-400">אין אימון מתוכנן ליום זה</p>
           <Link
             href="/dashboard/calendar"
-            className="text-xs text-blue-500 hover:text-blue-600 transition-colors"
+            className="text-xs font-medium transition-colors active:opacity-60"
+            style={{ color: "#2E7BBF" }}
           >
             הוסף ליומן
           </Link>
@@ -65,8 +63,7 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
       ) : (
         <div
           key={selectedDate}
-          className="rounded-2xl bg-white overflow-hidden relative animate-session-enter"
-          style={{ boxShadow: cardShadow }}
+          className="mat-card overflow-hidden relative animate-session-enter"
         >
           {/* Subtle wave decoration */}
           <div className="absolute bottom-0 inset-x-0 h-20 opacity-[0.04] pointer-events-none overflow-hidden">
@@ -85,20 +82,20 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 px-5 pb-5 gap-2 text-center">
-            <div className="flex flex-col items-center gap-1">
+          <div className="grid grid-cols-3 px-4 pb-4 gap-2 text-center">
+            <div className="mat-cell flex flex-col items-center gap-1 py-3">
               <span className="text-2xl">🔥</span>
               <p className="text-base font-bold text-gray-900">—</p>
               <p className="text-[11px] text-gray-400">קלוריות</p>
             </div>
-            <div className="flex flex-col items-center gap-1">
+            <div className="mat-cell flex flex-col items-center gap-1 py-3">
               <span className="text-2xl">🏊</span>
               <p className="text-base font-bold text-gray-900">
                 {logged?.total_distance ? `${logged.total_distance.toLocaleString()}m` : "—"}
               </p>
               <p className="text-[11px] text-gray-400">מרחק</p>
             </div>
-            <div className="flex flex-col items-center gap-1">
+            <div className="mat-cell flex flex-col items-center gap-1 py-3">
               <span className="text-2xl">🕐</span>
               <p className="text-base font-bold text-gray-900">
                 {durationMin ? fmtDuration(durationMin) : "—"}
@@ -108,11 +105,12 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
           </div>
 
           {/* CTA */}
-          <div className="px-5 pb-5">
+          <div className="px-4 pb-4">
             {logged ? (
               <Link
                 href={`/dashboard/training/${logged.id}`}
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-blue-50 text-blue-500 text-sm font-semibold hover:bg-blue-100 transition-all duration-[120ms] active:scale-[0.95] active:opacity-80"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-[120ms] active:scale-[0.95] active:opacity-75"
+                style={{ background: "rgba(46,123,191,0.10)", color: "#2E7BBF" }}
               >
                 <ArrowLeft className="h-4 w-4" />
                 צפה באימון
@@ -120,7 +118,8 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
             ) : (
               <Link
                 href="/dashboard/training/new"
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-blue-50 text-blue-500 text-sm font-semibold hover:bg-blue-100 transition-all duration-[120ms] active:scale-[0.95] active:opacity-80"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-[120ms] active:scale-[0.95] active:opacity-75"
+                style={{ background: "rgba(46,123,191,0.10)", color: "#2E7BBF" }}
               >
                 <ArrowLeft className="h-4 w-4" />
                 תעד אימון

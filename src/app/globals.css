@@ -250,6 +250,45 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--shadow-glow);
 }
 
+/* ─── iOS Materials ────────────────────────────────────────────────────────── */
+/*
+  4 materials that map to the depth hierarchy:
+    Surface  — animated page background (set in layout.tsx)
+    Card     — primary content panels, opaque white
+    Glass    — chrome floating above content (header, nav, FAB, sheets)
+    Cell     — secondary surface inside a Card (stat rows, chips)
+*/
+
+/* Card — clean, grounded, subtle depth */
+.mat-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.90);
+  border-radius: 22px;
+  box-shadow:
+    0 1px 2px  rgba(15, 23, 42, 0.04),
+    0 6px 18px rgba(15, 23, 42, 0.07),
+    0 18px 40px rgba(15, 23, 42, 0.04);
+}
+
+/* Glass — frosted chrome, floats above Surface */
+.mat-glass {
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.90),
+    0 1px 3px  rgba(15, 23, 42, 0.06),
+    0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+/* Cell — secondary surface inside a Card */
+.mat-cell {
+  background: rgba(246, 249, 252, 0.88);
+  border: 1px solid rgba(226, 232, 240, 0.55);
+  border-radius: 14px;
+}
+
 /* ─── Light Gradients ──────────────────────────────────────────────────────── */
 
 .bg-gradient-water {

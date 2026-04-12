@@ -70,21 +70,16 @@ export default async function DashboardPage() {
 
       {/* ── Calendar section ── */}
       <div className="animate-fade-in" style={{ animationDelay: "80ms" }}>
-      <div
-        className="rounded-[28px] px-4 pt-5 pb-6 space-y-4"
-        style={{
-          background: "#F8FAFC",
-          boxShadow: "0 8px 24px rgba(15,23,42,0.06)",
-        }}
-      >
+      <div className="mat-card px-4 pt-5 pb-5 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <SwimmerIcon />
-            <h2 className="text-base font-bold" style={{ color: "#111827" }}>יומן אימונים</h2>
+            <h2 className="text-base font-bold" style={{ color: "#0F172A" }}>יומן אימונים</h2>
           </div>
           <Link
             href="/dashboard/calendar"
-            className="text-xs text-blue-500 font-medium hover:text-blue-600 transition-colors"
+            className="text-xs font-semibold transition-all duration-[120ms] active:opacity-60"
+            style={{ color: "#2E7BBF" }}
           >
             הצג הכל ←
           </Link>

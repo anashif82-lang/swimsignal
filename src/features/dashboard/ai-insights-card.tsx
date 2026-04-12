@@ -40,28 +40,21 @@ export function AIInsightsCard({ stats, pbs }: AIInsightsCardProps) {
   }
 
   return (
-    <div
-      className="rounded-2xl p-4 space-y-3 transition-all duration-[200ms] ease-out hover:-translate-y-0.5 active:scale-[0.99] active:opacity-95"
-      style={{
-        background: "linear-gradient(135deg, #EAF3FF 0%, #F8FBFF 100%)",
-        border: "1px solid #D6E8FF",
-        boxShadow: "0 8px 24px rgba(15,23,42,0.06)",
-      }}
-    >
+    <div className="mat-card p-4 space-y-3">
       {/* Header */}
       <div className="flex items-center gap-2">
-        <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#DBEAFE" }}>
-          <Sparkles className="h-3.5 w-3.5 text-blue-500" />
+        <div className="w-7 h-7 rounded-lg flex items-center justify-center mat-cell">
+          <Sparkles className="h-3.5 w-3.5" style={{ color: "#2E7BBF" }} />
         </div>
-        <span className="text-sm font-bold" style={{ color: "#0B1A2B" }}>ניתוח AI חכם</span>
+        <span className="text-sm font-bold" style={{ color: "#0F172A" }}>ניתוח AI חכם</span>
       </div>
 
       {/* Insights */}
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         {insights.map((ins, i) => (
-          <div key={i} className="flex items-start gap-2">
+          <div key={i} className="flex items-start gap-2.5">
             <span className="text-base leading-none mt-0.5">{ins.icon}</span>
-            <p className="text-sm leading-snug" style={{ color: "#0F172A" }}>{ins.text}</p>
+            <p className="text-sm leading-snug" style={{ color: "#1E293B" }}>{ins.text}</p>
           </div>
         ))}
       </div>
@@ -69,7 +62,8 @@ export function AIInsightsCard({ stats, pbs }: AIInsightsCardProps) {
       {/* CTA */}
       <Link
         href="/dashboard/analytics"
-        className="flex items-center gap-1.5 text-xs font-medium pt-1 text-blue-500 hover:text-blue-600 transition-all duration-[120ms] active:opacity-60"
+        className="flex items-center gap-1.5 text-xs font-semibold pt-1 transition-all duration-[120ms] active:opacity-60"
+        style={{ color: "#2E7BBF" }}
       >
         <ArrowLeft className="h-3.5 w-3.5" />
         ראה ניתוח מלא
