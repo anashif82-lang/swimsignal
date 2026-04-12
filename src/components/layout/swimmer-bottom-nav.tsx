@@ -61,22 +61,22 @@ export function SwimmerBottomNav() {
       {/* FAB — floats above bar */}
       <Link
         href="/dashboard/training/new"
-        className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 rounded-full flex items-center justify-center transition-all duration-[140ms] active:scale-[0.94] active:opacity-70 active:shadow-none"
+        className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 rounded-full flex items-center justify-center transition-all duration-[140ms] active:scale-[0.94] active:opacity-80"
         style={{
-          background: "linear-gradient(150deg, rgba(236,247,255,0.97) 0%, rgba(200,228,252,0.93) 100%)",
-          backdropFilter: "blur(18px)",
-          WebkitBackdropFilter: "blur(18px)",
-          border: "1.5px solid rgba(255,255,255,0.78)",
+          background: "linear-gradient(145deg, #6FD3FF 0%, #4DA3FF 35%, #7B61FF 70%, #B57BFF 100%)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          border: "1.5px solid rgba(255,255,255,0.35)",
           boxShadow: [
-            "inset 0 1px 0 rgba(255,255,255,0.85)",   /* top glass highlight */
-            "0 1px 3px rgba(15,23,42,0.07)",           /* tight base */
-            "0 6px 20px rgba(74,146,198,0.18)",        /* soft blue glow */
-            "0 0 0 1px rgba(147,197,253,0.18)",        /* hairline ring */
+            "inset 0 1px 0 rgba(255,255,255,0.30)",
+            "0 2px 6px  rgba(15,23,42,0.10)",
+            "0 6px 20px rgba(107,97,255,0.22)",
+            "0 0 0 1px  rgba(255,255,255,0.08)",
           ].join(", "),
           WebkitTapHighlightColor: "transparent",
         }}
       >
-        <Plus className="h-6 w-6 stroke-[2.5]" style={{ color: "#2E7BBF" }} />
+        <Plus className="h-6 w-6 stroke-[2.5] text-white" />
       </Link>
     </nav>
   );
