@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Bell, User, Settings, Globe, HelpCircle, LogOut, ChevronLeft } from "lucide-react";
+import { Bell, User, Settings, Globe, HelpCircle, LogOut, ChevronLeft, Camera } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 interface ProfileData {
@@ -61,12 +61,33 @@ const MENU_ITEMS = [
 ] as const;
 
 export function MobileHeader({ unreadCount = 0, profile }: MobileHeaderProps) {
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
-  const ripple = useRipple();
+  const [open,      setOpen]      = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url ?? null);
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const router  = useRouter();
+  const ripple  = useRipple();
 
   const firstName = profile?.full_name?.split(" ")[0] ?? "";
   const initials  = getInitials(profile?.full_name);
+
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/profile/avatar", { method: "POST", body: fd });
+      if (res.ok) {
+        const { url } = await res.json();
+        setAvatarUrl(url);
+      }
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  }
 
   async function handleLogout() {
     const supabase = createClient();
@@ -74,24 +95,43 @@ export function MobileHeader({ unreadCount = 0, profile }: MobileHeaderProps) {
     router.push("/auth/login");
   }
 
-  const Avatar = ({ size }: { size: "sm" | "lg" }) => {
+  const Avatar = ({ size, editable }: { size: "sm" | "lg"; editable?: boolean }) => {
     const cls = size === "sm"
       ? "w-7 h-7 text-xs font-bold"
       : "w-12 h-12 text-base font-bold";
     return (
       <div
-        className={`${cls} rounded-full overflow-hidden shrink-0 flex items-center justify-center text-white`}
+        className={`${cls} rounded-full overflow-hidden shrink-0 flex items-center justify-center text-white relative`}
         style={{ background: "linear-gradient(135deg, #5AAAD8, #4492C6)" }}
       >
-        {profile?.avatar_url
-          ? <img src={profile.avatar_url} alt={firstName} className="w-full h-full object-cover" />
+        {avatarUrl
+          ? <img src={avatarUrl} alt={firstName} className="w-full h-full object-cover" />
           : initials}
+        {editable && (
+          <div
+            className="absolute inset-0 flex items-center justify-center bg-black/30 transition-opacity"
+            style={{ opacity: uploading ? 1 : undefined }}
+          >
+            {uploading
+              ? <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              : <Camera className="w-4 h-4 text-white opacity-80" />}
+          </div>
+        )}
       </div>
     );
   };
 
   return (
     <>
+      {/* Hidden file input */}
+      <input
+        ref={fileRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleFileChange}
+      />
+
       {/* ── Header bar ── */}
       <header className="md:hidden sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100 px-4 py-3 flex items-center justify-between">
         {/* Logo */}
@@ -159,7 +199,14 @@ export function MobileHeader({ unreadCount = 0, profile }: MobileHeaderProps) {
 
             {/* Profile summary */}
             <div className="flex items-center gap-3 px-5 pt-4 pb-4">
-              <Avatar size="lg" />
+              <button
+                onClick={() => fileRef.current?.click()}
+                disabled={uploading}
+                className="shrink-0 rounded-full active:scale-[0.93] active:opacity-80 transition-all duration-[120ms]"
+                style={{ WebkitTapHighlightColor: "transparent" }}
+              >
+                <Avatar size="lg" editable />
+              </button>
               <div>
                 <p className="text-base font-bold" style={{ color: "#0F172A" }}>
                   {profile?.full_name ?? "שחיין"}
