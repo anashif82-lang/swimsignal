@@ -199,6 +199,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 .animate-sheet-enter   { animation: sheet-enter  0.30s cubic-bezier(0.16,1,0.3,1) both; }
 .animate-backdrop-in   { animation: backdrop-in  0.20s ease both; }
+
+@keyframes water-ripple {
+  0%   { transform: scale(0); opacity: 0.7; }
+  100% { transform: scale(8); opacity: 0; }
+}
+.animate-water-ripple { animation: water-ripple 0.65s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
 .animate-sky-breathe   { animation: sky-breathe  12s ease-in-out infinite; }
 .animate-water-drift  { animation: water-drift   9s ease-in-out infinite; animation-delay: -4s; }
 .animate-fade-in      { animation: fade-in 0.24s cubic-bezier(0.16,1,0.3,1) both; }

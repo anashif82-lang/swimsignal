@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Bell, User, Settings, Globe, HelpCircle, LogOut, ChevronLeft } from "lucide-react";
@@ -21,6 +21,37 @@ function getInitials(name: string | null | undefined): string {
   return name.trim().split(/\s+/).slice(0, 2).map((n) => n[0]?.toUpperCase() ?? "").join("");
 }
 
+// ── Ripple hook ──────────────────────────────────────────────────────────────
+function useRipple() {
+  const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
+
+  const trigger = useCallback((e: React.PointerEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const id = Date.now() + Math.random();
+    setRipples((prev) => [...prev, { id, x, y }]);
+    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 700);
+  }, []);
+
+  const nodes = ripples.map((r) => (
+    <span
+      key={r.id}
+      aria-hidden
+      className="animate-water-ripple absolute rounded-full pointer-events-none"
+      style={{
+        left:       r.x - 20,
+        top:        r.y - 20,
+        width:      40,
+        height:     40,
+        background: "rgba(74,146,198,0.18)",
+      }}
+    />
+  ));
+
+  return { trigger, nodes };
+}
+
 // Menu items — mark future routes so they don't hard-404
 const MENU_ITEMS = [
   { href: "/dashboard/profile",       label: "פרופיל",  icon: User,        live: true  },
@@ -32,6 +63,7 @@ const MENU_ITEMS = [
 export function MobileHeader({ unreadCount = 0, profile }: MobileHeaderProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const ripple = useRipple();
 
   const firstName = profile?.full_name?.split(" ")[0] ?? "";
   const initials  = getInitials(profile?.full_name);
@@ -142,20 +174,22 @@ export function MobileHeader({ unreadCount = 0, profile }: MobileHeaderProps) {
             <nav className="px-3 py-2">
               {MENU_ITEMS.map(({ href, label, icon: Icon, live }) =>
                 live ? (
-                  <Link
-                    key={href}
-                    href={href}
-                    onClick={() => setOpen(false)}
-                    className="flex items-center justify-between px-3 py-3 rounded-xl transition-all duration-[120ms] hover:bg-gray-50 active:bg-gray-100 active:scale-[0.99]"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "#F1F5F9" }}>
-                        <Icon className="h-4 w-4" style={{ color: "#475569" }} />
+                  <div key={href} className="relative overflow-hidden rounded-xl" onPointerDown={ripple.trigger}>
+                    {ripple.nodes}
+                    <Link
+                      href={href}
+                      onClick={() => setOpen(false)}
+                      className="flex items-center justify-between px-3 py-3 transition-all duration-[120ms] hover:bg-gray-50 active:bg-gray-100 active:scale-[0.99]"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "#F1F5F9" }}>
+                          <Icon className="h-4 w-4" style={{ color: "#475569" }} />
+                        </div>
+                        <span className="text-sm font-medium" style={{ color: "#0F172A" }}>{label}</span>
                       </div>
-                      <span className="text-sm font-medium" style={{ color: "#0F172A" }}>{label}</span>
-                    </div>
-                    <ChevronLeft className="h-4 w-4" style={{ color: "#CBD5E1" }} />
-                  </Link>
+                      <ChevronLeft className="h-4 w-4" style={{ color: "#CBD5E1" }} />
+                    </Link>
+                  </div>
                 ) : (
                   <div
                     key={href}
@@ -177,15 +211,18 @@ export function MobileHeader({ unreadCount = 0, profile }: MobileHeaderProps) {
 
             {/* Logout */}
             <div className="px-3 py-2 pb-10">
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-[120ms] hover:bg-red-50 active:bg-red-100 active:scale-[0.99]"
-              >
-                <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "#FEF2F2" }}>
-                  <LogOut className="h-4 w-4 text-red-500" />
-                </div>
-                <span className="text-sm font-medium text-red-500">התנתק</span>
-              </button>
+              <div className="relative overflow-hidden rounded-xl" onPointerDown={ripple.trigger}>
+                {ripple.nodes}
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-3 py-3 transition-all duration-[120ms] hover:bg-red-50 active:bg-red-100 active:scale-[0.99]"
+                >
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "#FEF2F2" }}>
+                    <LogOut className="h-4 w-4 text-red-500" />
+                  </div>
+                  <span className="text-sm font-medium text-red-500">התנתק</span>
+                </button>
+              </div>
             </div>
           </div>
         </>
