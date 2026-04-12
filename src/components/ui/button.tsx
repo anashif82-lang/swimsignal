@@ -50,6 +50,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             // Link
             "text-signal-400 underline-offset-4 hover:underline p-0 h-auto":
               variant === "link",
+            // Press feedback for all non-link variants
+            "active:scale-[0.97] active:opacity-90":
+              variant !== "link",
           },
           {
             "h-8 px-3 text-xs gap-1.5": size === "sm",

@@ -112,7 +112,7 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
             {logged ? (
               <Link
                 href={`/dashboard/training/${logged.id}`}
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-blue-50 text-blue-500 text-sm font-semibold hover:bg-blue-100 transition-colors"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-blue-50 text-blue-500 text-sm font-semibold hover:bg-blue-100 transition-all duration-[120ms] active:scale-[0.95] active:opacity-80"
               >
                 <ArrowLeft className="h-4 w-4" />
                 צפה באימון
@@ -120,7 +120,7 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
             ) : (
               <Link
                 href="/dashboard/training/new"
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-blue-50 text-blue-500 text-sm font-semibold hover:bg-blue-100 transition-colors"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-blue-50 text-blue-500 text-sm font-semibold hover:bg-blue-100 transition-all duration-[120ms] active:scale-[0.95] active:opacity-80"
               >
                 <ArrowLeft className="h-4 w-4" />
                 תעד אימון

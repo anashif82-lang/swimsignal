@@ -38,7 +38,7 @@ export function MobileHeader({
       <div className="flex items-center gap-1">
         <Link
           href="/dashboard/notifications"
-          className="relative p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+          className="relative p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-all duration-[120ms] active:scale-[0.88] active:opacity-70"
         >
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
@@ -51,7 +51,7 @@ export function MobileHeader({
         {showAddButton && (
           <Link
             href={addHref}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors backdrop-blur-sm"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-[120ms] backdrop-blur-sm active:scale-[0.94] active:opacity-80"
             style={{
               background: "rgba(220,238,255,0.55)",
               border: "1px solid rgba(147,197,253,0.45)",

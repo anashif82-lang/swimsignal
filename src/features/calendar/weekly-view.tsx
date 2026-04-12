@@ -70,7 +70,7 @@ function EventBlock({ session, onDelete }: EventBlockProps) {
         type="button"
         style={{ top, height, insetInlineStart: 2, insetInlineEnd: 2 }}
         className={cn(
-          "absolute rounded-md border-s-2 px-1.5 py-0.5 overflow-hidden text-start transition-all hover:brightness-110",
+          "absolute rounded-md border-s-2 px-1.5 py-0.5 overflow-hidden text-start transition-all duration-[120ms] hover:brightness-110 active:scale-[0.97] active:opacity-80",
           style,
           open && "ring-1 ring-white/20"
         )}
@@ -169,11 +169,11 @@ export function WeeklyView({ sessions, onClickSlot, onDelete }: WeeklyViewProps)
       {/* ── Week navigation ── */}
       <div className="flex items-center justify-between mb-3 shrink-0">
         <div className="flex items-center gap-1">
-          <button onClick={goBack} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-800 hover:bg-gray-100 transition-colors">
+          <button onClick={goBack} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-800 hover:bg-gray-100 transition-all duration-[120ms] active:scale-[0.88] active:opacity-70">
             <ChevronRight className="h-4 w-4" />
           </button>
           <span className="text-sm font-medium text-gray-800 px-1">{rangeLabel}</span>
-          <button onClick={goNext} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-800 hover:bg-gray-100 transition-colors">
+          <button onClick={goNext} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-800 hover:bg-gray-100 transition-all duration-[120ms] active:scale-[0.88] active:opacity-70">
             <ChevronLeft className="h-4 w-4" />
           </button>
         </div>

@@ -19,7 +19,7 @@ export function SwimmerBottomNav() {
 
   const tabClass = (active: boolean) =>
     cn(
-      "flex-1 flex flex-col items-center justify-center gap-[3px] h-full transition-colors",
+      "flex-1 flex flex-col items-center justify-center gap-[3px] h-full transition-all duration-[120ms] active:scale-[0.88] active:opacity-70",
       active ? "text-blue-500" : "text-gray-400"
     );
 

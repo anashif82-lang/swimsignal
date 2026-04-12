@@ -41,7 +41,7 @@ export function AIInsightsCard({ stats, pbs }: AIInsightsCardProps) {
 
   return (
     <div
-      className="rounded-2xl p-4 space-y-3 transition-all duration-[200ms] ease-out hover:-translate-y-0.5 active:-translate-y-0.5"
+      className="rounded-2xl p-4 space-y-3 transition-all duration-[200ms] ease-out hover:-translate-y-0.5 active:scale-[0.99] active:opacity-95"
       style={{
         background: "linear-gradient(135deg, #EAF3FF 0%, #F8FBFF 100%)",
         border: "1px solid #D6E8FF",
@@ -69,7 +69,7 @@ export function AIInsightsCard({ stats, pbs }: AIInsightsCardProps) {
       {/* CTA */}
       <Link
         href="/dashboard/analytics"
-        className="flex items-center gap-1.5 text-xs font-medium pt-1 text-blue-500 hover:text-blue-600 transition-colors"
+        className="flex items-center gap-1.5 text-xs font-medium pt-1 text-blue-500 hover:text-blue-600 transition-all duration-[120ms] active:opacity-60"
       >
         <ArrowLeft className="h-3.5 w-3.5" />
         ראה ניתוח מלא

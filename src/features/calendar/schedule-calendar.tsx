@@ -77,7 +77,7 @@ export function ScheduleCalendar({
               key={id}
               onClick={() => setView(id)}
               className={cn(
-                "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all",
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-[120ms] active:scale-[0.94] active:opacity-80",
                 view === id
                   ? "bg-signal-400 text-navy-950"
                   : "text-gray-500 hover:text-gray-800"
@@ -92,7 +92,7 @@ export function ScheduleCalendar({
         {/* Add button */}
         <button
           onClick={() => setDialog({ date: isoDate(new Date()), hour: 9 })}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-signal-400 text-navy-950 text-xs font-semibold hover:bg-signal-300 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-signal-400 text-navy-950 text-xs font-semibold hover:bg-signal-300 transition-all duration-[120ms] active:scale-[0.94] active:opacity-80"
         >
           <Plus className="h-3.5 w-3.5" />
           הוסף אימון
@@ -169,11 +169,11 @@ function DayView({ date, sessions, onChangeDate, onClickSlot, onDelete }: DayVie
   return (
     <div className="flex flex-col h-full min-h-0">
       <div className="flex items-center justify-between mb-3 shrink-0">
-        <button onClick={() => shift(-1)} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-800 hover:bg-gray-100 transition-colors">
+        <button onClick={() => shift(-1)} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-800 hover:bg-gray-100 transition-all duration-[120ms] active:scale-[0.88] active:opacity-70">
           ‹
         </button>
         <span className="text-sm font-medium text-gray-800">{label}</span>
-        <button onClick={() => shift(1)} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-800 hover:bg-gray-100 transition-colors">
+        <button onClick={() => shift(1)} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-800 hover:bg-gray-100 transition-all duration-[120ms] active:scale-[0.88] active:opacity-70">
           ›
         </button>
       </div>
@@ -184,7 +184,7 @@ function DayView({ date, sessions, onChangeDate, onClickSlot, onDelete }: DayVie
             <div
               key={h}
               style={{ top: (h - 6) * HOUR_PX, height: HOUR_PX }}
-              className="absolute inset-x-0 border-b border-gray-100 flex items-start gap-3 px-3 pt-1 hover:bg-gray-50 cursor-pointer transition-colors"
+              className="absolute inset-x-0 border-b border-gray-100 flex items-start gap-3 px-3 pt-1 hover:bg-gray-50 active:bg-blue-50 cursor-pointer transition-colors duration-[100ms]"
               onClick={() => onClickSlot(h)}
             >
               <span className="text-[10px] text-gray-400 font-mono w-8 shrink-0">{String(h).padStart(2, "0")}:00</span>
