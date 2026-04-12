@@ -76,13 +76,35 @@ export function MobileHeader({ unreadCount = 0, profile }: MobileHeaderProps) {
     if (!file) return;
     setUploading(true);
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch("/api/profile/avatar", { method: "POST", body: fd });
-      if (res.ok) {
-        const { url } = await res.json();
-        setAvatarUrl(url);
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("לא מחובר");
+
+      const ext  = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
+      const path = `${user.id}/${Date.now()}.${ext}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("avatars")
+        .upload(path, file, { upsert: true, contentType: file.type || "image/jpeg" });
+
+      if (uploadError) throw new Error(uploadError.message);
+
+      const { data: { publicUrl } } = supabase.storage.from("avatars").getPublicUrl(path);
+
+      const res = await fetch("/api/profile/avatar", {
+        method:  "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ url: publicUrl }),
+      });
+      if (!res.ok) {
+        const { error } = await res.json().catch(() => ({ error: "שגיאה" }));
+        throw new Error(error);
       }
+
+      setAvatarUrl(publicUrl);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "שגיאה בהעלאת התמונה";
+      alert(`שגיאה: ${msg}`);
     } finally {
       setUploading(false);
       e.target.value = "";

@@ -1,38 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
-export async function POST(req: NextRequest) {
+// Called after the client uploads the file directly to Supabase Storage.
+// Receives the final public URL and persists it to profiles.avatar_url.
+export async function PATCH(req: NextRequest) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const form = await req.formData().catch(() => null);
-  const file = form?.get("file");
-  if (!(file instanceof File)) {
-    return NextResponse.json({ error: "Missing file" }, { status: 400 });
-  }
+  const body = await req.json().catch(() => null);
+  const url  = typeof body?.url === "string" ? body.url.trim() : null;
+  if (!url) return NextResponse.json({ error: "Missing url" }, { status: 400 });
 
-  const ext  = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
-  const path = `${user.id}/${Date.now()}.${ext}`;
-
-  const { error: uploadError } = await supabase.storage
-    .from("avatars")
-    .upload(path, file, { upsert: true, contentType: file.type });
-
-  if (uploadError) {
-    return NextResponse.json({ error: uploadError.message }, { status: 500 });
-  }
-
-  const { data: { publicUrl } } = supabase.storage.from("avatars").getPublicUrl(path);
-
-  const { error: updateError } = await supabase
+  const { error } = await supabase
     .from("profiles")
-    .update({ avatar_url: publicUrl })
+    .update({ avatar_url: url })
     .eq("id", user.id);
 
-  if (updateError) {
-    return NextResponse.json({ error: updateError.message }, { status: 500 });
-  }
-
-  return NextResponse.json({ url: publicUrl });
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json({ ok: true });
 }
