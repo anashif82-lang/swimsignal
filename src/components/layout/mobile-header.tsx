@@ -169,7 +169,7 @@ export function MobileHeader({ unreadCount = 0, profile }: MobileHeaderProps) {
             style={{
               fontWeight: 600,
               letterSpacing: "-0.01em",
-              background: "linear-gradient(90deg, #5F9FE0 0%, #9B78D4 100%)",
+              background: "linear-gradient(90deg, #1A6FD4 0%, #7C3AED 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",

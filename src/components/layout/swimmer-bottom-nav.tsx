@@ -63,7 +63,7 @@ export function SwimmerBottomNav() {
         href="/dashboard/training/new"
         className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 rounded-full flex items-center justify-center transition-all duration-[140ms] active:scale-[0.94] active:opacity-80"
         style={{
-          background: "linear-gradient(140deg, #5F9FE0 0%, #9B78D4 100%)",
+          background: "linear-gradient(140deg, #2979E8 0%, #7C3AED 100%)",
           backdropFilter: "blur(24px) saturate(1.6)",
           WebkitBackdropFilter: "blur(24px) saturate(1.6)",
           border: "1px solid rgba(255,255,255,0.42)",
