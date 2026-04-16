@@ -25,8 +25,8 @@ export function ProgressRing({ done, total, size = 72 }: ProgressRingProps) {
       <svg width={size} height={size} style={{ transform: `rotate(${rotate}deg)` }}>
         <defs>
           <linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="#6499DF" />
-            <stop offset="100%" stopColor="#83C8F0" />
+            <stop offset="0%"   stopColor="#5F9FE0" />
+            <stop offset="100%" stopColor="#9B78D4" />
           </linearGradient>
         </defs>
         {/* Track */}

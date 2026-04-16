@@ -63,14 +63,14 @@ export function SwimmerBottomNav() {
         href="/dashboard/training/new"
         className="absolute left-1/2 -translate-x-1/2 -top-5 w-14 h-14 rounded-full flex items-center justify-center transition-all duration-[140ms] active:scale-[0.94] active:opacity-80"
         style={{
-          background: "linear-gradient(145deg, #83C8F0 0%, #6499DF 35%, #8E82DA 70%, #BA99DC 100%)",
-          backdropFilter: "blur(20px) saturate(1.4)",
-          WebkitBackdropFilter: "blur(20px) saturate(1.4)",
-          border: "1.5px solid rgba(255,255,255,0.38)",
+          background: "linear-gradient(140deg, #5F9FE0 0%, #9B78D4 100%)",
+          backdropFilter: "blur(24px) saturate(1.6)",
+          WebkitBackdropFilter: "blur(24px) saturate(1.6)",
+          border: "1px solid rgba(255,255,255,0.42)",
           boxShadow: [
-            "inset 0 1px 0 rgba(255,255,255,0.32)",
-            "0 2px 6px  rgba(15,23,42,0.08)",
-            "0 8px 24px rgba(142,130,218,0.16)",
+            "inset 0 1px 0 rgba(255,255,255,0.38)",
+            "0 2px 8px  rgba(15,23,42,0.10)",
+            "0 8px 28px rgba(100,90,200,0.18)",
           ].join(", "),
           WebkitTapHighlightColor: "transparent",
         }}
