@@ -37,18 +37,15 @@ export interface ParsedPlayerPage {
 
 const ISWIM_PLAYER_URL = "https://loglig.com:2053/Players/Details";
 
-// Real Safari/Mac User-Agent – loglig's ASP.NET app 500s without realistic
-// headers (including Referer, since the page is normally loaded in an iframe
-// from isr.org.il).
+// Keep headers minimal: ASP.NET MVC apps sometimes 500 when they see the
+// modern Sec-Fetch-* family (e.g. Kestrel treats them as malformed headers
+// in certain versions). We send just what 2015-era browsers would send.
 const BASE_HEADERS: Record<string, string> = {
   "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15",
-  "Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+  "Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
   "Accept-Language": "he-IL,he;q=0.9,en-US;q=0.8,en;q=0.7",
-  "Accept-Encoding": "gzip, deflate, br",
-  "Sec-Fetch-Dest":  "document",
-  "Sec-Fetch-Mode":  "navigate",
-  "Sec-Fetch-User":  "?1",
-  "Upgrade-Insecure-Requests": "1",
+  "Accept-Encoding": "gzip, deflate",
+  "Connection":      "keep-alive",
 };
 
 function parseSetCookie(res: Response): string {
@@ -65,10 +62,7 @@ function parseSetCookie(res: Response): string {
 }
 
 async function fetchUrl(url: string, opts: { referer?: string; cookie?: string }): Promise<Response> {
-  const headers: Record<string, string> = {
-    ...BASE_HEADERS,
-    "Sec-Fetch-Site": opts.referer ? "same-origin" : "none",
-  };
+  const headers: Record<string, string> = { ...BASE_HEADERS };
   if (opts.referer) headers["Referer"] = opts.referer;
   if (opts.cookie)  headers["Cookie"]  = opts.cookie;
 
@@ -133,8 +127,11 @@ export async function fetchPlayerPage(
         attempts.push(`${url} → 200 body=${html.length}B (not a player page)`);
         continue;
       }
-      const snippet = await res.text().then((t) => t.slice(0, 200).replace(/\s+/g, " ")).catch(() => "");
-      attempts.push(`${url} → ${res.status} ${res.statusText}${snippet ? ` body="${snippet}"` : ""}`);
+      const server   = res.headers.get("server") ?? "?";
+      const cfRay    = res.headers.get("cf-ray") ?? "";
+      const cfCache  = res.headers.get("cf-cache-status") ?? "";
+      const via      = [server, cfRay && `ray:${cfRay}`, cfCache && `cache:${cfCache}`].filter(Boolean).join(" ");
+      attempts.push(`${url} → ${res.status} ${res.statusText} [${via}]`);
     } catch (e) {
       const cause = e instanceof Error ? (e.cause as { code?: string } | undefined)?.code ?? e.message : "fetch exception";
       attempts.push(`${url} → ${cause}`);
