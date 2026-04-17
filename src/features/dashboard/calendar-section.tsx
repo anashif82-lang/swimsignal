@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Waves, Zap, Clock } from "lucide-react";
 import { WeekStrip } from "./week-strip";
 import type { ScheduledSession } from "@/lib/db/schedule";
 import type { TrainingSession } from "@/types";
@@ -50,7 +50,7 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
           key={selectedDate}
           className="mat-card flex flex-col items-center gap-2 py-8 animate-session-enter"
         >
-          <span className="text-3xl">🏊‍♂️</span>
+          <Waves className="h-8 w-8" style={{ color: "#007AFF", opacity: 0.4 }} />
           <p className="text-sm text-gray-400">אין אימון מתוכנן ליום זה</p>
           <Link
             href="/dashboard/calendar"
@@ -78,25 +78,25 @@ export function DashboardCalendarSection({ scheduledSessions, recentSessions }: 
             <p className="text-sm font-semibold text-gray-800">
               {timeLabel ? `אימון ${timeLabel}` : (scheduled?.title ?? logged?.title ?? "אימון")}
             </p>
-            <span className="text-xl">🏊‍♂️</span>
+            <Waves className="h-5 w-5" style={{ color: "#007AFF" }} />
           </div>
 
           {/* Stats */}
           <div className="grid grid-cols-3 px-4 pb-4 gap-2 text-center">
             <div className="mat-cell flex flex-col items-center gap-1 py-3">
-              <span className="text-2xl">🔥</span>
+              <Zap className="h-5 w-5" style={{ color: "#FF9500" }} />
               <p className="text-base font-bold text-gray-900">—</p>
               <p className="text-[11px] text-gray-400">קלוריות</p>
             </div>
             <div className="mat-cell flex flex-col items-center gap-1 py-3">
-              <span className="text-2xl">🏊</span>
+              <Waves className="h-5 w-5" style={{ color: "#007AFF" }} />
               <p className="text-base font-bold text-gray-900">
                 {logged?.total_distance ? `${logged.total_distance.toLocaleString()}m` : "—"}
               </p>
               <p className="text-[11px] text-gray-400">מרחק</p>
             </div>
             <div className="mat-cell flex flex-col items-center gap-1 py-3">
-              <span className="text-2xl">🕐</span>
+              <Clock className="h-5 w-5" style={{ color: "#5856D6" }} />
               <p className="text-base font-bold text-gray-900">
                 {durationMin ? fmtDuration(durationMin) : "—"}
               </p>

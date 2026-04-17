@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Search, UserPlus, Loader2 } from "lucide-react";
+import { Search, UserPlus, Loader2, Check } from "lucide-react";
 import { getInitials } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -103,7 +103,8 @@ export function InviteSwimmer() {
                 {inviting === swimmer.id
                   ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
                   : invited.has(swimmer.id)
-                    ? "Invited ✓"
+                    ? <><Check className="h-3.5 w-3.5" />Invited</>
+
                     : <><UserPlus className="h-3.5 w-3.5" />Invite</>
                 }
               </Button>

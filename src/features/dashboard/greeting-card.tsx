@@ -1,3 +1,4 @@
+import { Zap, Award } from "lucide-react";
 import { ProgressRing } from "@/components/ui/progress-ring";
 import type { PersonalBest } from "@/types";
 
@@ -26,7 +27,7 @@ export function GreetingCard({
     <div className="mat-card p-5 space-y-4">
       {/* Greeting */}
       <div className="text-center">
-        <h1 className="text-xl font-bold" style={{ color: "#0F172A" }}>{greeting}, {firstName}! 👋</h1>
+        <h1 className="text-xl font-bold" style={{ color: "#0F172A" }}>{greeting}, {firstName}!</h1>
         <p className="text-sm mt-0.5" style={{ color: "#667085" }}>מוכן לשבור עוד שיא היום?</p>
       </div>
 
@@ -34,7 +35,7 @@ export function GreetingCard({
       <div className="grid grid-cols-3 gap-2">
         {/* Streak */}
         <div className="mat-cell flex flex-col items-center justify-center gap-0.5 py-3 px-1">
-          <span className="text-2xl leading-none">🔥</span>
+          <Zap className="h-5 w-5" style={{ color: "#FF9500" }} />
           <span className="text-2xl font-bold leading-tight" style={{ color: "#0F172A" }}>{streak}</span>
           <span className="text-[10px]" style={{ color: "#667085" }}>ימי רצף</span>
         </div>
@@ -44,7 +45,7 @@ export function GreetingCard({
           <p className="text-[9px] uppercase tracking-wide" style={{ color: "#667085" }}>הישג אחרון</p>
           {lastPb ? (
             <>
-              <span className="text-base leading-none">🏆</span>
+              <Award className="h-4 w-4" style={{ color: "#FF9500" }} />
               <p className="text-[10px] leading-tight" style={{ color: "#0F172A" }}>{eventLabel}</p>
               <p className="text-sm font-bold" style={{ color: "#2E7BBF" }}>{lastPb.time_text}</p>
             </>

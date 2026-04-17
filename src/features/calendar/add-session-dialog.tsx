@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { X, RotateCcw } from "lucide-react";
+import { X, RotateCcw, Waves, Activity, Dumbbell, MoreHorizontal, type LucideIcon } from "lucide-react";
 import { TimeWheelPicker } from "@/components/ui/time-wheel-picker";
 import { cn } from "@/lib/utils";
 
-const TYPES = [
-  { value: "water",   label: "מים",      emoji: "🌊" },
-  { value: "dryland", label: "יבשה",     emoji: "🏃" },
-  { value: "gym",     label: "כושר",     emoji: "💪" },
-  { value: "other",   label: "אחר",      emoji: "📌" },
-] as const;
+const TYPES: { value: "water" | "dryland" | "gym" | "other"; label: string; Icon: LucideIcon }[] = [
+  { value: "water",   label: "מים",   Icon: Waves          },
+  { value: "dryland", label: "יבשה",  Icon: Activity       },
+  { value: "gym",     label: "כושר",  Icon: Dumbbell       },
+  { value: "other",   label: "אחר",   Icon: MoreHorizontal },
+];
 
 interface AddSessionDialogProps {
   initialDate: string;
@@ -140,7 +140,7 @@ export function AddSessionDialog({ initialDate, initialHour, onClose, onSaved }:
               סוג אימון
             </label>
             <div className="grid grid-cols-4 gap-2">
-              {TYPES.map(({ value, label, emoji }) => (
+              {TYPES.map(({ value, label, Icon }) => (
                 <button
                   key={value}
                   type="button"
@@ -160,7 +160,7 @@ export function AddSessionDialog({ initialDate, initialHour, onClose, onSaved }:
                     color: "#64748B",
                   }}
                 >
-                  <span className="text-base leading-none">{emoji}</span>
+                  <Icon className="h-4 w-4" />
                   <span>{label}</span>
                 </button>
               ))}
@@ -230,7 +230,7 @@ export function AddSessionDialog({ initialDate, initialHour, onClose, onSaved }:
             <RotateCcw className="h-4 w-4 shrink-0" style={{ color: recurring ? "#007AFF" : "#94A3B8" }} />
             <div className="text-start flex-1">
               <p className="text-sm font-medium" style={{ color: recurring ? "#007AFF" : "#0F172A" }}>
-                {recurring ? "אימון חוזר כל שבוע ✓" : "הפוך לאימון חוזר"}
+                {recurring ? "אימון חוזר כל שבוע" : "הפוך לאימון חוזר"}
               </p>
               {recurring && (
                 <p className="text-xs mt-0.5" style={{ color: "#5856D6" }}>יווצרו 12 שבועות קדימה</p>

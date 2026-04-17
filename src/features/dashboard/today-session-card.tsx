@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Waves, Clock, Zap } from "lucide-react";
 import type { ScheduledSession } from "@/lib/db/schedule";
 import type { TrainingSession } from "@/types";
 
@@ -15,8 +15,8 @@ function fmtTime(iso: string) {
 export function TodaySessionCard({ scheduled, logged }: TodaySessionCardProps) {
   if (!scheduled && !logged) {
     return (
-      <div className="rounded-2xl bg-white shadow-sm border border-gray-100 p-5 flex flex-col items-center justify-center gap-2 py-7">
-        <span className="text-3xl">🏊‍♂️</span>
+      <div className="mat-card p-5 flex flex-col items-center justify-center gap-2 py-7">
+        <Waves className="h-8 w-8" style={{ color: "#007AFF", opacity: 0.4 }} />
         <p className="text-sm text-gray-400">אין אימון מתוכנן להיום</p>
         <Link
           href="/dashboard/calendar"
@@ -45,7 +45,7 @@ export function TodaySessionCard({ scheduled, logged }: TodaySessionCardProps) {
   const title = scheduled?.title ?? logged?.title ?? "אימון היום";
 
   return (
-    <div className="rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden relative">
+    <div className="mat-card overflow-hidden relative">
       {/* Water wave decoration */}
       <div className="absolute bottom-0 inset-x-0 h-16 opacity-[0.06] pointer-events-none overflow-hidden">
         <svg viewBox="0 0 400 60" preserveAspectRatio="none" className="w-full h-full">
@@ -56,7 +56,7 @@ export function TodaySessionCard({ scheduled, logged }: TodaySessionCardProps) {
 
       {/* Header */}
       <div className="flex items-center gap-2 px-4 pt-4 pb-3">
-        <span className="text-xl">🏊‍♂️</span>
+        <Waves className="h-5 w-5" style={{ color: "#007AFF" }} />
         <p className="text-sm font-semibold text-gray-800">
           {timeLabel ? `אימון ${timeLabel}` : title}
         </p>
@@ -66,7 +66,7 @@ export function TodaySessionCard({ scheduled, logged }: TodaySessionCardProps) {
       <div className="grid grid-cols-3 px-4 pb-3 gap-2">
         {/* Duration */}
         <div className="flex flex-col items-center gap-0.5">
-          <span className="text-lg">🕐</span>
+          <Clock className="h-5 w-5" style={{ color: "#5856D6" }} />
           <p className="text-base font-bold text-gray-900">
             {durationMin ? fmtDuration(durationMin) : "—"}
           </p>
@@ -74,7 +74,7 @@ export function TodaySessionCard({ scheduled, logged }: TodaySessionCardProps) {
         </div>
         {/* Distance */}
         <div className="flex flex-col items-center gap-0.5">
-          <span className="text-lg">🏊</span>
+          <Waves className="h-5 w-5" style={{ color: "#007AFF" }} />
           <p className="text-base font-bold text-gray-900">
             {logged?.total_distance ? `${logged.total_distance.toLocaleString()}m` : "—"}
           </p>
@@ -82,7 +82,7 @@ export function TodaySessionCard({ scheduled, logged }: TodaySessionCardProps) {
         </div>
         {/* Calories */}
         <div className="flex flex-col items-center gap-0.5">
-          <span className="text-lg">🔥</span>
+          <Zap className="h-5 w-5" style={{ color: "#FF9500" }} />
           <p className="text-base font-bold text-gray-900">—</p>
           <p className="text-[10px] text-gray-400">קלוריות</p>
         </div>

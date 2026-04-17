@@ -81,7 +81,7 @@ function EventBlock({ session, onDelete }: EventBlockProps) {
             {fmtTime(session.start_time)}–{fmtTime(session.end_time)}
           </p>
         )}
-        {session.is_recurring && <span className="text-[8px] opacity-50 absolute bottom-0.5 end-1">↻</span>}
+        {session.is_recurring && <RotateCcw className="h-2 w-2 opacity-50 absolute bottom-0.5 end-1" />}
       </button>
 
       {/* Popup */}

@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Loader2, UserCheck, UserX, UserPlus } from "lucide-react";
+import { Search, Loader2, UserCheck, UserX, UserPlus, Check } from "lucide-react";
 import { getInitials } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -162,7 +162,8 @@ export function MyCoachSection({ coach: initialCoach }: Props) {
                     {requesting === c.id
                       ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
                       : requested.has(c.id)
-                        ? "בקשה נשלחה ✓"
+                        ? <><Check className="h-3.5 w-3.5" />בקשה נשלחה</>
+
                         : <><UserPlus className="h-3.5 w-3.5" />התחבר</>
                     }
                   </Button>
