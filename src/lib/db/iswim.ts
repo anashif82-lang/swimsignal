@@ -39,8 +39,9 @@ export async function getIswimPlayerId(swimmerId: string): Promise<{ player_id: 
 export async function syncPersonalBestsFromIswim(
   swimmerId: string,
   playerId:  number,
+  rawUrl?:   string | null,
 ): Promise<IswimSyncResult> {
-  const html   = await fetchPlayerPage(playerId);
+  const html   = await fetchPlayerPage(playerId, { rawUrl });
   const parsed = parsePlayerPage(html);
 
   const supabase = await createClient();

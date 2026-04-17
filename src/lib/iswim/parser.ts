@@ -37,21 +37,62 @@ export interface ParsedPlayerPage {
 
 const ISWIM_PLAYER_URL = "https://loglig.com:2053/Players/Details";
 
-export async function fetchPlayerPage(playerId: number): Promise<string> {
-  const url = `${ISWIM_PLAYER_URL}/${playerId}?tab=seasonalbests`;
-  const res = await fetch(url, {
-    headers: {
-      "User-Agent": "Mozilla/5.0 (compatible; SwimSignal/1.0; +https://swimsignal.app)",
-      "Accept": "text/html,application/xhtml+xml",
-      "Accept-Language": "he-IL,he;q=0.9,en;q=0.8",
-    },
-    // Respect the target server; cache briefly.
-    cache: "no-store",
+// Real Safari/Mac User-Agent – loglig's Cloudflare front returns 500 for
+// anything that looks automated.
+const BROWSER_HEADERS: Record<string, string> = {
+  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15",
+  "Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+  "Accept-Language": "he-IL,he;q=0.9,en-US;q=0.8,en;q=0.7",
+  "Accept-Encoding": "gzip, deflate, br",
+  "Cache-Control":   "no-cache",
+  "Pragma":          "no-cache",
+  "Sec-Fetch-Dest":  "document",
+  "Sec-Fetch-Mode":  "navigate",
+  "Sec-Fetch-Site":  "none",
+  "Sec-Fetch-User":  "?1",
+  "Upgrade-Insecure-Requests": "1",
+};
+
+async function fetchUrl(url: string): Promise<Response> {
+  return fetch(url, {
+    headers: BROWSER_HEADERS,
+    cache:   "no-store",
+    redirect: "follow",
   });
-  if (!res.ok) {
-    throw new Error(`iswim fetch failed: ${res.status} ${res.statusText}`);
+}
+
+export async function fetchPlayerPage(
+  playerId: number,
+  options?: { rawUrl?: string | null },
+): Promise<string> {
+  // Order matters: we try the URL the user actually browsed first (including
+  // any seasonId they had in the link), then the plain details URL. loglig's
+  // Cloudflare layer sometimes 500s on the tab-specific URL from data-center IPs.
+  const candidates = [
+    options?.rawUrl,
+    `${ISWIM_PLAYER_URL}/${playerId}`,
+    `${ISWIM_PLAYER_URL}/${playerId}?tab=seasonalbests`,
+  ].filter((u): u is string => Boolean(u));
+
+  const attempts: string[] = [];
+  for (const url of candidates) {
+    try {
+      const res = await fetchUrl(url);
+      if (res.ok) {
+        const html = await res.text();
+        if (html.length > 500 && (html.includes("Players/Details") || /שיאים|Personal|season/i.test(html))) {
+          return html;
+        }
+        attempts.push(`${url} → 200 body=${html.length}B (not a player page)`);
+        continue;
+      }
+      attempts.push(`${url} → ${res.status} ${res.statusText}`);
+    } catch (e) {
+      attempts.push(`${url} → ${e instanceof Error ? e.message : "fetch exception"}`);
+    }
   }
-  return await res.text();
+
+  throw new Error(`iswim fetch failed (${candidates.length} attempts): ${attempts.join(" | ")}`);
 }
 
 export function parsePlayerPage(html: string): ParsedPlayerPage {

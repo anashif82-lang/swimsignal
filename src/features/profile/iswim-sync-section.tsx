@@ -59,10 +59,11 @@ export function IswimSyncSection({ currentPlayerId, lastSyncAt }: Props) {
 
     setLoading(true);
     try {
+      const rawUrl = /^https?:\/\//i.test(input.trim()) ? input.trim() : null;
       const res  = await fetch("/api/sync/iswim/player", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ iswim_player_id: playerId }),
+        body:    JSON.stringify({ iswim_player_id: playerId, iswim_url: rawUrl }),
       });
       const json: SyncResponse = await res.json();
       if (!res.ok || !json.ok) {

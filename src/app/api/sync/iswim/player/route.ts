@@ -44,8 +44,12 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const rawUrl = typeof body.iswim_url === "string" && /^https?:\/\//i.test(body.iswim_url)
+    ? body.iswim_url as string
+    : null;
+
   try {
-    const result = await syncPersonalBestsFromIswim(user.id, playerId);
+    const result = await syncPersonalBestsFromIswim(user.id, playerId, rawUrl);
     return NextResponse.json({ ok: true, ...result });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
