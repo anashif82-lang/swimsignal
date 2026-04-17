@@ -2,21 +2,19 @@
 
 import { useState } from "react";
 import { X, RotateCcw } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { TimeWheelPicker } from "@/components/ui/time-wheel-picker";
 import { cn } from "@/lib/utils";
 
 const TYPES = [
-  { value: "water",   label: "מים"      },
-  { value: "dryland", label: "יבשה"     },
-  { value: "gym",     label: "חדר כושר" },
-  { value: "other",   label: "אחר"      },
+  { value: "water",   label: "מים",      emoji: "🌊" },
+  { value: "dryland", label: "יבשה",     emoji: "🏃" },
+  { value: "gym",     label: "כושר",     emoji: "💪" },
+  { value: "other",   label: "אחר",      emoji: "📌" },
 ] as const;
 
 interface AddSessionDialogProps {
-  initialDate: string;  // "YYYY-MM-DD"
-  initialHour: number;  // 5-23
+  initialDate: string;
+  initialHour: number;
   onClose: () => void;
   onSaved: () => void;
 }
@@ -36,13 +34,11 @@ export function AddSessionDialog({ initialDate, initialHour, onClose, onSaved }:
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-
     if (!title.trim()) { setError("נא להזין כותרת"); return; }
 
     const pad = (n: number) => String(n).padStart(2, "0");
     const startISO = `${date}T${pad(startH)}:${pad(startM)}:00+03:00`;
     const endISO   = `${date}T${pad(endH)}:${pad(endM)}:00+03:00`;
-
     if (endISO <= startISO) { setError("שעת הסיום חייבת להיות אחרי שעת ההתחלה"); return; }
 
     setLoading(true);
@@ -71,53 +67,101 @@ export function AddSessionDialog({ initialDate, initialHour, onClose, onSaved }:
     }
   }
 
+  const totalMins = (endH * 60 + endM) - (startH * 60 + startM);
+  const durationLabel = totalMins > 0
+    ? (() => {
+        const h = Math.floor(totalMins / 60);
+        const m = totalMins % 60;
+        return [h > 0 ? `${h} שע׳` : "", m > 0 ? `${m} דק׳` : ""].filter(Boolean).join(" ");
+      })()
+    : null;
+
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-      onClick={onClose}
-    >
+    <>
+      {/* Backdrop */}
       <div
-        className="w-full max-w-md bg-navy-900 border border-surface-border rounded-2xl shadow-xl p-5 space-y-4 animate-fade-in max-h-[90dvh] overflow-y-auto"
+        className="animate-backdrop-in fixed inset-0 z-50 bg-black/30 backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      {/* Sheet */}
+      <div
+        className="animate-sheet-enter fixed bottom-0 inset-x-0 z-50 rounded-t-3xl bg-white max-h-[92dvh] flex flex-col"
+        style={{ boxShadow: "0 -8px 40px rgba(15,23,42,0.14)" }}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Handle */}
+        <div className="flex justify-center pt-3 pb-1 shrink-0">
+          <div className="w-9 h-1 rounded-full bg-gray-200" />
+        </div>
+
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-white">הוסף אימון ליומן</h2>
+        <div className="flex items-center justify-between px-5 py-3 shrink-0">
+          <h2 className="text-base font-semibold" style={{ color: "#0F172A" }}>הוסף אימון</h2>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-navy-400 hover:text-white hover:bg-navy-800 transition-colors"
+            className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-[120ms] active:scale-[0.88] active:opacity-70"
+            style={{ background: "#F1F5F9" }}
           >
-            <X className="h-4 w-4" />
+            <X className="h-3.5 w-3.5" style={{ color: "#64748B" }} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Title */}
-          <Input
-            label="כותרת"
-            placeholder="לדוגמה: אימון בריכה"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            autoFocus
-          />
+        <div className="mx-4 h-px bg-gray-100" />
 
-          {/* Type */}
+        {/* Scrollable content */}
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
+
+          {/* Title input */}
           <div>
-            <label className="text-sm font-medium text-navy-100 mb-2 block">סוג אימון</label>
-            <div className="grid grid-cols-4 gap-1.5">
-              {TYPES.map(({ value, label }) => (
+            <label className="text-xs font-semibold uppercase tracking-wide mb-2 block" style={{ color: "#94A3B8" }}>
+              כותרת
+            </label>
+            <input
+              type="text"
+              placeholder="לדוגמה: אימון בריכה"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              autoFocus
+              className="w-full rounded-xl px-4 py-3 text-sm font-medium outline-none transition-all duration-[120ms]"
+              style={{
+                background: "#F6F9FC",
+                border: "1px solid rgba(226,232,240,0.80)",
+                color: "#0F172A",
+              }}
+              onFocus={(e) => { e.currentTarget.style.borderColor = "#007AFF"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(0,122,255,0.10)"; }}
+              onBlur={(e)  => { e.currentTarget.style.borderColor = "rgba(226,232,240,0.80)"; e.currentTarget.style.boxShadow = "none"; }}
+            />
+          </div>
+
+          {/* Type selector */}
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-wide mb-2 block" style={{ color: "#94A3B8" }}>
+              סוג אימון
+            </label>
+            <div className="grid grid-cols-4 gap-2">
+              {TYPES.map(({ value, label, emoji }) => (
                 <button
                   key={value}
                   type="button"
                   onClick={() => setType(value)}
                   className={cn(
-                    "py-2 rounded-lg text-xs font-medium border transition-all",
+                    "flex flex-col items-center gap-1 py-2.5 rounded-xl text-xs font-medium transition-all duration-[120ms] active:scale-[0.94]",
                     type === value
-                      ? "border-signal-400 bg-signal-400/10 text-signal-400"
-                      : "border-surface-border bg-navy-950/60 text-navy-400 hover:border-navy-500"
+                      ? "text-white"
+                      : ""
                   )}
+                  style={type === value ? {
+                    background: "#007AFF",
+                    boxShadow: "0 2px 8px rgba(0,122,255,0.30)",
+                  } : {
+                    background: "#F6F9FC",
+                    border: "1px solid rgba(226,232,240,0.80)",
+                    color: "#64748B",
+                  }}
                 >
-                  {label}
+                  <span className="text-base leading-none">{emoji}</span>
+                  <span>{label}</span>
                 </button>
               ))}
             </div>
@@ -125,83 +169,103 @@ export function AddSessionDialog({ initialDate, initialHour, onClose, onSaved }:
 
           {/* Date */}
           <div>
-            <label className="text-sm font-medium text-navy-100 mb-1.5 block">תאריך</label>
+            <label className="text-xs font-semibold uppercase tracking-wide mb-2 block" style={{ color: "#94A3B8" }}>
+              תאריך
+            </label>
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full bg-navy-950 border border-surface-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-signal-400 transition-colors"
+              className="w-full rounded-xl px-4 py-3 text-sm font-medium outline-none transition-all duration-[120ms]"
+              style={{
+                background: "#F6F9FC",
+                border: "1px solid rgba(226,232,240,0.80)",
+                color: "#0F172A",
+              }}
             />
           </div>
 
           {/* Time pickers */}
-          <div className="grid grid-cols-2 gap-4">
-            <TimeWheelPicker
-              label="שעת התחלה"
-              hour={startH}
-              minute={startM}
-              onChangeHour={setStartH}
-              onChangeMinute={setStartM}
-            />
-            <TimeWheelPicker
-              label="שעת סיום"
-              hour={endH}
-              minute={endM}
-              onChangeHour={setEndH}
-              onChangeMinute={setEndM}
-            />
-          </div>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-wide mb-2 block" style={{ color: "#94A3B8" }}>
+              שעות
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              <TimeWheelPicker
+                label="התחלה"
+                hour={startH}
+                minute={startM}
+                onChangeHour={setStartH}
+                onChangeMinute={setStartM}
+              />
+              <TimeWheelPicker
+                label="סיום"
+                hour={endH}
+                minute={endM}
+                onChangeHour={setEndH}
+                onChangeMinute={setEndM}
+              />
+            </div>
 
-          {/* Duration preview */}
-          {(() => {
-            const totalMins = (endH * 60 + endM) - (startH * 60 + startM);
-            if (totalMins <= 0) return null;
-            const h = Math.floor(totalMins / 60);
-            const m = totalMins % 60;
-            return (
-              <p className="text-xs text-navy-400 text-center">
-                משך:{" "}
-                <span className="text-signal-400 font-medium">
-                  {h > 0 ? `${h} שעות` : ""}{h > 0 && m > 0 ? " ו-" : ""}{m > 0 ? `${m} דקות` : ""}
-                </span>
+            {durationLabel && (
+              <p className="text-center text-xs mt-2 font-medium" style={{ color: "#007AFF" }}>
+                משך: {durationLabel}
               </p>
-            );
-          })()}
+            )}
+          </div>
 
           {/* Recurring */}
           <button
             type="button"
             onClick={() => setRecurring((r) => !r)}
-            className={cn(
-              "w-full flex items-center gap-3 p-3 rounded-xl border text-sm font-medium transition-all",
-              recurring
-                ? "border-signal-400/50 bg-signal-400/10 text-signal-300"
-                : "border-surface-border bg-navy-950/40 text-navy-400 hover:border-navy-500"
-            )}
+            className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-[120ms] active:scale-[0.98] active:opacity-80"
+            style={recurring ? {
+              background: "rgba(0,122,255,0.08)",
+              border: "1px solid rgba(0,122,255,0.25)",
+            } : {
+              background: "#F6F9FC",
+              border: "1px solid rgba(226,232,240,0.80)",
+            }}
           >
-            <RotateCcw className="h-4 w-4 shrink-0" />
-            <div className="text-start">
-              <p className="font-medium">{recurring ? "אימון חוזר כל שבוע ✓" : "הפוך לאימון חוזר"}</p>
-              {recurring && <p className="text-xs opacity-70 mt-0.5">יווצרו 12 שבועות קדימה</p>}
+            <RotateCcw className="h-4 w-4 shrink-0" style={{ color: recurring ? "#007AFF" : "#94A3B8" }} />
+            <div className="text-start flex-1">
+              <p className="text-sm font-medium" style={{ color: recurring ? "#007AFF" : "#0F172A" }}>
+                {recurring ? "אימון חוזר כל שבוע ✓" : "הפוך לאימון חוזר"}
+              </p>
+              {recurring && (
+                <p className="text-xs mt-0.5" style={{ color: "#5856D6" }}>יווצרו 12 שבועות קדימה</p>
+              )}
             </div>
           </button>
 
+          {/* Error */}
           {error && (
-            <p className="text-sm text-danger-400 bg-danger-500/10 border border-danger-500/20 rounded-lg px-3 py-2">
+            <p className="text-sm rounded-xl px-4 py-2.5" style={{ background: "#FEF2F2", color: "#EF4444", border: "1px solid rgba(239,68,68,0.20)" }}>
               {error}
             </p>
           )}
 
-          <div className="flex gap-2 pt-1">
-            <Button type="button" variant="ghost" className="flex-1" onClick={onClose}>
+          {/* Actions */}
+          <div className="flex gap-2 pb-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-[120ms] active:scale-[0.97] active:opacity-70"
+              style={{ background: "#F1F5F9", color: "#64748B" }}
+            >
               ביטול
-            </Button>
-            <Button type="submit" variant="signal" className="flex-1" loading={loading}>
-              שמור
-            </Button>
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex-1 py-3 rounded-xl text-sm font-semibold text-white transition-all duration-[120ms] active:scale-[0.97] active:opacity-80 disabled:opacity-60"
+              style={{ background: "#007AFF", boxShadow: "0 2px 12px rgba(0,122,255,0.30)" }}
+            >
+              {loading ? "שומר…" : "שמור"}
+            </button>
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 }
