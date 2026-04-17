@@ -37,47 +37,80 @@ export interface ParsedPlayerPage {
 
 const ISWIM_PLAYER_URL = "https://loglig.com:2053/Players/Details";
 
-// Real Safari/Mac User-Agent – loglig's Cloudflare front returns 500 for
-// anything that looks automated.
-const BROWSER_HEADERS: Record<string, string> = {
+// Real Safari/Mac User-Agent – loglig's ASP.NET app 500s without realistic
+// headers (including Referer, since the page is normally loaded in an iframe
+// from isr.org.il).
+const BASE_HEADERS: Record<string, string> = {
   "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15",
   "Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
   "Accept-Language": "he-IL,he;q=0.9,en-US;q=0.8,en;q=0.7",
   "Accept-Encoding": "gzip, deflate, br",
-  "Cache-Control":   "no-cache",
-  "Pragma":          "no-cache",
   "Sec-Fetch-Dest":  "document",
   "Sec-Fetch-Mode":  "navigate",
-  "Sec-Fetch-Site":  "none",
   "Sec-Fetch-User":  "?1",
   "Upgrade-Insecure-Requests": "1",
 };
 
-async function fetchUrl(url: string): Promise<Response> {
-  return fetch(url, {
-    headers: BROWSER_HEADERS,
-    cache:   "no-store",
-    redirect: "follow",
-  });
+function parseSetCookie(res: Response): string {
+  // Response.headers.getSetCookie() is standard in Node 20+. Fall back to
+  // the raw Set-Cookie header when the API isn't available.
+  type WithGetSetCookie = { getSetCookie?: () => string[] };
+  const list =
+    (res.headers as unknown as WithGetSetCookie).getSetCookie?.() ??
+    (res.headers.get("set-cookie")?.split(/,(?=[^;]+=)/) ?? []);
+  return list
+    .map((c) => c.split(";")[0]?.trim())
+    .filter(Boolean)
+    .join("; ");
+}
+
+async function fetchUrl(url: string, opts: { referer?: string; cookie?: string }): Promise<Response> {
+  const headers: Record<string, string> = {
+    ...BASE_HEADERS,
+    "Sec-Fetch-Site": opts.referer ? "same-origin" : "none",
+  };
+  if (opts.referer) headers["Referer"] = opts.referer;
+  if (opts.cookie)  headers["Cookie"]  = opts.cookie;
+
+  return fetch(url, { headers, cache: "no-store", redirect: "follow" });
+}
+
+async function warmupForCookies(): Promise<string> {
+  // A cold GET to the site root lets ASP.NET issue its session + anti-forgery
+  // cookies. Without these the Players/Details endpoint 500s.
+  try {
+    const res = await fetchUrl("https://loglig.com:2053/", {});
+    return parseSetCookie(res);
+  } catch {
+    return "";
+  }
 }
 
 export async function fetchPlayerPage(
   playerId: number,
   options?: { rawUrl?: string | null },
 ): Promise<string> {
-  // Order matters: we try the URL the user actually browsed first (including
-  // any seasonId they had in the link), then the plain details URL. loglig's
-  // Cloudflare layer sometimes 500s on the tab-specific URL from data-center IPs.
+  // Step 1: warm up and collect session cookies. Without this, the player
+  // details endpoint 500s on ASP.NET's session lookup.
+  const cookie = await warmupForCookies();
+
+  // Step 2: try candidate URLs. We pass a Referer of the site root so that
+  // loglig treats the request like a normal navigation from within its own
+  // domain (the page is typically iframed from isr.org.il, but same-site
+  // referer is also accepted).
   const candidates = [
     options?.rawUrl,
-    `${ISWIM_PLAYER_URL}/${playerId}`,
     `${ISWIM_PLAYER_URL}/${playerId}?tab=seasonalbests`,
+    `${ISWIM_PLAYER_URL}/${playerId}`,
   ].filter((u): u is string => Boolean(u));
 
   const attempts: string[] = [];
   for (const url of candidates) {
     try {
-      const res = await fetchUrl(url);
+      const res = await fetchUrl(url, {
+        referer: "https://loglig.com:2053/",
+        cookie,
+      });
       if (res.ok) {
         const html = await res.text();
         if (html.length > 500 && (html.includes("Players/Details") || /שיאים|Personal|season/i.test(html))) {
@@ -86,13 +119,17 @@ export async function fetchPlayerPage(
         attempts.push(`${url} → 200 body=${html.length}B (not a player page)`);
         continue;
       }
-      attempts.push(`${url} → ${res.status} ${res.statusText}`);
+      // Read a snippet of the body so we can see loglig's error page if it
+      // ever surfaces one.
+      const snippet = await res.text().then((t) => t.slice(0, 200).replace(/\s+/g, " ")).catch(() => "");
+      attempts.push(`${url} → ${res.status} ${res.statusText}${snippet ? ` body="${snippet}"` : ""}`);
     } catch (e) {
-      attempts.push(`${url} → ${e instanceof Error ? e.message : "fetch exception"}`);
+      const cause = e instanceof Error ? (e.cause as { code?: string } | undefined)?.code ?? e.message : "fetch exception";
+      attempts.push(`${url} → ${cause}`);
     }
   }
 
-  throw new Error(`iswim fetch failed (${candidates.length} attempts): ${attempts.join(" | ")}`);
+  throw new Error(`iswim fetch failed (${candidates.length} attempts, cookie=${cookie ? "yes" : "no"}): ${attempts.join(" | ")}`);
 }
 
 export function parsePlayerPage(html: string): ParsedPlayerPage {
