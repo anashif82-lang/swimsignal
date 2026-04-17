@@ -75,14 +75,29 @@ async function fetchUrl(url: string, opts: { referer?: string; cookie?: string }
   return fetch(url, { headers, cache: "no-store", redirect: "follow" });
 }
 
-async function warmupForCookies(): Promise<string> {
-  // A cold GET to the site root lets ASP.NET issue its session + anti-forgery
-  // cookies. Without these the Players/Details endpoint 500s.
+interface WarmupState {
+  cookie:       string;
+  diagnostics:  string;
+}
+
+async function warmup(): Promise<WarmupState> {
+  // Player pages are normally loaded inside an iframe embedded on
+  // isr.org.il, so loglig expects a Referer from that parent. We hit a
+  // LeagueTable endpoint directly (same pattern as the iframe) to get
+  // session cookies issued.
+  const url = "https://loglig.com:2053/LeagueTable/AthleticsDisciplines/13507";
   try {
-    const res = await fetchUrl("https://loglig.com:2053/", {});
-    return parseSetCookie(res);
-  } catch {
-    return "";
+    const res = await fetchUrl(url, { referer: "https://isr.org.il/" });
+    const cookie = parseSetCookie(res);
+    return {
+      cookie,
+      diagnostics: `warmup ${url} → ${res.status} ${res.statusText}, cookies=${cookie ? cookie.split(";").length : 0}`,
+    };
+  } catch (e) {
+    return {
+      cookie:      "",
+      diagnostics: `warmup ${url} → exception: ${e instanceof Error ? e.message : "unknown"}`,
+    };
   }
 }
 
@@ -92,23 +107,22 @@ export async function fetchPlayerPage(
 ): Promise<string> {
   // Step 1: warm up and collect session cookies. Without this, the player
   // details endpoint 500s on ASP.NET's session lookup.
-  const cookie = await warmupForCookies();
+  const { cookie, diagnostics } = await warmup();
 
-  // Step 2: try candidate URLs. We pass a Referer of the site root so that
-  // loglig treats the request like a normal navigation from within its own
-  // domain (the page is typically iframed from isr.org.il, but same-site
-  // referer is also accepted).
+  // Step 2: try candidate URLs with the iframe-parent Referer (isr.org.il).
+  // loglig pages are normally loaded inside <iframe src="..."> embedded on
+  // isr.org.il, and the app appears to require that context.
   const candidates = [
-    options?.rawUrl,
     `${ISWIM_PLAYER_URL}/${playerId}?tab=seasonalbests`,
     `${ISWIM_PLAYER_URL}/${playerId}`,
+    options?.rawUrl,
   ].filter((u): u is string => Boolean(u));
 
   const attempts: string[] = [];
   for (const url of candidates) {
     try {
       const res = await fetchUrl(url, {
-        referer: "https://loglig.com:2053/",
+        referer: "https://isr.org.il/",
         cookie,
       });
       if (res.ok) {
@@ -119,8 +133,6 @@ export async function fetchPlayerPage(
         attempts.push(`${url} → 200 body=${html.length}B (not a player page)`);
         continue;
       }
-      // Read a snippet of the body so we can see loglig's error page if it
-      // ever surfaces one.
       const snippet = await res.text().then((t) => t.slice(0, 200).replace(/\s+/g, " ")).catch(() => "");
       attempts.push(`${url} → ${res.status} ${res.statusText}${snippet ? ` body="${snippet}"` : ""}`);
     } catch (e) {
@@ -129,7 +141,7 @@ export async function fetchPlayerPage(
     }
   }
 
-  throw new Error(`iswim fetch failed (${candidates.length} attempts, cookie=${cookie ? "yes" : "no"}): ${attempts.join(" | ")}`);
+  throw new Error(`iswim fetch failed — ${diagnostics} | ${attempts.join(" | ")}`);
 }
 
 export function parsePlayerPage(html: string): ParsedPlayerPage {
