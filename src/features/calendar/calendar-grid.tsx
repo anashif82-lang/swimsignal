@@ -9,11 +9,11 @@ import { cn } from "@/lib/utils";
 
 const WEEKDAYS = ["ב׳", "ג׳", "ד׳", "ה׳", "ו׳", "ש׳", "א׳"];
 
-const TRAINING_TYPE_COLOR: Record<string, string> = {
-  water:   "bg-signal-400",
-  dryland: "bg-warning-400",
-  gym:     "bg-navy-400",
-  other:   "bg-navy-500",
+const TYPE_DOT: Record<string, string> = {
+  water:   "#007AFF",
+  dryland: "#FF9500",
+  gym:     "#8E8E93",
+  other:   "#8E8E93",
 };
 
 interface DayDetail {
@@ -98,7 +98,7 @@ export function CalendarGrid({ data, year, month }: Props) {
       </div>
 
       {/* Grid */}
-      <div className="bg-white rounded-xl overflow-hidden border border-gray-200">
+      <div className="mat-card overflow-hidden">
         {/* Weekday headers */}
         <div className="grid grid-cols-7 border-b border-gray-200">
           {WEEKDAYS.map((d) => (
@@ -130,19 +130,19 @@ export function CalendarGrid({ data, year, month }: Props) {
                   setSelected(isSelected ? null : { date: iso, trainings, competitions: comps })
                 }
                 className={cn(
-                  "h-20 border-b border-e border-gray-100 p-1.5 text-left transition-colors relative bg-white",
-                  "hover:bg-gray-50",
-                  isSelected && "bg-signal-400/10 ring-1 ring-inset ring-signal-400/40",
+                  "h-20 border-b border-e border-gray-100 p-1.5 text-left transition-colors relative",
                   !hasEvents && "cursor-default"
                 )}
+                style={{
+                  background: isSelected ? "rgba(0,122,255,0.08)" : "#fff",
+                  boxShadow: isSelected ? "inset 0 0 0 1px rgba(0,122,255,0.25)" : undefined,
+                }}
               >
                 {/* Day number */}
-                <span className={cn(
-                  "inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium",
-                  isToday
-                    ? "bg-signal-400 text-navy-950 font-bold"
-                    : "text-gray-700"
-                )}>
+                <span
+                  className="inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold"
+                  style={isToday ? { background: "#007AFF", color: "#fff" } : { color: "#374151" }}
+                >
                   {day}
                 </span>
 
@@ -150,7 +150,7 @@ export function CalendarGrid({ data, year, month }: Props) {
                 <div className="mt-1 space-y-0.5">
                   {trainings.slice(0, 2).map((t) => (
                     <div key={t.id} className="flex items-center gap-1">
-                      <span className={cn("w-1.5 h-1.5 rounded-full flex-shrink-0", TRAINING_TYPE_COLOR[t.training_type] ?? "bg-navy-400")} />
+                      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: TYPE_DOT[t.training_type] ?? "#8E8E93" }} />
                       <span className="text-xs text-gray-600 truncate leading-none">
                         {t.title ?? t.training_type}
                       </span>
@@ -182,10 +182,10 @@ export function CalendarGrid({ data, year, month }: Props) {
       )}
 
       {/* Legend */}
-      <div className="flex items-center gap-4 text-xs text-gray-400">
-        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-signal-400" />מים</span>
-        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-warning-400" />יבשה / תחרות</span>
-        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-navy-400" />חדר כושר / אחר</span>
+      <div className="flex items-center gap-4 text-xs" style={{ color: "#94A3B8" }}>
+        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full" style={{ background: "#007AFF" }} />מים</span>
+        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full" style={{ background: "#FF9500" }} />יבשה / תחרות</span>
+        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full" style={{ background: "#8E8E93" }} />כושר / אחר</span>
       </div>
     </div>
   );
@@ -197,33 +197,35 @@ function DayPanel({ detail, onClose }: { detail: DayDetail; onClose: () => void 
   });
 
   return (
-    <div className="bg-white rounded-xl p-5 space-y-4 border border-gray-200 shadow-sm">
+    <div className="mat-card p-5 space-y-3 animate-fade-in">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-gray-900 text-sm">{label}</h3>
+        <h3 className="font-semibold text-sm" style={{ color: "#0F172A" }}>{label}</h3>
         <button
           onClick={onClose}
-          className="text-xs text-gray-400 hover:text-gray-700 transition-colors"
+          className="text-xs font-medium transition-all active:opacity-60"
+          style={{ color: "#007AFF" }}
         >
           סגור
         </button>
       </div>
 
       {detail.trainings.length === 0 && detail.competitions.length === 0 && (
-        <p className="text-sm text-gray-400">אין אירועים ביום זה.</p>
+        <p className="text-sm" style={{ color: "#94A3B8" }}>אין אירועים ביום זה.</p>
       )}
 
       {detail.trainings.map((t) => (
         <Link
           key={t.id}
           href={`/dashboard/training/${t.id}`}
-          className="flex items-start gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors group"
+          className="flex items-start gap-3 p-3 rounded-xl transition-all active:scale-[0.98] active:opacity-80"
+          style={{ background: "#F6F9FC" }}
         >
           <div className="flex-shrink-0 mt-0.5">
-            <Waves className="h-4 w-4 text-signal-500" />
+            <Waves className="h-4 w-4" style={{ color: "#007AFF" }} />
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-medium text-gray-800 group-hover:text-signal-600 transition-colors">
-              {t.title ?? `${t.training_type.charAt(0).toUpperCase() + t.training_type.slice(1)} session`}
+            <p className="text-sm font-medium" style={{ color: "#0F172A" }}>
+              {t.title ?? t.training_type}
             </p>
             <p className="text-xs text-gray-500 mt-0.5 capitalize">
               {t.training_type}

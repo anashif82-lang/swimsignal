@@ -42,11 +42,11 @@ function fmtTime(iso: string) {
   return new Date(iso).toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit", hour12: false });
 }
 
-const TYPE_STYLE: Record<string, string> = {
-  water:   "border-signal-400   bg-signal-400/15   text-signal-600",
-  dryland: "border-warning-400  bg-warning-400/15  text-warning-600",
-  gym:     "border-gray-400     bg-gray-100         text-gray-600",
-  other:   "border-gray-400     bg-gray-100         text-gray-600",
+const TYPE_STYLE: Record<string, React.CSSProperties> = {
+  water:   { borderColor: "#007AFF", background: "rgba(0,122,255,0.10)",   color: "#007AFF"  },
+  dryland: { borderColor: "#FF9500", background: "rgba(255,149,0,0.10)",   color: "#C97000"  },
+  gym:     { borderColor: "#8E8E93", background: "rgba(142,142,147,0.10)", color: "#636366"  },
+  other:   { borderColor: "#8E8E93", background: "rgba(142,142,147,0.10)", color: "#636366"  },
 };
 
 // ── EventBlock ────────────────────────────────────────────────────────────────
@@ -62,17 +62,16 @@ function EventBlock({ session, onDelete }: EventBlockProps) {
   const endMin    = toMinutes(session.end_time);
   const top       = ((startMin - HOUR_START * 60) / 60) * HOUR_PX;
   const height    = Math.max(((endMin - startMin) / 60) * HOUR_PX, 22);
-  const style     = TYPE_STYLE[session.training_type] ?? TYPE_STYLE.other;
+  const typeStyle = TYPE_STYLE[session.training_type] ?? TYPE_STYLE.other;
 
   return (
     <>
       <button
         type="button"
-        style={{ top, height, insetInlineStart: 2, insetInlineEnd: 2 }}
+        style={{ top, height, insetInlineStart: 2, insetInlineEnd: 2, ...typeStyle, borderInlineStartWidth: 2, borderStyle: "solid" }}
         className={cn(
-          "absolute rounded-md border-s-2 px-1.5 py-0.5 overflow-hidden text-start transition-all duration-[120ms] hover:brightness-110 active:scale-[0.97] active:opacity-80",
-          style,
-          open && "ring-1 ring-white/20"
+          "absolute rounded-md px-1.5 py-0.5 overflow-hidden text-start transition-all duration-[120ms] active:scale-[0.97] active:opacity-80",
+          open && "ring-1 ring-black/10"
         )}
         onClick={(e) => { e.stopPropagation(); setOpen((o) => !o); }}
       >
@@ -88,37 +87,39 @@ function EventBlock({ session, onDelete }: EventBlockProps) {
       {/* Popup */}
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+          className="animate-backdrop-in fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm"
           onClick={() => setOpen(false)}
         >
           <div
-            className="bg-white border border-gray-200 rounded-xl p-4 w-72 space-y-3 shadow-xl"
+            className="mat-card p-4 w-72 space-y-3 animate-fade-in"
             onClick={(e) => e.stopPropagation()}
           >
-            <p className="font-semibold text-gray-900 text-sm">{session.title}</p>
-            <p className="text-xs text-gray-500">
+            <p className="font-semibold text-sm" style={{ color: "#0F172A" }}>{session.title}</p>
+            <p className="text-xs" style={{ color: "#64748B" }}>
               {new Date(session.start_time).toLocaleDateString("he-IL", { weekday: "long", day: "numeric", month: "long" })}
               <br />
               {fmtTime(session.start_time)} – {fmtTime(session.end_time)}
             </p>
             {session.is_recurring && (
-              <p className="text-xs text-signal-500 flex items-center gap-1">
+              <p className="text-xs flex items-center gap-1" style={{ color: "#007AFF" }}>
                 <RotateCcw className="h-3 w-3" /> אימון חוזר שבועי
               </p>
             )}
-            {session.notes && <p className="text-xs text-gray-600">{session.notes}</p>}
+            {session.notes && <p className="text-xs" style={{ color: "#475569" }}>{session.notes}</p>}
             <div className="flex gap-2 pt-1">
               {session.is_recurring && (
                 <button
                   onClick={() => { onDelete(session.id, session.recurrence_group_id); setOpen(false); }}
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs text-danger-400 bg-danger-500/10 hover:bg-danger-500/20 border border-danger-500/20 transition-colors"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium transition-all active:scale-[0.96]"
+                  style={{ background: "rgba(239,68,68,0.08)", color: "#EF4444", border: "1px solid rgba(239,68,68,0.18)" }}
                 >
                   <Trash2 className="h-3 w-3" /> מחק כולם
                 </button>
               )}
               <button
                 onClick={() => { onDelete(session.id, null); setOpen(false); }}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs text-danger-400 bg-danger-500/10 hover:bg-danger-500/20 border border-danger-500/20 transition-colors"
+                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium transition-all active:scale-[0.96]"
+                style={{ background: "rgba(239,68,68,0.08)", color: "#EF4444", border: "1px solid rgba(239,68,68,0.18)" }}
               >
                 <Trash2 className="h-3 w-3" /> {session.is_recurring ? "מחק רק זה" : "מחק"}
               </button>
@@ -177,7 +178,7 @@ export function WeeklyView({ sessions, onClickSlot, onDelete }: WeeklyViewProps)
             <ChevronLeft className="h-4 w-4" />
           </button>
         </div>
-        <button onClick={goNow} className="text-xs text-signal-500 hover:text-signal-600 transition-colors px-2 py-1 rounded-lg hover:bg-signal-400/10">
+        <button onClick={goNow} className="text-xs font-semibold px-2 py-1 rounded-lg transition-all duration-[120ms] active:opacity-60" style={{ color: "#007AFF" }}>
           היום
         </button>
       </div>
@@ -209,21 +210,19 @@ export function WeeklyView({ sessions, onClickSlot, onDelete }: WeeklyViewProps)
             return (
               <div
                 key={iso}
-                className={cn(
-                  "flex-1 border-s border-gray-100 min-w-0",
-                  isToday && "bg-signal-400/[0.04]"
-                )}
+                className="flex-1 border-s border-gray-100 min-w-0"
+                style={isToday ? { background: "rgba(0,122,255,0.03)" } : undefined}
               >
                 {/* Day header */}
-                <div className={cn(
-                  "h-10 flex flex-col items-center justify-center border-b border-gray-200 sticky top-0 z-10",
-                  isToday ? "bg-signal-400/10" : "bg-white"
-                )}>
+                <div
+                  className="h-10 flex flex-col items-center justify-center border-b border-gray-200 sticky top-0 z-10"
+                  style={isToday ? { background: "rgba(0,122,255,0.08)" } : { background: "#fff" }}
+                >
                   <span className="text-[9px] text-gray-400 uppercase">{DAY_NAMES[date.getDay()]}</span>
-                  <span className={cn(
-                    "text-sm font-bold leading-tight",
-                    isToday ? "text-signal-500" : "text-gray-700"
-                  )}>
+                  <span
+                    className="text-sm font-bold leading-tight"
+                    style={{ color: isToday ? "#007AFF" : "#374151" }}
+                  >
                     {date.getDate()}
                   </span>
                 </div>
