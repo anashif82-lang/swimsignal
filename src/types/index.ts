@@ -37,7 +37,7 @@ export type CompetitionLevel =
   | "national"
   | "international";
 
-export type PbSource = "official" | "unofficial";
+export type PbSource = "official" | "unofficial" | "iswim";
 
 export type NotificationType =
   | "connection_request"
@@ -79,6 +79,8 @@ export interface SwimmerProfile {
   main_events: string[];
   goals: string | null;
   is_profile_public: boolean;
+  iswim_player_id: number | null;
+  iswim_last_sync_at: string | null;
   updated_at: string;
   // Joined
   club?: Club;

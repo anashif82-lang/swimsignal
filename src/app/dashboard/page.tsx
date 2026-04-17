@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getSwimmerStats } from "@/lib/db/profiles";
 import { getPersonalBests } from "@/lib/db/competitions";
+import { getRecentPersonalBests } from "@/lib/db/iswim";
 import { getScheduledSessions } from "@/lib/db/schedule";
 import { getStreakDays, getRecentSessions } from "@/lib/db/training";
 import { GreetingCard } from "@/features/dashboard/greeting-card";
@@ -35,9 +36,10 @@ export default async function DashboardPage() {
   const from = isoDate(new Date(now.getFullYear(), now.getMonth() - 1, 1));
   const to   = isoDate(addWeeks(now, 8));
 
-  const [stats, pbs, streak, scheduledSessions, recentSessions] = await Promise.all([
+  const [stats, pbs, recentPbs, streak, scheduledSessions, recentSessions] = await Promise.all([
     getSwimmerStats(user.id),
     getPersonalBests(user.id),
+    getRecentPersonalBests(user.id, 3),
     getStreakDays(user.id),
     getScheduledSessions(user.id, from, to),
     getRecentSessions(user.id, 14),
@@ -62,7 +64,7 @@ export default async function DashboardPage() {
         firstName={firstName}
         greeting={greeting}
         streak={streak}
-        lastPb={pbs[0] ?? null}
+        recentPbs={recentPbs}
         weeklyDone={stats?.sessions_this_week ?? 0}
         weeklyGoal={6}
       />

@@ -5,6 +5,7 @@ import { getProfile, getSwimmerProfile, getCoachProfile, getMyCoach } from "@/li
 import { SwimmerProfileForm } from "@/features/profile/swimmer-profile-form";
 import { CoachProfileForm } from "@/features/profile/coach-profile-form";
 import { MyCoachSection } from "@/features/profile/my-coach-section";
+import { IswimSyncSection } from "@/features/profile/iswim-sync-section";
 import { User } from "lucide-react";
 
 export const metadata: Metadata = { title: "פרופיל" };
@@ -63,6 +64,14 @@ export default async function ProfilePage() {
         <SwimmerProfileForm profile={profile} swimmerProfile={swimmerProfile} />
       ) : (
         <CoachProfileForm profile={profile} coachProfile={coachProfile} />
+      )}
+
+      {/* Swimmer: iswim sync section */}
+      {isSwimmer && (
+        <IswimSyncSection
+          currentPlayerId={swimmerProfile?.iswim_player_id ?? null}
+          lastSyncAt={swimmerProfile?.iswim_last_sync_at ?? null}
+        />
       )}
 
       {/* Swimmer: my coach section */}
