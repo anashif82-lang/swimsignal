@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Link2, RefreshCw, Check, AlertCircle, ExternalLink } from "lucide-react";
+import { Link2, RefreshCw, Check, AlertCircle, ExternalLink, Code } from "lucide-react";
 
 interface Props {
   currentPlayerId: number | null;
@@ -42,10 +42,12 @@ function fmtDate(iso: string | null): string | null {
 
 export function IswimSyncSection({ currentPlayerId, lastSyncAt }: Props) {
   const router = useRouter();
-  const [input,    setInput]    = useState("");
-  const [loading,  setLoading]  = useState(false);
-  const [result,   setResult]   = useState<SyncResponse | null>(null);
-  const [error,    setError]    = useState<string | null>(null);
+  const [input,      setInput]      = useState("");
+  const [html,       setHtml]       = useState("");
+  const [showHtml,   setShowHtml]   = useState(false);
+  const [loading,    setLoading]    = useState(false);
+  const [result,     setResult]     = useState<SyncResponse | null>(null);
+  const [error,      setError]      = useState<string | null>(null);
 
   async function handleSync() {
     setError(null);
@@ -68,9 +70,49 @@ export function IswimSyncSection({ currentPlayerId, lastSyncAt }: Props) {
       const json: SyncResponse = await res.json();
       if (!res.ok || !json.ok) {
         setError(json.error ?? "שגיאה בסנכרון");
+        setShowHtml(true); // automatically reveal the HTML paste fallback
         return;
       }
       setResult(json);
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "שגיאה");
+      setShowHtml(true);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleSyncHtml() {
+    setError(null);
+    setResult(null);
+
+    if (html.trim().length < 200) {
+      setError("הדבק את ה-HTML המלא של הדף שלך (בדרך כלל יותר מ-1000 תווים)");
+      return;
+    }
+
+    const playerId = extractPlayerId(input) ?? currentPlayerId;
+    if (!playerId && !/\/Players\/Details\/\d+/.test(html)) {
+      setError("לא הצלחתי לזהות מזהה שחיין. הדבק את ה-URL בשדה למעלה או את ה-HTML המלא.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const rawUrl = /^https?:\/\//i.test(input.trim()) ? input.trim() : null;
+      const res  = await fetch("/api/sync/iswim/html", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ iswim_player_id: playerId, iswim_url: rawUrl, html }),
+      });
+      const json: SyncResponse = await res.json();
+      if (!res.ok || !json.ok) {
+        setError(json.error ?? "שגיאה בעיבוד ה-HTML");
+        return;
+      }
+      setResult(json);
+      setHtml("");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "שגיאה");
@@ -185,6 +227,56 @@ export function IswimSyncSection({ currentPlayerId, lastSyncAt }: Props) {
         <RefreshCw className={loading ? "h-4 w-4 animate-spin" : "h-4 w-4"} />
         {loading ? "מסנכרן…" : currentPlayerId ? "סנכרן מחדש" : "חבר וסנכרן"}
       </button>
+
+      {/* HTML paste fallback */}
+      <button
+        type="button"
+        onClick={() => setShowHtml((v) => !v)}
+        className="w-full flex items-center justify-center gap-1.5 text-xs font-medium transition-all active:opacity-60"
+        style={{ color: "#007AFF" }}
+      >
+        <Code className="h-3 w-3" />
+        {showHtml ? "הסתר חלופה ידנית" : "לא עובד? נסה להדביק HTML ידנית"}
+      </button>
+
+      {showHtml && (
+        <div className="space-y-2 rounded-xl p-3" style={{ background: "rgba(88,86,214,0.05)", border: "1px dashed rgba(88,86,214,0.25)" }}>
+          <p className="text-[11px] leading-snug" style={{ color: "#5856D6" }}>
+            <strong>חלופה למקרה של כשל סנכרון:</strong>
+            <br />
+            1. פתח את הדף שלך באיגוד השחייה בטאב חדש
+            <br />
+            2. לחץ <code className="font-mono" style={{ background: "rgba(88,86,214,0.10)", padding: "0 4px", borderRadius: 3 }}>Cmd+Option+U</code> (מק) או <code className="font-mono" style={{ background: "rgba(88,86,214,0.10)", padding: "0 4px", borderRadius: 3 }}>Ctrl+U</code> (PC) לראיית המקור
+            <br />
+            3. <code className="font-mono" style={{ background: "rgba(88,86,214,0.10)", padding: "0 4px", borderRadius: 3 }}>Cmd+A → Cmd+C</code> והדבק למטה
+          </p>
+
+          <textarea
+            value={html}
+            onChange={(e) => setHtml(e.target.value)}
+            rows={4}
+            placeholder="הדבק כאן את ה-HTML המלא של הדף שלך..."
+            className="w-full rounded-lg px-3 py-2 text-xs font-mono outline-none resize-y"
+            style={{
+              background: "#fff",
+              border: "1px solid rgba(226,232,240,0.80)",
+              color: "#0F172A",
+              minHeight: 80,
+            }}
+          />
+
+          <button
+            type="button"
+            onClick={handleSyncHtml}
+            disabled={loading || html.length < 200}
+            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold text-white transition-all active:scale-[0.97] disabled:opacity-50"
+            style={{ background: "#5856D6", boxShadow: "0 2px 8px rgba(88,86,214,0.30)" }}
+          >
+            <Code className="h-3.5 w-3.5" />
+            {loading ? "מעבד…" : "עבד HTML וסנכרן"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
